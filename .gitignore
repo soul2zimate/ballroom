@@ -9,6 +9,7 @@ build.number
 .classpath
 .settings
 
+showcase/gwt-unitCache
 showcase/war/WEB-INF/lib
 showcase/war/WEB-INF/deploy
 showcase/war/WEB-INF/classes
