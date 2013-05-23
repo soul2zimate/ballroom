@@ -74,7 +74,7 @@ public class MainLayoutPresenter
         if(revealDefault && request.getNameToken().equals(NameTokens.mainLayout))
         {
             revealDefault = false;
-            placeManager.revealPlace(new PlaceRequest(NameTokens.widgets));
+            placeManager.revealPlace(new PlaceRequest.Builder().nameToken(NameTokens.widgets).build());
         }
     }
 

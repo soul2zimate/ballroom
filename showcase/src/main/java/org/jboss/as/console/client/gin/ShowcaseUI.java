@@ -1,11 +1,10 @@
 package org.jboss.as.console.client.gin;
 
-import com.google.web.bindery.event.shared.EventBus;
 import com.google.gwt.inject.client.AsyncProvider;
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
+import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.proxy.PlaceManager;
-import com.gwtplatform.mvp.client.proxy.ProxyFailureHandler;
 import org.jboss.as.console.client.WidgetPresenter;
 import org.jboss.as.console.client.layout.MainLayoutPresenter;
 
@@ -18,7 +17,6 @@ public interface ShowcaseUI extends Ginjector {
 
     PlaceManager getPlaceManager();
     EventBus getEventBus();
-    ProxyFailureHandler getProxyFailureHandler();
 
     AsyncProvider<MainLayoutPresenter> getMainLayoutPresenter();
     AsyncProvider<WidgetPresenter> getWidgetPresenter();

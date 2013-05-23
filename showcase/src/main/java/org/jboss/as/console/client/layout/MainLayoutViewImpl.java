@@ -67,15 +67,6 @@ public class MainLayoutViewImpl extends ViewImpl
         return panel;
     }
 
-    @Override
-    public void setInSlot(Object slot, Widget content) {
-
-        if (slot == MainLayoutPresenter.TYPE_MainContent) {
-            if(content!=null)
-                setMainContent(content);
-        }
-    }
-
     public void setMainContent(Widget content) {
         mainContentPanel.clear();
 

@@ -20,6 +20,6 @@ public class DefaultPlaceManager extends PlaceManagerImpl {
     }
 
     public void revealDefaultPlace() {
-        revealPlace( new PlaceRequest(NameTokens.mainLayout) );
+        revealPlace(new PlaceRequest.Builder().nameToken(NameTokens.mainLayout).build());
     }
 }
