@@ -70,6 +70,14 @@
     </developers>
 
 
+    <licenses>
+        <license>
+            <name>lgpl</name>
+            <url>http://repository.jboss.com/licenses/lgpl.txt</url>
+        </license>
+    </licenses>
+
+
     <properties>
         <gwt.version>2.5.1</gwt.version>
         <gwt.maven>2.5.1</gwt.maven>
