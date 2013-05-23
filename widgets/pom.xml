@@ -16,32 +16,15 @@
   ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
   ~ MA  02110-1301, USA.
   -->
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <name>Ballroom :: Widgets</name>
-    <groupId>org.jboss.ballroom</groupId>
+    <description>GWT Widget Set</description>
     <artifactId>widgets</artifactId>
-    <version>1.6.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <description>GWT Widget Set</description>
 
-    <url>http://jboss.org</url>
-
-    <organization>
-        <name>JBoss.org</name>
-        <url>http://www.jboss.org</url>
-    </organization>
-
-    <scm>
-        <connection>scm:git:git@github.com:ballroom/ballroom.git</connection>
-        <developerConnection>scm:git:git@github.com:ballroom/ballroom.git</developerConnection>
-        <url>https://github.com/ballroom/ballroom</url>
-    </scm>
-
-    <!-- Parent -->
     <parent>
         <groupId>org.jboss.ballroom</groupId>
         <artifactId>ballroom</artifactId>
@@ -50,33 +33,6 @@
     </parent>
 
 
-    <developers>
-        <developer>
-            <name>Heiko Braun</name>
-            <id>hbraun</id>
-            <email>hbraun@redhat.com</email>
-            <organization>Red Hat</organization>
-            <roles>
-                <role>Lead</role>
-            </roles>
-            <timezone>+1</timezone>
-        </developer>
-    </developers>
-
-    <!-- IssueManagement -->
-    <issueManagement>
-        <system>jira</system>
-        <url>https://issues.jboss.org/browse/JBAS</url>
-    </issueManagement>
-
-    <!-- licenses -->
-    <licenses>
-        <license>
-            <name>lgpl</name>
-            <url>http://repository.jboss.com/licenses/lgpl.txt</url>
-        </license>
-    </licenses>
-
     <dependencies>
         <!-- GWT -->
         <dependency>
@@ -84,66 +40,55 @@
             <artifactId>gwt-servlet</artifactId>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-dev</artifactId>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-user</artifactId>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
-            <version>1.0.0.GA</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
-            <version>1.0.0.GA</version>
             <classifier>sources</classifier>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>com.google.code.gwt-log</groupId>
             <artifactId>gwt-log</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.gwtplatform</groupId>
             <artifactId>gwtp-mvp-client</artifactId>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.google.inject.extensions</groupId>
             <artifactId>guice-assistedinject</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.google.gwt.inject</groupId>
             <artifactId>gin</artifactId>
         </dependency>
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
+
 
     <build>
         <resources>
@@ -151,6 +96,8 @@
                 <directory>src/main/java</directory>
             </resource>
         </resources>
+
+
         <plugins>
             <plugin>
                 <!-- Surefire setup in order to be able to run GWT unit tests, according to
@@ -174,7 +121,6 @@
                     </systemProperties>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -190,9 +136,8 @@
         </plugins>
     </build>
 
-    <!-- Profiles -->
-    <profiles>
 
+    <profiles>
         <profile>
             <id>enableTests</id>
             <build>
@@ -206,8 +151,6 @@
                 </plugins>
             </build>
         </profile>
-
     </profiles>
-
 </project>
 
