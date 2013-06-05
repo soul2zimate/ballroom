@@ -91,7 +91,23 @@ public class TextAreaItem extends FormItem<String> {
     }
 
     @Override
+    public void setExpressionValue(String expr) {
+        this.expressionValue = expr;
+        if(expressionValue!=null)
+        {
+            toggleExpressionInput(textArea, true);
+            textArea.setValue(expressionValue);
+        }
+    }
+
+    @Override
+    public String asExpressionValue() {
+        return textArea.getValue();
+    }
+
+    @Override
     public void setValue(String value) {
+        toggleExpressionInput(textArea, true);
         textArea.setValue(value);
     }
 
@@ -115,5 +131,10 @@ public class TextAreaItem extends FormItem<String> {
     @Override
     public void clearValue() {
         textArea.setText("");
+    }
+
+    @Override
+    protected void toggleExpressionInput(Widget target, boolean flag) {
+        wrapper.setExpression(flag);
     }
 }
