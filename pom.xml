@@ -23,7 +23,7 @@
     <description>Common Red Hat GWT style</description>
     <groupId>org.jboss.ballroom</groupId>
     <artifactId>ballroom</artifactId>
-    <version>1.6.1-SNAPSHOT</version>
+    <version>1.6.1.Final</version>
     <packaging>pom</packaging>
 
 
