@@ -5,6 +5,7 @@ import com.google.web.bindery.autobean.shared.AutoBeanFactory;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.gwtplatform.mvp.client.proxy.PlaceManager;
+import org.jboss.ballroom.client.rbac.SecurityService;
 
 /**
  * @author Heiko Braun
@@ -36,5 +37,10 @@ public class NoopFramework implements Framework {
                 return null;
             }
         };
+    }
+
+    @Override
+    public SecurityService getSecurityService() {
+        throw new RuntimeException("No SecurityService available!");
     }
 }
