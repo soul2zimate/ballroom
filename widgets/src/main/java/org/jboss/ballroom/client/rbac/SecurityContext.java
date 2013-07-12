@@ -81,7 +81,7 @@ public class SecurityContext {
      * If any of the required resources is not accessible, overall access will be rejected
      * @return
      */
-    public boolean doesGrantPlaceAccess() {
+    public boolean isReadable() {
 
         assert sealed : "Should be sealed before policy decisions are evaluated";
 
@@ -89,7 +89,8 @@ public class SecurityContext {
         for(String address : requiredResources)
         {
             final Constraints model = accessConstraints.get(address);
-            if(model!=null && !model.isReadConfig())
+            boolean readable = facet.equals(Facet.CONFIGURATION) ? model.isReadConfig() : model.isReadRuntime();
+            if(model!=null && !readable)
             {
                 accessGranted = false;
                 break; // the first rule that fails rejects access
@@ -99,29 +100,12 @@ public class SecurityContext {
         return accessGranted;
     }
 
-    public boolean isWriteConfig() {
+    public boolean isWritable() {
         return checkPriviledge(new Priviledge() {
             @Override
             public boolean isGranted(Constraints c) {
-                return c.isWriteConfig();
-            }
-        });
-    }
-
-    public boolean isReadRuntime() {
-        return checkPriviledge(new Priviledge() {
-            @Override
-            public boolean isGranted(Constraints c) {
-                return c.isReadRuntime();
-            }
-        });
-    }
-
-    public boolean isWriteRuntime() {
-        return checkPriviledge(new Priviledge() {
-            @Override
-            public boolean isGranted(Constraints c) {
-                return c.isWriteRuntime();
+                boolean writable = facet.equals(Facet.CONFIGURATION) ? c.isWriteConfig() : c.isWriteRuntime();
+                return writable;
             }
         });
     }
