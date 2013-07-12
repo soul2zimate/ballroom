@@ -14,6 +14,15 @@ public class Constraints {
 
     private Map<String, Boolean> attributeReadWrite = new HashMap<String,Boolean>();
 
+    private boolean address = true;
+
+    public boolean isAddress() {
+        return address;
+    }
+
+    public void setAddress(boolean access) {
+        this.address = access;
+    }
 
     public void setReadConfig(boolean readConfig) {
         this.readConfig = readConfig;
