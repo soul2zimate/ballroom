@@ -23,6 +23,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import org.jboss.ballroom.client.rbac.Facet;
 import org.jboss.ballroom.client.rbac.SecurityContext;
 import org.jboss.ballroom.client.rbac.SecurityService;
 import org.jboss.ballroom.client.spi.Framework;
@@ -91,9 +92,10 @@ public class ToolStrip extends HorizontalPanel{
         String nameToken = FRAMEWORK.getPlaceManager().getCurrentPlaceRequest().getNameToken();
         SecurityContext securityContext = SECURITY_SERVICE.getSecurityContext(nameToken);
 
-        if(!securityContext.isWriteConfig() || !securityContext.isWriteRuntime()) {
-            setVisible(false);
-        }
+        boolean visible = securityContext.getFacet().equals(Facet.RUNTIME) ?
+                securityContext.isWriteRuntime() :  securityContext.isWriteConfig();
+
+        setVisible(visible);
 
     }
 }

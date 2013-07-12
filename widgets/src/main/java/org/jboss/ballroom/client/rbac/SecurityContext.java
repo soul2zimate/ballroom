@@ -16,6 +16,12 @@ import java.util.Set;
  */
 public class SecurityContext {
 
+
+    /**
+     * Influences the decision tree when reasoning over access control meta data
+     */
+    private Facet facet;
+
     /**
      * the place name token (url)
      */
@@ -42,6 +48,14 @@ public class SecurityContext {
     public SecurityContext(String nameToken, Set<String> requiredResources) {
         this.nameToken = nameToken;
         this.requiredResources = requiredResources;
+    }
+
+    public Facet getFacet() {
+        return facet;
+    }
+
+    public void setFacet(Facet facet) {
+        this.facet = facet;
     }
 
     public interface Priviledge {
