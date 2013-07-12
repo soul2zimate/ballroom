@@ -20,6 +20,7 @@
 package org.jboss.ballroom.client.widgets.tools;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import org.jboss.ballroom.client.rbac.SecurityContext;
@@ -35,6 +36,9 @@ public class ToolStrip extends HorizontalPanel{
 
     private HorizontalPanel left;
     private HorizontalPanel right;
+
+    static Framework FRAMEWORK  = GWT.create(Framework.class);
+    static SecurityService SECURITY_SERVICE = FRAMEWORK.getSecurityService();
 
     public ToolStrip() {
         super();
@@ -79,20 +83,17 @@ public class ToolStrip extends HorizontalPanel{
     }
 
     @Override
-    public Widget asWidget() {
+    protected void onAttach() {
+
+        super.onAttach();
 
         // access control
-        Framework framework  = GWT.create(Framework.class);
-        SecurityService securityService = framework.getSecurityService();
-        String nameToken = framework.getPlaceManager().getCurrentPlaceRequest().getNameToken();
-        SecurityContext securityContext = securityService.getSecurityContext(nameToken);
-
-        Widget widget = super.asWidget();
+        String nameToken = FRAMEWORK.getPlaceManager().getCurrentPlaceRequest().getNameToken();
+        SecurityContext securityContext = SECURITY_SERVICE.getSecurityContext(nameToken);
 
         if(!securityContext.isWriteConfig() || !securityContext.isWriteRuntime()) {
-            widget.setVisible(false);
+            setVisible(false);
         }
 
-        return widget;
     }
 }
