@@ -114,6 +114,13 @@ public class CheckBoxItem extends FormItem<Boolean> {
 
     }
 
+    @Override
+    protected void setFiltered(boolean filtered) {
+        super.toggleFilteredInput(checkBox, filtered);
+        checkBox.setEnabled(!filtered);
+        wrapper.setLocked(filtered);
+    }
+
     private void toogleTextInput() {
         wrapper.setVisible(true);
         checkBox.setVisible(false);

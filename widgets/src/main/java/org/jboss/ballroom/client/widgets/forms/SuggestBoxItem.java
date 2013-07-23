@@ -58,6 +58,13 @@ public class SuggestBoxItem extends FormItem<String> {
     }
 
     @Override
+    protected void setFiltered(boolean filtered) {
+        super.toggleFilteredInput(textBox, filtered);
+        textBox.setEnabled(!filtered);
+        wrapper.setLocked(filtered);
+    }
+
+    @Override
     public Element getInputElement() {
         return textBox.getElement();
     }

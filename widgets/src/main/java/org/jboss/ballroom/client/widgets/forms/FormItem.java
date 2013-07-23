@@ -42,6 +42,7 @@ public abstract class FormItem<T> implements InputElement<T>, Comparable<String>
     //private boolean supportExpressions = false;
 
     protected String expressionValue = null;
+    protected boolean isFiltered = false;
 
     public FormItem(String name, String title) {
         this.name = name;
@@ -75,6 +76,14 @@ public abstract class FormItem<T> implements InputElement<T>, Comparable<String>
 
     public String getTitle() {
         return title;
+    }
+
+    public boolean isFiltered() {
+        return isFiltered;
+    }
+
+    protected void setFiltered(boolean filtered) {
+        isFiltered = filtered;
     }
 
     public void setErroneous(boolean b) {
@@ -126,6 +135,7 @@ public abstract class FormItem<T> implements InputElement<T>, Comparable<String>
         setUndefined(true);
         setErroneous(false);
         setExpressionValue(null);
+        setFiltered(false);
     }
 
     /*public boolean doesSupportExpressions() {
@@ -158,6 +168,16 @@ public abstract class FormItem<T> implements InputElement<T>, Comparable<String>
         }
         else
             target.getElement().removeClassName("expression-input");
+    }
+
+    protected void toggleFilteredInput(Widget target, boolean flag)
+    {
+        if(flag)
+        {
+            target.getElement().addClassName("filtered-input");
+        }
+        else
+            target.getElement().removeClassName("filtered-input");
     }
 
     public static boolean isExpressionScheme(String value)
