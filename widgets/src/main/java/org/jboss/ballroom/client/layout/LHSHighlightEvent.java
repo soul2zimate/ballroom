@@ -21,6 +21,9 @@ package org.jboss.ballroom.client.layout;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.event.shared.HasHandlers;
+import com.gwtplatform.mvp.client.PopupView;
+import com.gwtplatform.mvp.client.PresenterWidget;
 
 
 /**
@@ -80,6 +83,10 @@ public class LHSHighlightEvent extends GwtEvent<LHSHighlightEvent.NavItemSelecti
 
     public interface NavItemSelectionHandler extends EventHandler {
         void onSelectedNavTree(LHSHighlightEvent event);
+    }
+
+    public static void fire(final HasHandlers source, String token) {
+        source.fireEvent(new LHSHighlightEvent(token));
     }
 }
 
