@@ -115,7 +115,7 @@ public class CheckBoxItem extends FormItem<Boolean> {
     }
 
     @Override
-    protected void setFiltered(boolean filtered) {
+    public void setFiltered(boolean filtered) {
         super.toggleFilteredInput(checkBox, filtered);
         checkBox.setEnabled(!filtered);
         wrapper.setLocked(filtered);

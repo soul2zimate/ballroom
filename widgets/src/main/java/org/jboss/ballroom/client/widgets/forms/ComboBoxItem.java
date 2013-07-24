@@ -59,7 +59,7 @@ public class ComboBoxItem extends FormItem<String> {
     }
 
     @Override
-    protected void setFiltered(boolean filtered) {
+    public void setFiltered(boolean filtered) {
         super.toggleFilteredInput(listBox, filtered);
         listBox.setEnabled(!filtered);
     }

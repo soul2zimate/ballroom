@@ -82,7 +82,7 @@ public abstract class FormItem<T> implements InputElement<T>, Comparable<String>
         return isFiltered;
     }
 
-    protected void setFiltered(boolean filtered) {
+    public void setFiltered(boolean filtered) {
         isFiltered = filtered;
     }
 

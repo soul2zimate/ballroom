@@ -63,7 +63,7 @@ public class PasswordBoxItem extends FormItem<String> {
     }
 
     @Override
-    protected void setFiltered(boolean filtered) {
+    public void setFiltered(boolean filtered) {
         super.toggleFilteredInput(textBox, filtered);
         textBox.setEnabled(!filtered);
         wrapper.setLocked(filtered);
