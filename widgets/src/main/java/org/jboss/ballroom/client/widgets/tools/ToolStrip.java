@@ -22,7 +22,6 @@ package org.jboss.ballroom.client.widgets.tools;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import org.jboss.ballroom.client.rbac.Facet;
 import org.jboss.ballroom.client.rbac.SecurityContext;
 import org.jboss.ballroom.client.rbac.SecurityService;
 import org.jboss.ballroom.client.spi.Framework;
@@ -90,7 +89,7 @@ public class ToolStrip extends HorizontalPanel{
         String nameToken = FRAMEWORK.getPlaceManager().getCurrentPlaceRequest().getNameToken();
         SecurityContext securityContext = SECURITY_SERVICE.getSecurityContext(nameToken);
 
-        boolean visible = securityContext.isWritable();
+        boolean visible = securityContext.getWritePriviledge().isGranted();
 
         setVisible(visible);
 

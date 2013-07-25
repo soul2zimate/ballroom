@@ -62,45 +62,51 @@ public class SecurityContext {
         boolean isGranted(Constraints c);
     }
 
-    private boolean checkPriviledge(Priviledge p) {
-        boolean granted = true;
+    private AuthorisationDecision checkPriviledge(Priviledge p) {
+        AuthorisationDecision decision = new AuthorisationDecision(true);
         for(String address : requiredResources)
         {
             final Constraints model = accessConstraints.get(address);
             if(model!=null && !p.isGranted(model))
             {
-                granted = false;
+                decision.setGranted(false);
+                decision.getErrorMessages().add(address);
                 break;
             }
         }
 
-        return granted;
+        return decision;
     }
 
     /**
      * If any of the required resources is not accessible, overall access will be rejected
      * @return
      */
-    public boolean isReadable() {
+    public AuthorisationDecision getReadPriviledge() {
 
         assert sealed : "Should be sealed before policy decisions are evaluated";
 
-        boolean accessGranted = true;
+        AuthorisationDecision decision = new AuthorisationDecision(true);
+
         for(String address : requiredResources)
         {
             final Constraints model = accessConstraints.get(address);
             boolean readable = facet.equals(Facet.CONFIGURATION) ? model.isReadConfig() : model.isReadRuntime();
             if(model!=null && !readable)
             {
-                accessGranted = false;
-                break; // the first rule that fails rejects access
+                decision.getErrorMessages().add(address);
             }
         }
 
-        return accessGranted;
+        if(decision.hasErrorMessages())
+        {
+            decision.setGranted(false);
+        }
+
+        return decision;
     }
 
-    public boolean isWritable() {
+    public AuthorisationDecision getWritePriviledge() {
         return checkPriviledge(new Priviledge() {
             @Override
             public boolean isGranted(Constraints c) {
