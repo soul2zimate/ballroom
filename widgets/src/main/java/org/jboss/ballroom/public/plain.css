@@ -409,6 +409,15 @@ table {
     border-color:#999999;
 }
 
+.toolstrip-button:disabled {
+    cursor: inherit;
+    color: #999;
+}
+
+.toolstrip-button:disabled:hover {
+    border: 1px solid #DDDDDD;
+}
+
 .row-tools {
     visibility:hidden;
 }
