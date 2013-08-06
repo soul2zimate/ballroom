@@ -40,7 +40,7 @@ import java.util.Map;
 public class DefaultGroupRenderer implements GroupRenderer
 {
     private final String id = "form-"+ DOM.createUniqueId()+"_";
-    private final String tablePrefix = "<table border=0 id='"+id+"' border=0 cellpadding=0 cellspacing=0 role='presentation'>";
+    private final String tablePrefix = "<table class='form-item-table' border=0 id='"+id+"' border=0 cellpadding=0 cellspacing=0 role='presentation'>";
     private final static String tableSuffix = "</table>";
 
     @Override
@@ -64,13 +64,10 @@ public class DefaultGroupRenderer implements GroupRenderer
 
         //int colWidth = 100/(metaData.getNumColumns()*2);
 
-        builder.appendHtmlConstant("<colgroup id='cols_"+metaData.getNumColumns()+"'>");
+        builder.appendHtmlConstant("<colgroup class='cols_"+metaData.getNumColumns()+"'>");
         for(int col=0; col<metaData.getNumColumns(); col++)
         {
             // it's two TD's per item (title & value)
-            //builder.appendHtmlConstant("<col width='"+(colWidth-10)+"%'/>");
-            //builder.appendHtmlConstant("<col width='"+(colWidth+10)+"%'/>");
-
             builder.appendHtmlConstant("<col class='form-item-title-col'/>");
             builder.appendHtmlConstant("<col class='form-item-col'/>");
 

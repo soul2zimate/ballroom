@@ -31,16 +31,21 @@ public class TabHeader extends HorizontalPanel {
     public TabHeader(String title) {
         super();
 
-        HTML tabLeft = new HTML("");
+        HTML tabLeft = new HTML("&nbsp;");
         tabLeft.setStyleName("tab-left");
-        HTML tabTitle = new HTML(title);
+        HTML tabTitle = new HTML("<div class='tab-title-inner'>"+title+"</div>");
         tabTitle.setStyleName("tab-title");
-        HTML tabRight = new HTML("");
+        HTML tabRight = new HTML("&nbsp;");
         tabRight.setStyleName("tab-right");
 
         add(tabLeft);
         add(tabTitle);
         add(tabRight);
+
+        HTML spacerRight= new HTML("&nbsp;");
+        spacerRight.setStyleName("tab-space-right");
+        add(spacerRight);
+        spacerRight.getElement().getParentElement().setAttribute("width", "100%");
 
         getElement().setAttribute("role", "tablist");
         getElement().setTabIndex(0);

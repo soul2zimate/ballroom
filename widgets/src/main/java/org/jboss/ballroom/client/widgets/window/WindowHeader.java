@@ -44,7 +44,7 @@ public class WindowHeader extends Composite implements HasAllMouseHandlers {
         titleText.getElement().setId(headerId);
         titleText.setStyleName("default-window-title");
 
-        FontIcon closeIcon = new FontIcon(" icon-remove", FontIcon.Size.MEDIUM);
+        FontIcon closeIcon = new FontIcon("icon-remove", FontIcon.Size.SMALL);
         closeIcon.addClickHandler(new ClickHandler(){
             @Override
             public void onClick(ClickEvent clickEvent) {
@@ -52,7 +52,7 @@ public class WindowHeader extends Composite implements HasAllMouseHandlers {
             }
         });
 
-        FontIcon maximizeIcon = new FontIcon("icon-resize-full", FontIcon.Size.MEDIUM);
+        FontIcon maximizeIcon = new FontIcon("icon-resize-full", FontIcon.Size.SMALL);
         maximizeIcon.addClickHandler(new ClickHandler(){
             @Override
             public void onClick(ClickEvent clickEvent) {
@@ -60,8 +60,6 @@ public class WindowHeader extends Composite implements HasAllMouseHandlers {
                 int width = origWidth;
                 int height = origHeight;
 
-                int top = origTop;
-                int left = origLeft;
 
                 if(origWidth==-1)
                 {
@@ -73,25 +71,34 @@ public class WindowHeader extends Composite implements HasAllMouseHandlers {
                     width = Window.getClientWidth() - 50;
                     height = Window.getClientHeight() - 50;
 
-                    top = 25;
-                    left = 25;
+                    callback.hide();
+
+                    callback.setPopupPosition(25, 25);
+                    callback.setWidth(width+"px");
+                    callback.setHeight(height+"px");
+
+                    callback.show();
                 }
                 else
                 {
+
+                    // reset to previous size & position
+                    // see above ...
+
+                    callback.hide();
+
+                    callback.setWidth(width+"px");
+                    callback.setHeight(height+"px");
+
+                    callback.center();
+
+                    // clear
                     origWidth = -1;
                     origHeight = -1;
                     origLeft = -1;
                     origTop = -1;
 
                 }
-
-                callback.hide();
-
-                callback.setPopupPosition(top, left);
-                callback.setWidth(width+"px");
-                callback.setHeight(height+"px");
-
-                callback.show();
 
             }
         });
@@ -105,10 +112,10 @@ public class WindowHeader extends Composite implements HasAllMouseHandlers {
         titleText.getElement().getParentElement().setAttribute("width", "100%");
 
         maximizeIcon.getElement().getParentElement().setAttribute("width", "16px");
-        maximizeIcon.getElement().getParentElement().setAttribute("style", "color:#ffffff;padding-right:10px");
+        maximizeIcon.getElement().getParentElement().setAttribute("style", "padding-right:10px");
 
         closeIcon.getElement().getParentElement().setAttribute("width", "16px");
-        closeIcon.getElement().getParentElement().setAttribute("style", "color:#ffffff;padding-right:10px");
+        closeIcon.getElement().getParentElement().setAttribute("style", "padding-right:10px");
 
     }
 

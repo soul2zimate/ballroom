@@ -19,9 +19,11 @@
 
 package org.jboss.ballroom.client.widgets.tabs;
 
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.LayoutPanel;
 
 /**
  * A title bar to be displayed at the top of a content view -
@@ -29,7 +31,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
  *
  * @author Heiko Braun
  */
-public class FakeTabPanel extends HorizontalPanel {
+public class FakeTabPanel extends LayoutPanel {
 
 
     public FakeTabPanel(String title) {
@@ -37,11 +39,11 @@ public class FakeTabPanel extends HorizontalPanel {
 
         setStyleName("title-bar-panel");
 
-        add(new TabHeader(title));
+        TabHeader widget = new TabHeader(title);
+        add(widget);
 
-        HTML spacerRight= new HTML("&nbsp;");
-        add(spacerRight);
-        spacerRight.getElement().getParentElement().setAttribute("style", "width:100%;");
+        setWidgetBottomHeight(widget, 0, Style.Unit.PX, 40, Style.Unit.PX);
+        setWidgetLeftWidth(widget, 0, Style.Unit.PX, 100, Style.Unit.PCT);
     }
 
     public void setIcon(ImageResource icon) {

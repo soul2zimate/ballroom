@@ -158,7 +158,7 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
      */
     public void setNumColumns(int columns)
     {
-        this.numColumns = columns;
+        //this.numColumns = columns;
     }
 
     /**

@@ -9,6 +9,7 @@ import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.RowStyles;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
@@ -30,7 +31,7 @@ public class PlainFormView {
     private CellTable<Row> table;
     private List<FormItem> items;
     private List<Row> rows;
-    private int numColumns = 2;
+    private int numColumns = 1;
     private boolean hasEntity = false;
     private final static String EMPTY_STRING = "";
 
@@ -76,16 +77,14 @@ public class PlainFormView {
 
             if(numColumns==1)
             {
-                table.setColumnWidth(titleCol, 20, Style.Unit.PCT);
-                table.setColumnWidth(valueCol, 80, Style.Unit.PCT);
+                table.addColumnStyleName(0, "cols_1_form-item-title-col");
+                table.addColumnStyleName(1, "cols_form-item-col");
             }
             else
             {
-                // default columns layout
-                int colWidth = 100/(numColumns*2);
-
-                table.setColumnWidth(titleCol, colWidth-10, Style.Unit.PCT);
-                table.setColumnWidth(valueCol, colWidth + 10, Style.Unit.PCT);
+                String prefix = "cols_"+numColumns;
+                table.addColumnStyleName(0, prefix+"_form-item-title-col");
+                table.addColumnStyleName(1, prefix+"_form-item-col");
             }
 
             table.addColumn(titleCol);
@@ -99,6 +98,13 @@ public class PlainFormView {
         table.setLoadingIndicator(new HTML());
 
         rows = groupItems();
+
+        table.setRowStyles(new RowStyles<Row>() {
+            @Override
+            public String getStyleNames(Row row, int rowIndex) {
+                return rowIndex==0 ? "first-row" : "";
+            }
+        });
 
         return table;
     }

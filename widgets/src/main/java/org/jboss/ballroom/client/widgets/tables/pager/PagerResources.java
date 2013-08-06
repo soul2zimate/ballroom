@@ -12,61 +12,61 @@ public interface PagerResources extends SimplePager.Resources {
     /**
      * The image used to skip ahead multiple pages.
      */
-    @Source("caret-right.png")
+    @Source("rr.png")
     ImageResource simplePagerFastForward();
 
     /**
      * The disabled "fast forward" image.
      */
-    @Source("caret-right_disabled.png")
+    @Source("rr.png")
     ImageResource simplePagerFastForwardDisabled();
 
     /**
      * The image used to go to the first page.
      */
-    @Source("backward.png")
+    @Source("ll.png")
     ImageResource simplePagerFirstPage();
 
     /**
      * The disabled first page image.
      */
-    @Source("backward_disabled.png")
+    @Source("ll.png")
     ImageResource simplePagerFirstPageDisabled();
 
     /**
      * The image used to go to the last page.
      */
-    @Source("forward.png")
+    @Source("rr.png")
     ImageResource simplePagerLastPage();
 
     /**
      * The disabled last page image.
      */
-    @Source("forward_disabled.png")
+    @Source("rr.png")
     ImageResource simplePagerLastPageDisabled();
 
     /**
      * The image used to go to the next page.
      */
-    @Source("caret-right.png")
+    @Source("r.png")
     ImageResource simplePagerNextPage();
 
     /**
      * The disabled next page image.
      */
-    @Source("caret-right_disabled.png")
+    @Source("r.png")
     ImageResource simplePagerNextPageDisabled();
 
     /**
      * The image used to go to the previous page.
      */
-    @Source("caret-left.png")
+    @Source("l.png")
     ImageResource simplePagerPreviousPage();
 
     /**
      * The disabled previous page image.
      */
-     @Source("caret-left_disabled.png")
+     @Source("l.png")
     ImageResource simplePagerPreviousPageDisabled();
 
     /**

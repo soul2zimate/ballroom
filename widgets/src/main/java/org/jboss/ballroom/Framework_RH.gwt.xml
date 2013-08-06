@@ -19,7 +19,6 @@
 
 <module>
 
-    <!-- Inherit the core Web Toolkit stuff.                  -->
     <inherits name='com.google.gwt.user.User'/>
 
     <inherits name='com.gwtplatform.mvp.Mvp' />
@@ -28,6 +27,8 @@
     <replace-with class="org.jboss.ballroom.client.spi.NoopFramework">
         <when-type-is class="org.jboss.ballroom.client.spi.Framework"/>
     </replace-with>
+
+    <stylesheet src="font/font-awesome.css"/>
 
     <entry-point class='org.jboss.ballroom.client.BootstrapRedhat'/>
 

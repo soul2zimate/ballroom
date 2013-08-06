@@ -20,13 +20,16 @@
 package org.jboss.ballroom.client.widgets.forms;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import org.jboss.ballroom.client.spi.Framework;
 import org.jboss.ballroom.client.widgets.icons.Icons;
@@ -35,21 +38,25 @@ import org.jboss.ballroom.client.widgets.icons.Icons;
  * @author Heiko Braun
  * @date 3/28/11
  */
-class InputElementWrapper extends HorizontalPanel {
+class InputElementWrapper extends VerticalPanel {
 
     private final HTML lock;
     private final HTML expr;
-    private Image err = new Image(Icons.INSTANCE.exclamation());
+    private final Widget widget;
+    private final HTML errorText;
+    //private Image err = new Image(Icons.INSTANCE.exclamation());
 
     private final static Framework framework = GWT.create(Framework.class);
 
     public InputElementWrapper(Widget widget, final InputElement input) {
         super();
+        this.widget = widget;
 
         setStyleName("fill-layout-width");
 
-        add(widget);
-        widget.getElement().getParentElement().setAttribute("style", "width:100%;vertical-align:middle");
+        HorizontalPanel panel = new HorizontalPanel();
+        panel.add(widget);
+        widget.getElement().getParentElement().setAttribute("class", "form-input");
 
         lock = new HTML("<i class='icon-lock'></i>");
         add(lock);
@@ -57,10 +64,11 @@ class InputElementWrapper extends HorizontalPanel {
         lock.getElement().getParentElement().setAttribute("style", "width:16px;vertical-align:middle");
 
         expr = new HTML("<i class='icon-link'></i>");
-        add(expr);
+        panel.add(expr);
+
         expr.setStyleName("expression-icon");
         expr.setVisible(false);
-        expr.getElement().getParentElement().setAttribute("style", "width:16px;vertical-align:middle");
+        expr.getElement().getParentElement().setAttribute("class", "form-expr");
 
         expr.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent clickEvent) {
@@ -70,29 +78,23 @@ class InputElementWrapper extends HorizontalPanel {
             }
         });
 
-        // error icon
-        add(err);
-        err.setVisible(false);
-        err.getElement().getParentElement().setAttribute("style", "width:16px;vertical-align:middle");
+        errorText = new HTML(input.getErrMessage());
+        errorText.addStyleName("form-item-error-desc");
 
-        err.addClickHandler(new ClickHandler() {
+        add(panel);
+        add(errorText);
 
-            public void onClick(ClickEvent event) {
-                PopupPanel popup = new PopupPanel(true);
-                popup.getElement().setAttribute("style", "z-index:20");
-                popup.setWidget(new Label(input.getErrMessage()));
-                popup.setStyleName("popup-hint");
-                popup.setPopupPosition(err.getAbsoluteLeft()+16, err.getAbsoluteTop()+16);
-                popup.show();
-            }
-        });
-
-
+        errorText.setVisible(false);
     }
 
     public void setErroneous(boolean hasErrors)
     {
-        err.setVisible(hasErrors);
+        if(hasErrors)
+            widget.addStyleName("form-item-error");
+        else
+            widget.removeStyleName("form-item-error");
+
+        errorText.setVisible(hasErrors);
     }
 
     public void setExpression(boolean isExpression)
