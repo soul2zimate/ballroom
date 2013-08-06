@@ -116,9 +116,9 @@ public class CheckBoxItem extends FormItem<Boolean> {
 
     @Override
     public void setFiltered(boolean filtered) {
-        super.toggleFilteredInput(checkBox, filtered);
+        super.toggleAccessConstraint(checkBox, filtered);
         checkBox.setEnabled(!filtered);
-        wrapper.setLocked(filtered);
+        wrapper.setConstraintsApply(filtered);
     }
 
     private void toogleTextInput() {

@@ -64,9 +64,9 @@ public class PasswordBoxItem extends FormItem<String> {
 
     @Override
     public void setFiltered(boolean filtered) {
-        super.toggleFilteredInput(textBox, filtered);
+        super.toggleAccessConstraint(textBox, filtered);
         textBox.setEnabled(!filtered);
-        wrapper.setLocked(filtered);
+        wrapper.setConstraintsApply(filtered);
     }
 
     @Override

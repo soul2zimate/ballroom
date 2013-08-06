@@ -60,8 +60,9 @@ public class ComboBoxItem extends FormItem<String> {
 
     @Override
     public void setFiltered(boolean filtered) {
-        super.toggleFilteredInput(listBox, filtered);
+        super.toggleAccessConstraint(listBox, filtered);
         listBox.setEnabled(!filtered);
+        wrapper.setConstraintsApply(filtered);
     }
 
     @Override

@@ -116,6 +116,15 @@ public class SecurityContext {
         });
     }
 
+    public AuthorisationDecision getAttributeWritePriviledge(final String name) {
+        return checkPriviledge(new Priviledge() {
+            @Override
+            public boolean isGranted(Constraints c) {
+                return c.isAttributeWrite(name);
+            }
+        });
+    }
+
     public void updateResourceConstraints(String resourceAddress, Constraints model) {
 
         assert !sealed : "Sealed security context cannot be modified";

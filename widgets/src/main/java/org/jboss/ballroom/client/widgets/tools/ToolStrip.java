@@ -94,7 +94,7 @@ public class ToolStrip extends HorizontalPanel{
         if(!visible)
         {
             setVisible(false);
-            getElement().addClassName("suppressed");
+            getElement().addClassName("rbac-suppressed");
         }
 
     }

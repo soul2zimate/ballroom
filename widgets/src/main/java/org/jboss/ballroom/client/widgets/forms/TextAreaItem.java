@@ -67,9 +67,9 @@ public class TextAreaItem extends FormItem<String> {
 
     @Override
     public void setFiltered(boolean filtered) {
-        super.toggleFilteredInput(textArea, filtered);
+        super.toggleAccessConstraint(textArea, filtered);
         textArea.setEnabled(!filtered);
-        wrapper.setLocked(filtered);
+        wrapper.setConstraintsApply(filtered);
     }
 
     @Override

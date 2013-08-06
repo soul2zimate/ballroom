@@ -170,14 +170,14 @@ public abstract class FormItem<T> implements InputElement<T>, Comparable<String>
             target.getElement().removeClassName("expression-input");
     }
 
-    protected void toggleFilteredInput(Widget target, boolean flag)
+    protected void toggleAccessConstraint(Widget target, boolean isConstrained)
     {
-        if(flag)
+        if(isConstrained)
         {
-            target.getElement().addClassName("filtered-input");
+            target.getElement().addClassName("rbac-constraints-apply");
         }
         else
-            target.getElement().removeClassName("filtered-input");
+            target.getElement().removeClassName("rbac-constraints-apply");
     }
 
     public static boolean isExpressionScheme(String value)

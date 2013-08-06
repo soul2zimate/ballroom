@@ -30,6 +30,7 @@ import org.jboss.ballroom.client.spi.Framework;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,7 +87,13 @@ public class Form<T> extends AbstractForm<T> {
         this.editedEntity = bean;
 
         final Map<String, String> exprMap = getExpressions(editedEntity);
-        final Set<String> filtered = autoBean.getTag("filtered-attributes");
+
+        // RBAC
+        final Set<String> filtered = autoBean.getTag("filtered-attributes")!=null ?
+            (Set<String>)autoBean.getTag("filtered-attributes") : Collections.EMPTY_SET;
+
+        final Set<String> readonly = autoBean.getTag("readonly-attributes")!=null ?
+                (Set<String>)autoBean.getTag("readonly-attributes") : Collections.EMPTY_SET;
 
         autoBean.accept(new AutoBeanVisitor() {
 
@@ -102,6 +109,13 @@ public class Form<T> extends AbstractForm<T> {
                     public void visit(FormItem item) {
 
                         item.resetMetaData();
+
+                        // RABC: attribute constraints
+                        if(readonly.contains(propertyName)
+                                || filtered.contains(propertyName))
+                        {
+                            item.setFiltered(true);
+                        }
 
                         // expressions
                         // if(item.doesSupportExpressions())
@@ -175,8 +189,6 @@ public class Form<T> extends AbstractForm<T> {
             }
         });
 
-        // toggle filtering
-        toggleFilter(filtered);
 
         notifyListeners(bean);
 
@@ -185,7 +197,7 @@ public class Form<T> extends AbstractForm<T> {
         refreshPlainView();
     }
 
-    interface FilterToogle {
+    /*interface FilterToogle {
         void applyTo(FormItem item);
     }
 
@@ -216,7 +228,7 @@ public class Form<T> extends AbstractForm<T> {
                       toggle.applyTo(item);
                   }
               }
-    }
+    }  */
 
 
     private void notifyListeners(T bean) {

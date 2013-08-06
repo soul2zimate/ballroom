@@ -12,7 +12,7 @@ public class Constraints {
 
     private boolean readConfig,writeConfig,readRuntime,writeRuntime;
 
-    private Map<String, Boolean> attributeReadWrite = new HashMap<String,Boolean>();
+    private Map<String, AttributePerm> attributePermissions = new HashMap<String,AttributePerm>();
 
     private boolean address = true;
 
@@ -58,23 +58,48 @@ public class Constraints {
 
     public void setAttributeRead(String name, boolean canBeRead)
     {
-        if(canBeRead)
-            this.attributeReadWrite.put(name, canBeRead);
-        else if(attributeReadWrite.containsKey(name))
-            attributeReadWrite.remove(name);
+        this.attributePermissions.put(name, new AttributePerm(canBeRead));
     }
 
     public boolean isAttributeRead(String name) {
-        return attributeReadWrite.containsKey(name);
+        return attributePermissions.containsKey(name) ?
+                attributePermissions.get(name).isRead() : true;
     }
 
     public void setAttributeWrite(String name, boolean b)
     {
-        this.attributeReadWrite.put(name, b);
+        if(!attributePermissions.containsKey(name)) {
+            attributePermissions.put(name, new AttributePerm(true));
+        }
+
+        attributePermissions.get(name).setWrite(b);
+
     }
 
     public boolean isAttributeWrite(String name) {
-        return attributeReadWrite.containsKey(name) ?
-                attributeReadWrite.get(name) : true;
+        return attributePermissions.containsKey(name) ?
+                attributePermissions.get(name).isWrite() : true;
+    }
+
+    class AttributePerm
+    {
+
+        AttributePerm(boolean read) {
+            this.read = read;
+        }
+
+        boolean read,write;
+
+        boolean isRead() {
+            return read;
+        }
+
+        boolean isWrite() {
+            return write;
+        }
+
+        void setWrite(boolean write) {
+            this.write = write;
+        }
     }
 }

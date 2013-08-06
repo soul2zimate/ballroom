@@ -59,7 +59,7 @@ public class ListBoxItem extends FormItem<String> implements ChoiceItem<String> 
 
     @Override
     public void setFiltered(boolean filtered) {
-        super.toggleFilteredInput(listBox, filtered);
+        super.toggleAccessConstraint(listBox, filtered);
         listBox.setEnabled(!filtered);
     }
 

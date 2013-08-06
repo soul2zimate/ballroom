@@ -20,19 +20,13 @@
 package org.jboss.ballroom.client.widgets.forms;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import org.jboss.ballroom.client.spi.Framework;
-import org.jboss.ballroom.client.widgets.icons.Icons;
 
 /**
  * @author Heiko Braun
@@ -40,7 +34,7 @@ import org.jboss.ballroom.client.widgets.icons.Icons;
  */
 class InputElementWrapper extends VerticalPanel {
 
-    private final HTML lock;
+    private final HTML rbacConstraintIcon;
     private final HTML expr;
     private final Widget widget;
     private final HTML errorText;
@@ -58,10 +52,10 @@ class InputElementWrapper extends VerticalPanel {
         panel.add(widget);
         widget.getElement().getParentElement().setAttribute("class", "form-input");
 
-        lock = new HTML("<i class='icon-lock'></i>");
-        panel.add(lock);
-        lock.setVisible(false);
-        lock.getElement().getParentElement().setAttribute("style", "width:16px;vertical-align:middle");
+        rbacConstraintIcon = new HTML("<i class='icon-lock'></i>");
+        panel.add(rbacConstraintIcon);
+        rbacConstraintIcon.setVisible(false);
+        rbacConstraintIcon.getElement().getParentElement().setAttribute("style", "width:16px;vertical-align:middle");
 
         expr = new HTML("<i class='icon-link'></i>");
         panel.add(expr);
@@ -102,9 +96,9 @@ class InputElementWrapper extends VerticalPanel {
         expr.setVisible(isExpression);
     }
 
-    public void setLocked(boolean b)
+    public void setConstraintsApply(boolean b)
     {
-        lock.setVisible(b);
+        rbacConstraintIcon.setVisible(b);
     }
 
 }
