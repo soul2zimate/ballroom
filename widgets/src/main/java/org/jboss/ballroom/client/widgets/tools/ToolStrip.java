@@ -91,7 +91,11 @@ public class ToolStrip extends HorizontalPanel{
 
         boolean visible = securityContext.getWritePriviledge().isGranted();
 
-        setVisible(visible);
+        if(!visible)
+        {
+            setVisible(false);
+            getElement().addClassName("suppressed");
+        }
 
     }
 }
