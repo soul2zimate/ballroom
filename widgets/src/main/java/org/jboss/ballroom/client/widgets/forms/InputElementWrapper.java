@@ -59,7 +59,7 @@ class InputElementWrapper extends VerticalPanel {
         widget.getElement().getParentElement().setAttribute("class", "form-input");
 
         lock = new HTML("<i class='icon-lock'></i>");
-        add(lock);
+        panel.add(lock);
         lock.setVisible(false);
         lock.getElement().getParentElement().setAttribute("style", "width:16px;vertical-align:middle");
 

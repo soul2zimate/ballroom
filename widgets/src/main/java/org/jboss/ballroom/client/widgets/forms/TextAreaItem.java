@@ -114,7 +114,7 @@ public class TextAreaItem extends FormItem<String> {
 
     @Override
     public void setValue(String value) {
-        toggleExpressionInput(textArea, true);
+        toggleExpressionInput(textArea, false);
         textArea.setValue(value);
     }
 
