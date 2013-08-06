@@ -33,6 +33,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Form data binding that works on {@link AutoBean} entities.
@@ -85,6 +86,7 @@ public class Form<T> extends AbstractForm<T> {
         this.editedEntity = bean;
 
         final Map<String, String> exprMap = getExpressions(editedEntity);
+        final Set<String> filtered = autoBean.getTag("filtered-attributes");
 
         autoBean.accept(new AutoBeanVisitor() {
 
@@ -173,12 +175,49 @@ public class Form<T> extends AbstractForm<T> {
             }
         });
 
+        // toggle filtering
+        toggleFilter(filtered);
+
         notifyListeners(bean);
 
 
         // plain views
         refreshPlainView();
     }
+
+    interface FilterToogle {
+        void applyTo(FormItem item);
+    }
+
+    private void toggleFilter(final Set<String> filtered) {
+
+        final FilterToogle toggle = (null==filtered)?
+                new FilterToogle() {
+                    @Override
+                    public void applyTo(FormItem item) {
+                        //filter disabled
+                        item.setFiltered(false);
+
+                    }
+                } :
+                new FilterToogle() {
+                    @Override
+                    public void applyTo(FormItem item) {
+                        // filter enabled
+                        if(filtered.contains(item.getName()))
+                        item.setFiltered(true);
+                    }
+                };
+
+        for(Map<String, FormItem> groupItems : formItems.values())
+              {
+                  for(FormItem item : groupItems.values())
+                  {
+                      toggle.applyTo(item);
+                  }
+              }
+    }
+
 
     private void notifyListeners(T bean) {
         for (EditListener listener : listeners) {

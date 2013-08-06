@@ -22,6 +22,7 @@ package org.jboss.ballroom.client.widgets.forms;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -36,8 +37,9 @@ import org.jboss.ballroom.client.widgets.icons.Icons;
  */
 class InputElementWrapper extends HorizontalPanel {
 
+    private final HTML lock;
+    private final HTML expr;
     private Image err = new Image(Icons.INSTANCE.exclamation());
-    private Image expr = new Image(Icons.INSTANCE.expression());
 
     private final static Framework framework = GWT.create(Framework.class);
 
@@ -49,8 +51,13 @@ class InputElementWrapper extends HorizontalPanel {
         add(widget);
         widget.getElement().getParentElement().setAttribute("style", "width:100%;vertical-align:middle");
 
+        lock = new HTML("<i class='icon-lock'></i>");
+        add(lock);
+        lock.setVisible(false);
+        lock.getElement().getParentElement().setAttribute("style", "width:16px;vertical-align:middle");
+
+        expr = new HTML("<i class='icon-link'></i>");
         add(expr);
-        expr.setAltText("Resolve Expression");
         expr.setStyleName("expression-icon");
         expr.setVisible(false);
         expr.getElement().getParentElement().setAttribute("style", "width:16px;vertical-align:middle");
@@ -79,6 +86,8 @@ class InputElementWrapper extends HorizontalPanel {
                 popup.show();
             }
         });
+
+
     }
 
     public void setErroneous(boolean hasErrors)
@@ -89,6 +98,11 @@ class InputElementWrapper extends HorizontalPanel {
     public void setExpression(boolean isExpression)
     {
         expr.setVisible(isExpression);
+    }
+
+    public void setLocked(boolean b)
+    {
+        lock.setVisible(b);
     }
 
 }

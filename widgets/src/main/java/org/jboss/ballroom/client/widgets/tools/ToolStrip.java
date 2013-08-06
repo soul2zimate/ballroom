@@ -19,9 +19,12 @@
 
 package org.jboss.ballroom.client.widgets.tools;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import org.jboss.ballroom.client.widgets.forms.ComboBox;
+import org.jboss.ballroom.client.rbac.SecurityContext;
+import org.jboss.ballroom.client.rbac.SecurityService;
+import org.jboss.ballroom.client.spi.Framework;
 
 /**
  * @author Heiko Braun
@@ -31,6 +34,9 @@ public class ToolStrip extends HorizontalPanel{
 
     private HorizontalPanel left;
     private HorizontalPanel right;
+
+    static Framework FRAMEWORK  = GWT.create(Framework.class);
+    static SecurityService SECURITY_SERVICE = FRAMEWORK.getSecurityService();
 
     public ToolStrip() {
         super();
@@ -72,5 +78,20 @@ public class ToolStrip extends HorizontalPanel{
     public void addToolWidgetRight(Widget widget) {
 
         right.add(widget);
+    }
+
+    @Override
+    protected void onAttach() {
+
+        super.onAttach();
+
+        // access control
+        String nameToken = FRAMEWORK.getPlaceManager().getCurrentPlaceRequest().getNameToken();
+        SecurityContext securityContext = SECURITY_SERVICE.getSecurityContext(nameToken);
+
+        boolean visible = securityContext.getWritePriviledge().isGranted();
+
+        setVisible(visible);
+
     }
 }
