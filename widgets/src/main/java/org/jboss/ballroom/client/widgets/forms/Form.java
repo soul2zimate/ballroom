@@ -89,8 +89,8 @@ public class Form<T> extends AbstractForm<T> {
         final Map<String, String> exprMap = getExpressions(editedEntity);
 
         // RBAC
-        final Set<String> filtered = autoBean.getTag("filtered-attributes")!=null ?
-            (Set<String>)autoBean.getTag("filtered-attributes") : Collections.EMPTY_SET;
+        //final Set<String> filtered = autoBean.getTag("filtered-attributes")!=null ?
+        //    (Set<String>)autoBean.getTag("filtered-attributes") : Collections.EMPTY_SET;
 
         final Set<String> readonly = autoBean.getTag("readonly-attributes")!=null ?
                 (Set<String>)autoBean.getTag("readonly-attributes") : Collections.EMPTY_SET;
