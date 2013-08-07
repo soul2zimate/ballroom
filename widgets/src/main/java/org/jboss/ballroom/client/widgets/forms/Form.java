@@ -112,7 +112,7 @@ public class Form<T> extends AbstractForm<T> {
 
                         // RABC: attribute constraints
                         if(readonly.contains(propertyName)
-                                || filtered.contains(propertyName))
+                                )//|| filtered.contains(propertyName))
                         {
                             item.setFiltered(true);
                         }
