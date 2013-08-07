@@ -12,7 +12,7 @@ public class Constraints {
 
     private boolean readConfig,writeConfig,readRuntime,writeRuntime;
 
-    private Map<String, AttributePerm> attributePermissions = new HashMap<String,AttributePerm>();
+    Map<String, AttributePerm> attributePermissions = new HashMap<String,AttributePerm>();
 
     private boolean address = true;
 

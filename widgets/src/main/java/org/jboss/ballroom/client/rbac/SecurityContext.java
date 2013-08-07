@@ -1,5 +1,7 @@
 package org.jboss.ballroom.client.rbac;
 
+import com.google.gwt.safehtml.shared.SafeHtml;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -20,24 +22,24 @@ public class SecurityContext {
     /**
      * Influences the decision tree when reasoning over access control meta data
      */
-    private Facet facet;
+    Facet facet;
 
     /**
      * the place name token (url)
      */
-    private String nameToken;
+    String nameToken;
 
     /**
      * Set of required resources.
      * Taken from access control meta data
      */
-    private Set<String> requiredResources;
+    Set<String> requiredResources;
 
     /**
      * A list of access constraint definitions
      * (result of :read-resource-description(access-control=true))
      */
-    private Map<String, Constraints> accessConstraints = new HashMap<String, Constraints>();
+    Map<String, Constraints> accessConstraints = new HashMap<String, Constraints>();
 
     /**
      * A sealed context cannot be modified
@@ -56,6 +58,10 @@ public class SecurityContext {
 
     public void setFacet(Facet facet) {
         this.facet = facet;
+    }
+
+    public SafeHtml asHtml() {
+        return RBACUtil.dump(this);
     }
 
     public interface Priviledge {
@@ -137,4 +143,7 @@ public class SecurityContext {
 
         // TODO: move all policies that can be evaluated once into this method
     }
+
+
+
 }
