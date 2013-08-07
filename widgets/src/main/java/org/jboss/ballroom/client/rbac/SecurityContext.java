@@ -73,7 +73,8 @@ public class SecurityContext {
         for(String address : requiredResources)
         {
             final Constraints model = accessConstraints.get(address);
-            if(model!=null && !p.isGranted(model))
+            assert model!=null : "Missing constraints for "+ address;
+            if(!p.isGranted(model))
             {
                 decision.setGranted(false);
                 decision.getErrorMessages().add(address);
@@ -97,8 +98,9 @@ public class SecurityContext {
         for(String address : requiredResources)
         {
             final Constraints model = accessConstraints.get(address);
+            assert model!=null : "Missing constraints for "+ address;
             boolean readable = facet.equals(Facet.CONFIGURATION) ? model.isReadConfig() : model.isReadRuntime();
-            if(model!=null && !readable)
+            if(!readable)
             {
                 decision.getErrorMessages().add(address);
             }
