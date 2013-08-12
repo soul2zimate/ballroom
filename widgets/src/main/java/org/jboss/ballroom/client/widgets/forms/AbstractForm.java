@@ -1,6 +1,7 @@
 package org.jboss.ballroom.client.widgets.forms;
 
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -8,12 +9,16 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.RowCountChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
+import org.jboss.ballroom.client.rbac.SecurityContext;
+import org.jboss.ballroom.client.rbac.SecurityService;
+import org.jboss.ballroom.client.spi.Framework;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Heiko Braun
@@ -95,6 +100,8 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
         return build();
     }
 
+    public abstract Set<String> getReadOnlyNames(SecurityService securityFacilities, SecurityContext securityContext);
+
     private Widget build() {
 
         deck = new DeckPanel();
@@ -119,9 +126,29 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
         metaData.setNumColumns(numColumns);
         metaData.setTitleWidth(maxTitleLength);
 
+        // RBAC
+        Framework framework = GWT.create(Framework.class);
+        SecurityService securityFacilities = framework.getSecurityService();
+        SecurityContext securityContext = securityFacilities.getSecurityContext();
+        Set<String> readOnly = getReadOnlyNames(securityFacilities, securityContext);
+
         for(String group : formItems.keySet())
         {
             Map<String, FormItem> groupItems = formItems.get(group);
+
+            // RBAC: read-only attributes
+            for(String attr : groupItems.keySet())
+            {
+                FormItem formItem = groupItems.get(attr);
+                formItem.setFiltered(false); // reset to default state
+
+                if(readOnly.contains(attr))
+                {
+                    formItem.setFiltered(true);
+                }
+            }
+
+
             GroupRenderer groupRenderer = null;
 
             if(DEFAULT_GROUP.equals(group))

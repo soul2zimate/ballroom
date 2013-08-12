@@ -135,7 +135,6 @@ public abstract class FormItem<T> implements InputElement<T>, Comparable<String>
         setUndefined(true);
         setErroneous(false);
         setExpressionValue(null);
-        setFiltered(false);
     }
 
     /*public boolean doesSupportExpressions() {

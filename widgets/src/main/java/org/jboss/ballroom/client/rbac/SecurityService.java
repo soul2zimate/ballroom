@@ -1,39 +1,37 @@
 package org.jboss.ballroom.client.rbac;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import java.util.List;
+import java.util.Set;
 
 /**
+ * API for interaction units to leverage security facilities.
+ *
  * @author Heiko Braun
  * @date 7/3/13
  */
 public interface SecurityService {
 
     /**
-     * Get the security context associated with the current {@link com.gwtplatform.mvp.client.proxy.PlaceRequest}
-     * @see com.gwtplatform.mvp.client.proxy.PlaceManager
+     * Get the security context associated with the current dialog
      * @return the current security context
      */
-    SecurityContext getSecurityContext(String nameToken);
-
-
-    /**
-     * Create a security context for a particular place.
-     * @param nameToken
-     * @param callback
-     */
-    void createSecurityContext(String nameToken, AsyncCallback<SecurityContext> callback);
+    SecurityContext getSecurityContext();
 
     /**
-     * Check wether or not a context exists.
+     * Meta data utilities for working with AutoBean's
      *
-     * @param nameToken
+     * @param type an autobean interface
+     * @param securityContext
      * @return
      */
-    boolean hasContext(String nameToken);
+    Set<String> getReadOnlyJavaNames(Class<?> type, SecurityContext securityContext);
 
     /**
-     * Removes a context and forces re-creation
-     * @param nameToken
+     * Meta data utilities for working with ModelNode's
+     *
+     * @param formItems
+     * @param securityContext
+     * @return
      */
-    void flushContext(String nameToken);
+    Set<String> getReadOnlyDMRNames(List<String> formItems, SecurityContext securityContext);
 }

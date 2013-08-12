@@ -86,8 +86,7 @@ public class ToolStrip extends HorizontalPanel{
         super.onAttach();
 
         // access control
-        String nameToken = FRAMEWORK.getPlaceManager().getCurrentPlaceRequest().getNameToken();
-        SecurityContext securityContext = SECURITY_SERVICE.getSecurityContext(nameToken);
+        SecurityContext securityContext = SECURITY_SERVICE.getSecurityContext();
 
         boolean visible = securityContext.getWritePriviledge().isGranted();
 
