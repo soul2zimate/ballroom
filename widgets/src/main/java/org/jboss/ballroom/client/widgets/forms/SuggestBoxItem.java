@@ -19,6 +19,7 @@ public class SuggestBoxItem extends FormItem<String> {
     private InputElementWrapper wrapper;
     private SuggestBox suggestBox;
     private SuggestOracle oracle;
+    private boolean willBeFiltered = false;
 
     public SuggestBoxItem(String name, String title) {
         super(name, title);
@@ -61,7 +62,7 @@ public class SuggestBoxItem extends FormItem<String> {
     public void setFiltered(boolean filtered) {
         super.toggleAccessConstraint(textBox, filtered);
         textBox.setEnabled(!filtered);
-        wrapper.setConstraintsApply(filtered);
+        willBeFiltered = filtered;
     }
 
     @Override
@@ -99,6 +100,9 @@ public class SuggestBoxItem extends FormItem<String> {
 
 
         wrapper = new InputElementWrapper(suggestBox, this);
+
+        wrapper.setConstraintsApply(willBeFiltered);
+
         return wrapper;
     }
 
