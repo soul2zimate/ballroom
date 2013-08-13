@@ -100,7 +100,7 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
         return build();
     }
 
-    public abstract Set<String> getReadOnlyNames(SecurityService securityFacilities, SecurityContext securityContext);
+    public abstract Set<String> getReadOnlyNames();
 
     private Widget build() {
 
@@ -127,10 +127,7 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
         metaData.setTitleWidth(maxTitleLength);
 
         // RBAC
-        Framework framework = GWT.create(Framework.class);
-        SecurityService securityFacilities = framework.getSecurityService();
-        SecurityContext securityContext = securityFacilities.getSecurityContext();
-        Set<String> readOnly = getReadOnlyNames(securityFacilities, securityContext);
+        Set<String> readOnly = getReadOnlyNames();
 
         for(String group : formItems.keySet())
         {

@@ -29,9 +29,10 @@ public interface SecurityService {
     /**
      * Meta data utilities for working with ModelNode's
      *
-     * @param formItems
-     * @param securityContext
-     * @return
+     *
+     * @param resourceAddress
+     * @param formItemNames
+     *@param securityContext  @return
      */
-    Set<String> getReadOnlyDMRNames(List<String> formItems, SecurityContext securityContext);
+    Set<String> getReadOnlyDMRNames(String resourceAddress, List<String> formItemNames, SecurityContext securityContext);
 }
