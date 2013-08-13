@@ -12,6 +12,7 @@ package org.jboss.ballroom.client.rbac;
  */
 public interface SecurityContext {
 
+    // v1
     public Facet getFacet();
 
     public AuthorisationDecision getReadPriviledge();
@@ -22,4 +23,8 @@ public interface SecurityContext {
 
     public void seal();
 
+
+    // v2
+
+    public AuthorisationDecision getOperationPriviledge(String resourceAddress, String operationName);
 }
