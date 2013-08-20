@@ -73,6 +73,7 @@ public class TextBoxItem extends FormItem<String> {
 
     @Override
     public void setFiltered(boolean filtered) {
+        super.setFiltered(filtered);
         super.toggleAccessConstraint(textBox, filtered);
         textBox.setEnabled(!filtered);
         wrapper.setConstraintsApply(filtered);

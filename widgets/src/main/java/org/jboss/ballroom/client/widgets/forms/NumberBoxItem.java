@@ -64,6 +64,7 @@ public class NumberBoxItem extends FormItem<Number> {
 
     @Override
     public void setFiltered(boolean filtered) {
+        super.setFiltered(filtered);
         super.toggleAccessConstraint(textBox, filtered);
         textBox.setEnabled(!filtered);
         wrapper.setConstraintsApply(filtered);

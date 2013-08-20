@@ -116,6 +116,7 @@ public class CheckBoxItem extends FormItem<Boolean> {
 
     @Override
     public void setFiltered(boolean filtered) {
+        super.setFiltered(filtered);
         super.toggleAccessConstraint(checkBox, filtered);
         checkBox.setEnabled(!filtered);
         wrapper.setConstraintsApply(filtered);

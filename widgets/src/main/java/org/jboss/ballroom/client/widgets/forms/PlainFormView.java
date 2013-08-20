@@ -3,7 +3,6 @@ package org.jboss.ballroom.client.widgets.forms;
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.safehtml.client.SafeHtmlTemplates;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
@@ -73,22 +72,42 @@ public class PlainFormView {
                     FormItem item = row.get(currentCol);
                     return item!=null ? valueRepresentation(item) : "";
                 }
+
+            };
+
+            Column<Row, String> iconCol = new Column<Row, String>(new IconCell(currentCol)) {
+                @Override
+                public String getValue(Row row) {
+                    FormItem item = row.get(currentCol);
+                    if(item!=null)
+                    {
+                        return item.isFiltered() ? "icon-lock" : "";
+                    }
+                    else
+                    {
+                        return "";
+                    }
+                }
+
             };
 
             if(numColumns==1)
             {
                 table.addColumnStyleName(0, "cols_1_form-item-title-col");
-                table.addColumnStyleName(1, "cols_form-item-col");
+                table.addColumnStyleName(1, "cols_1_form-item-col");
+                table.addColumnStyleName(2, "cols_1_form-icon-col");
             }
             else
             {
                 String prefix = "cols_"+numColumns;
                 table.addColumnStyleName(0, prefix+"_form-item-title-col");
                 table.addColumnStyleName(1, prefix+"_form-item-col");
+                table.addColumnStyleName(2, prefix+"_form-icon-col");
             }
 
             table.addColumn(titleCol);
             table.addColumn(valueCol);
+            table.addColumn(iconCol);
 
         }
 
@@ -111,16 +130,16 @@ public class PlainFormView {
 
     private String valueRepresentation(FormItem item) {
 
-        String represenation = null;
+        String representation = null;
         Object value = item.getValue();
 
         if(item.isUndefined())
         {
-            represenation = EMPTY_STRING;
+            representation = EMPTY_STRING;
         }
         else if(hasEntity && item.isExpressionValue())
         {
-            represenation = String.valueOf(item.asExpressionValue());
+            representation = String.valueOf(item.asExpressionValue());
         }
         else if(hasEntity && (item instanceof PasswordBoxItem))
         {
@@ -129,19 +148,19 @@ public class PlainFormView {
             String plainText = String.valueOf(value);
             for(int i=0; i<plainText.length(); i++)
                 sb.append("*");
-            represenation = sb.toString();
+            representation = sb.toString();
         }
         else if(hasEntity && (value instanceof Boolean))
         {
             String booleanFallback = hasEntity ? "false" : EMPTY_STRING;
-            represenation = (Boolean)value ? "true" : booleanFallback;
+            representation = (Boolean)value ? "true" : booleanFallback;
         }
         else
         {
-            represenation = hasEntity ? String.valueOf(value) : EMPTY_STRING;
+            representation = hasEntity ? String.valueOf(value) : EMPTY_STRING;
         }
 
-        return represenation;
+        return representation;
     }
 
     public void refresh(boolean hasEntity) {
@@ -275,6 +294,37 @@ public class PlainFormView {
             {
                 render = new SafeHtmlBuilder().toSafeHtml();
             }
+            safeHtmlBuilder.append(render);
+        }
+    }
+
+    private class IconCell extends AbstractCell<String> {
+
+        private int index;
+
+        private IconCell(int index) {
+            super();
+            this.index = index;
+        }
+
+        @Override
+        public void render(Cell.Context context, String icon, SafeHtmlBuilder safeHtmlBuilder)
+        {
+            SafeHtml render;
+
+            boolean hasValue = icon!=null && !icon.equals("");
+
+            if (hasValue)
+            {
+                SafeHtmlBuilder builder = new SafeHtmlBuilder();
+                builder.appendHtmlConstant("<i class='" + icon + "'></i>");
+                render = builder.toSafeHtml();
+            }
+            else
+            {
+                render = new SafeHtmlBuilder().toSafeHtml();
+            }
+
             safeHtmlBuilder.append(render);
         }
     }
