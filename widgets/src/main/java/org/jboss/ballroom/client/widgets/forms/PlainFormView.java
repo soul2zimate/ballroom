@@ -81,7 +81,8 @@ public class PlainFormView {
                     FormItem item = row.get(currentCol);
                     if(item!=null)
                     {
-                        return item.isFiltered() ? "icon-lock" : "";
+                        // TODO: this clutters the rad-only views ...
+                        return "";//return item.isFiltered() ? "icon-lock" : "";
                     }
                     else
                     {
