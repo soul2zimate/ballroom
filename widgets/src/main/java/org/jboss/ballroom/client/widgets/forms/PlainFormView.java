@@ -1,5 +1,8 @@
 package org.jboss.ballroom.client.widgets.forms;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.core.client.GWT;
@@ -12,9 +15,6 @@ import com.google.gwt.user.cellview.client.RowStyles;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Heiko Braun
@@ -166,7 +166,7 @@ public class PlainFormView {
         }
         else
         {
-            representation = hasEntity ? String.valueOf(value) : EMPTY_STRING;
+            representation = hasEntity ? item.asString() : EMPTY_STRING;
         }
 
         return representation;

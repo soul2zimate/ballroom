@@ -184,5 +184,15 @@ public abstract class FormItem<T> implements InputElement<T>, Comparable<String>
         return value.startsWith("${") && value.endsWith("}");
     }
 
-
+    /**
+     * Returns the string representation of this form item. Defaults to
+     * <pre>
+     *     String.valueOf(getValue());
+     * </pre>
+     *
+     * @return this form item as string
+     */
+    public String asString() {
+        return String.valueOf(getValue());
+    }
 }
