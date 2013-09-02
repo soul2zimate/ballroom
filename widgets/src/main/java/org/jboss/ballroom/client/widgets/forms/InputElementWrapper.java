@@ -32,7 +32,7 @@ import org.jboss.ballroom.client.spi.Framework;
  * @author Heiko Braun
  * @date 3/28/11
  */
-class InputElementWrapper extends VerticalPanel {
+public class InputElementWrapper extends VerticalPanel {
 
     private final HTML rbacConstraintIcon;
     private final HTML expr;
