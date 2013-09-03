@@ -94,5 +94,5 @@ public interface FormAdapter<T> extends FormControl {
     void removeEditListener(EditListener listener);
 
 
-
+    void setToolsCallback(FormCallback callback);
 }

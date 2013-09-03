@@ -36,7 +36,7 @@ import org.jboss.ballroom.client.widgets.common.DefaultButton;
 public class DialogueOptions extends HorizontalPanel {
 
     private DefaultButton submit;
-    private HTML cancel;
+    private DefaultButton cancel;
 
     public DialogueOptions(ClickHandler submitHandler, ClickHandler cancelHandler) {
         this(I18n.CONSTANTS.common_label_save(), submitHandler, I18n.CONSTANTS.common_label_cancel(), cancelHandler);
@@ -50,10 +50,12 @@ public class DialogueOptions extends HorizontalPanel {
 
         submit = new DefaultButton(submitText);
         submit.getElement().setAttribute("style", "min-width:60px;");
+        submit.addStyleName("primary");
         submit.addClickHandler(submitHandler);
 
 
-        cancel = new InlineLink(cancelText);
+        cancel = new DefaultButton(cancelText);
+        cancel.getElement().setAttribute("style", "min-width:60px;");
         cancel.addClickHandler(cancelHandler);
 
         getElement().setAttribute("style", "margin-top:8px; width:100%");
@@ -61,14 +63,12 @@ public class DialogueOptions extends HorizontalPanel {
         HTML spacer = new HTML("&nbsp;");
         add(spacer);
 
-
-        add(submit);
-        add(spacer);
         add(cancel);
+        add(spacer);
+        add(submit);
 
-        cancel.getElement().getParentElement().setAttribute("style","vertical-align:top;padding-top:2px");
-        submit.getElement().getParentElement().setAttribute("align", "right");
-        submit.getElement().getParentElement().setAttribute("width", "100%");
+        cancel.getElement().getParentElement().setAttribute("align", "right");
+        cancel.getElement().getParentElement().setAttribute("width", "100%");
     }
 
     public DialogueOptions showCancel(boolean b)

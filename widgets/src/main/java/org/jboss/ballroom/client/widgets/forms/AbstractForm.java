@@ -1,17 +1,18 @@
 package org.jboss.ballroom.client.widgets.forms;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.shared.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.client.ui.DeckPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.RowCountChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
-import org.jboss.ballroom.client.rbac.SecurityContext;
-import org.jboss.ballroom.client.rbac.SecurityService;
-import org.jboss.ballroom.client.spi.Framework;
+import org.jboss.ballroom.client.widgets.common.DefaultButton;
+import org.jboss.ballroom.client.widgets.window.DialogueOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,6 +40,7 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
     private boolean isEnabled =true;
 
     final static String DEFAULT_GROUP = "default";
+    protected FormCallback toolsCallback = null; // if set, the tools will be provided externally
 
     public abstract void edit(T bean);
 
@@ -113,6 +115,23 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
         VerticalPanel viewPanel = new VerticalPanel();
         viewPanel.setStyleName("fill-layout-width");
         viewPanel.addStyleName("form-view-panel");
+
+        if(toolsCallback!=null)
+        {
+
+            final HTML edit = new HTML("<i class='icon-edit'></i>&nbsp; Edit Details");
+            edit.setStyleName("form-edit-button");
+            ClickHandler editHandler = new ClickHandler() {
+                @Override
+                public void onClick(ClickEvent event) {
+                    setEnabled(true);
+                    toggleViews();
+                }
+            };
+            edit.addClickHandler(editHandler);
+            viewPanel.add(edit);
+        }
+
         deck.add(viewPanel.asWidget());
 
         // ----------------------
@@ -121,6 +140,13 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
         VerticalPanel editPanel = new VerticalPanel();
         editPanel.setStyleName("fill-layout-width");
         editPanel.addStyleName("form-edit-panel");
+
+        if(toolsCallback!=null)
+        {
+            final HTML editDisabled = new HTML("<i class='icon-edit'></i>&nbsp; Edit Details");
+            editDisabled.setStyleName("form-edit-button-disabled");
+            editPanel.add(editDisabled);
+        }
 
         RenderMetaData metaData = new RenderMetaData();
         metaData.setNumColumns(numColumns);
@@ -162,6 +188,39 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
             plainView.setNumColumns(numColumns);
             plainViews.add(plainView);
             viewPanel.add(groupRenderer.renderPlain(metaData, group, plainView));
+        }
+
+        // inline tools (if callback is provided)
+        if(toolsCallback!=null)
+        {
+            editPanel.add(
+                    new DialogueOptions(
+                            "Save",
+                            new ClickHandler() {
+                                @Override
+                                public void onClick(ClickEvent event) {
+
+                                    if(!validate().hasErrors())
+                                    {
+                                        setEnabled(false);
+                                        toggleViews();
+                                        toolsCallback.onSave(getChangedValues());
+                                    }
+                                }
+                            },
+                            "Cancel",
+                            new ClickHandler() {
+                                @Override
+                                public void onClick(ClickEvent event) {
+                                    setEnabled(false);
+                                    toggleViews();
+                                    cancel();
+
+                                    // TODO: used anymore?
+                                }
+                            }
+                    )
+            );
         }
 
         deck.add(editPanel);
@@ -352,4 +411,8 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
 
     }
 
+    @Override
+    public void setToolsCallback(FormCallback callback) {
+        this.toolsCallback = callback;
+    }
 }
