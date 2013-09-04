@@ -1,5 +1,6 @@
 package org.jboss.ballroom.client.widgets.forms;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -11,6 +12,9 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.RowCountChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
+import org.jboss.ballroom.client.rbac.SecurityContext;
+import org.jboss.ballroom.client.rbac.SecurityService;
+import org.jboss.ballroom.client.spi.Framework;
 import org.jboss.ballroom.client.widgets.common.DefaultButton;
 import org.jboss.ballroom.client.widgets.window.DialogueOptions;
 
@@ -49,6 +53,9 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
     public abstract Map<String, Object> getChangedValues();
 
     public abstract T getUpdatedEntity();
+
+    static Framework FRAMEWORK  = GWT.create(Framework.class);
+    static SecurityService SECURITY_SERVICE = FRAMEWORK.getSecurityService();
 
     public FormValidation validate()
     {
@@ -109,6 +116,10 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
         deck = new DeckPanel();
         deck.setStyleName("fill-layout-width");
 
+        // RBAC
+        SecurityContext securityContext = SECURITY_SERVICE.getSecurityContext();
+        boolean writePriviledges = securityContext.getWritePriviledge().isGranted();
+
         // ----------------------
         // view panel
 
@@ -130,6 +141,9 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
             };
             edit.addClickHandler(editHandler);
             viewPanel.add(edit);
+
+            if(!writePriviledges)
+                edit.getElement().addClassName("rbac-suppressed");
         }
 
         deck.add(viewPanel.asWidget());
