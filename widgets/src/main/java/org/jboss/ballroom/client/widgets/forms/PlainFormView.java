@@ -156,6 +156,14 @@ public class PlainFormView {
             String booleanFallback = hasEntity ? "false" : EMPTY_STRING;
             representation = (Boolean)value ? "true" : booleanFallback;
         }
+        else if(hasEntity && (item instanceof ListItem))
+        {
+            ListItem list = (ListItem)item;
+            StringBuffer sb = new StringBuffer();
+            for(String s : list.getValue())
+                sb.append(s).append("  ");
+            representation = sb.toString();
+        }
         else
         {
             representation = hasEntity ? String.valueOf(value) : EMPTY_STRING;
