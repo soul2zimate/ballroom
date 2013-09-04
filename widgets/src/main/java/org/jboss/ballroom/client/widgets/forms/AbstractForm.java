@@ -119,7 +119,7 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
         if(toolsCallback!=null)
         {
 
-            final HTML edit = new HTML("<i class='icon-edit'></i>&nbsp; Edit Details");
+            final HTML edit = new HTML("<i class='icon-edit'></i>&nbsp; Edit");
             edit.setStyleName("form-edit-button");
             ClickHandler editHandler = new ClickHandler() {
                 @Override
@@ -143,7 +143,7 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
 
         if(toolsCallback!=null)
         {
-            final HTML editDisabled = new HTML("<i class='icon-edit'></i>&nbsp; Edit Details");
+            final HTML editDisabled = new HTML("<i class='icon-edit'></i>&nbsp; Edit");
             editDisabled.setStyleName("form-edit-button-disabled");
             editPanel.add(editDisabled);
         }
