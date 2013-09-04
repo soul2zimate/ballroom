@@ -108,6 +108,8 @@ public class ListItem extends FormItem<List<String>> {
         {
             textArea.setText(textArea.getText()+item.toString()+"\n");
         }
+
+        setUndefined(false);
     }
 
     @Override
