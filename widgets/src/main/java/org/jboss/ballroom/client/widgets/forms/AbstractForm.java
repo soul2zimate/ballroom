@@ -177,7 +177,7 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
             for(String attr : groupItems.keySet())
             {
                 FormItem formItem = groupItems.get(attr);
-                formItem.setFiltered(false); // reset to default state
+                //formItem.setFiltered(false); // reset to default state
 
                 if(readOnly.contains(attr))
                 {
