@@ -26,6 +26,7 @@ import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.view.client.ProvidesKey;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionModel;
@@ -79,6 +80,8 @@ public class DefaultCellTable<T> extends CellTable {
         setRowData(0, Collections.EMPTY_LIST);
 
         getElement().setAttribute("role", "grid");
+
+        setEmptyTableWidget(new HTML("<div class='empty-celltable'>No Items!</div>"));
     }
 
     @Override
@@ -117,7 +120,7 @@ public class DefaultCellTable<T> extends CellTable {
     @Override
     @Deprecated
     public void setRowData(int start, List values) {
-        setEmpty(values.isEmpty());
+        //setEmpty(values.isEmpty());
         super.setRowData(start, values);
     }
 
