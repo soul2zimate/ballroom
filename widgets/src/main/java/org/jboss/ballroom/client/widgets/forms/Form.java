@@ -75,7 +75,12 @@ public class Form<T> extends AbstractForm<T> {
             edit(editedEntity);
     }
 
-    
+    @Override
+    public void editTransient(T newBean) {
+        isTransient = true;
+        edit(newBean);
+    }
+
     public void edit(T bean) {
 
         // Needs to be declared (i.e. when creating new instances)

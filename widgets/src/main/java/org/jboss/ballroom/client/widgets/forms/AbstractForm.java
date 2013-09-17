@@ -38,6 +38,7 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
     protected int numColumns = 1;
     protected int nextId = 1;
     protected int maxTitleLength = 0;
+    protected boolean isTransient;
 
     private DeckPanel deck;
     private List<PlainFormView> plainViews = new ArrayList<PlainFormView>();
@@ -68,7 +69,8 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
             {
                 // two cases: empty form (create entity) and updating an existing entity
                 // we basically force validation on newly created entities
-                boolean requiresValidation = getEditedEntity()!=null ? item.isModified() : true;
+                boolean requiresValidation = getEditedEntity()!=null ?
+                        (item.isModified() || isTransient) : true;
 
                 if(requiresValidation)
                 {

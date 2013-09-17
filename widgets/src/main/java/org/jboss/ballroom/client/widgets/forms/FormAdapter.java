@@ -47,6 +47,13 @@ public interface FormAdapter<T> extends FormControl {
     void edit(T bean);
 
     /**
+     * Edit a bean (usually providing default values) by treat it as transient.
+     * Transient beans will be treated as non-persisted entities and undergo validation
+     * @param newBean
+     */
+    void editTransient(T newBean);
+
+    /**
      * Get changed values since last {@link #edit(Object)} ()}
      * @return
      */
@@ -95,4 +102,6 @@ public interface FormAdapter<T> extends FormControl {
 
 
     void setToolsCallback(FormCallback callback);
+
+
 }
