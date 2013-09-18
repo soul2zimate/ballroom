@@ -28,7 +28,7 @@
 
 
     <url>
-        https://github.com/hal/core
+        https://github.com/hal/ballroom
     </url>
     <scm>
         <connection>scm:git@github.com:har/ballroom.git</connection>
