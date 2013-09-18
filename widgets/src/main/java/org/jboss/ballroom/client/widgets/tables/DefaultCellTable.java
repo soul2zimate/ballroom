@@ -47,7 +47,6 @@ public class DefaultCellTable<T> extends CellTable {
             new DefaultCellTableResources();
     private static final String CELLTABLE_EMPTY_DIV = "celltable-empty-div";
 
-    private boolean isEmpty = false;
     private boolean isEnabled = false;
 
     private T lastSelection = null;
@@ -87,34 +86,6 @@ public class DefaultCellTable<T> extends CellTable {
     @Override
     public void setRowCount(int size, boolean isExact) {
         super.setRowCount(size, isExact);
-    }
-
-    private void setEmpty(boolean isEmpty)
-    {
-        if(this.isEmpty == isEmpty) return;
-
-        if(isEmpty)
-        {
-            Element div = DOM.createDiv();
-            div.setId(CELLTABLE_EMPTY_DIV);
-            div.setInnerHTML("No items!");
-            div.setClassName("empty-celltable");
-            getElement().appendChild(div);
-        }
-        else
-        {
-            Node lastChild = getElement().getLastChild();
-
-            if(lastChild.getNodeType() == Node.ELEMENT_NODE)
-            {
-                com.google.gwt.dom.client.Element el = (com.google.gwt.dom.client.Element)lastChild;
-                if(el.getId().equals(CELLTABLE_EMPTY_DIV))
-                   DOM.removeChild(getElement(), (Element)el);
-            }
-
-        }
-
-        this.isEmpty = isEmpty;
     }
 
     @Override
@@ -196,10 +167,6 @@ public class DefaultCellTable<T> extends CellTable {
 
     public void setRowOverHandler(RowOverHandler rowOverHandler) {
         this.rowOverHandler = rowOverHandler;
-    }
-
-    public boolean isEmpty() {
-        return isEmpty;
     }
 
     /**
