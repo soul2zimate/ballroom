@@ -113,13 +113,18 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
 
     public abstract Set<String> getReadOnlyNames();
 
+    protected SecurityContext getSecurityContext()
+    {
+        return SECURITY_SERVICE.getSecurityContext();
+    }
+
     private Widget build() {
 
         deck = new DeckPanel();
         deck.setStyleName("fill-layout-width");
 
         // RBAC
-        SecurityContext securityContext = SECURITY_SERVICE.getSecurityContext();
+        SecurityContext securityContext = getSecurityContext();
         boolean writePriviledges = securityContext.getWritePriviledge().isGranted();
 
         // ----------------------
