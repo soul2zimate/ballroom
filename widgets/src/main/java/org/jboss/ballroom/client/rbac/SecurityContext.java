@@ -12,13 +12,15 @@ package org.jboss.ballroom.client.rbac;
  */
 public interface SecurityContext {
 
-    public AuthorisationDecision getReadPriviledge();
+    AuthorisationDecision getReadPriviledge();
 
-    public AuthorisationDecision getWritePriviledge();
+    AuthorisationDecision getWritePriviledge();
 
-    public AuthorisationDecision getAttributeWritePriviledge(final String name);
+    AuthorisationDecision getAttributeWritePriviledge(final String attributeName);
 
-    public AuthorisationDecision getOperationPriviledge(String resourceAddress, String operationName);
+    AuthorisationDecision getAttributeWritePriviledge(String resourceAddress, String attributeName);
 
-    public void seal();
+    AuthorisationDecision getOperationPriviledge(String resourceAddress, String operationName);
+
+    void seal();
 }

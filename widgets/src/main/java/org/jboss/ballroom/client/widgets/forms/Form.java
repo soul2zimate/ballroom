@@ -46,6 +46,7 @@ import java.util.Set;
 public class Form<T> extends AbstractForm<T> {
 
     private final static Framework framework = GWT.create(Framework.class);
+    private String resourceAddress; // optional
 
     private AutoBeanFactory factory;
 
@@ -60,6 +61,17 @@ public class Form<T> extends AbstractForm<T> {
         this.factory = framework.getBeanFactory();
     }
 
+    /**
+     * Provide both a autobean type and the target resource address.
+     * Allows for more fine grained authorisation checks.
+     *
+     * @param conversionType
+     * @param resourceMapping
+     */
+    public Form(Class<?> conversionType, String resourceMapping) {
+        this(conversionType);
+        this.resourceAddress = resourceMapping;
+    }
     
     public Class<?> getConversionType() {
         return conversionType;
@@ -198,7 +210,15 @@ public class Form<T> extends AbstractForm<T> {
         Framework framework = com.google.gwt.core.shared.GWT.create(Framework.class);
         SecurityService securityFacilities = framework.getSecurityService();
         SecurityContext securityContext = securityFacilities.getSecurityContext();
-        return securityFacilities.getReadOnlyJavaNames(getConversionType(), securityContext);
+
+        if(resourceAddress !=null)
+        {
+            return securityFacilities.getReadOnlyJavaNames(conversionType, resourceAddress, securityContext);
+        }
+        else
+        {
+            return securityFacilities.getReadOnlyJavaNames(getConversionType(), securityContext);
+        }
     }
 
     /*interface FilterToogle {

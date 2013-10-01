@@ -18,7 +18,7 @@ public interface SecurityService {
     SecurityContext getSecurityContext();
 
     /**
-     * Meta data utilities for working with AutoBean's
+     * Get the read only attributes a a bean type
      *
      * @param type an autobean interface
      * @param securityContext
@@ -27,7 +27,17 @@ public interface SecurityService {
     Set<String> getReadOnlyJavaNames(Class<?> type, SecurityContext securityContext);
 
     /**
-     * Meta data utilities for working with ModelNode's
+     * Get the read only attributes a a bean type and target resource
+     * @param type
+     * @param resourceAddress
+     * @param securityContext
+     * @return
+     */
+    Set<String> getReadOnlyJavaNames(Class<?> type, String resourceAddress, SecurityContext securityContext);
+
+    /**
+     * Get the read only attributes a resource
+     * (Used with MBUI based forms)
      *
      *
      * @param resourceAddress
@@ -35,4 +45,7 @@ public interface SecurityService {
      *@param securityContext  @return
      */
     Set<String> getReadOnlyDMRNames(String resourceAddress, List<String> formItemNames, SecurityContext securityContext);
+
+
+
 }
