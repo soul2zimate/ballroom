@@ -22,6 +22,7 @@ package org.jboss.ballroom.client.widgets.tools;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import org.jboss.ballroom.client.rbac.AuthorisationDecision;
 import org.jboss.ballroom.client.rbac.SecurityContext;
 import org.jboss.ballroom.client.rbac.SecurityService;
 import org.jboss.ballroom.client.spi.Framework;
@@ -88,13 +89,55 @@ public class ToolStrip extends HorizontalPanel{
         // access control
         SecurityContext securityContext = SECURITY_SERVICE.getSecurityContext();
 
-        boolean visible = securityContext.getWritePriviledge().isGranted();
 
-        if(!visible)
+        // RBAC: operation privileges
+        int visibleItemsLeft = checkOperationPrivileges(left, securityContext);
+        int visibleItemsRight = checkOperationPrivileges(right, securityContext);
+
+        // nothing accessible within the toolbar, so we disable it completely
+        if(visibleItemsLeft+visibleItemsRight==0)
         {
             setVisible(false);
             getElement().addClassName("rbac-suppressed");
         }
 
+    }
+
+    private int checkOperationPrivileges(HorizontalPanel panel, SecurityContext securityContext) {
+
+        boolean overallPrivilege = securityContext.getWritePriviledge().isGranted();
+        int visibleItems = 0;
+        for(int i=0; i<panel.getWidgetCount(); i++)
+        {
+            Widget widget = panel.getWidget(i);
+            if(widget instanceof ToolButton)
+            {
+                ToolButton btn = (ToolButton)widget;
+                boolean visible = true;
+                if(btn.hasOperationAddress()) // fine grained, doesn't usually apply but can help to overcome dge cases
+                {
+                    String[] operationAddress = btn.getOperationAddress();
+                    AuthorisationDecision operationPriviledge = securityContext.getOperationPriviledge(operationAddress[0], operationAddress[1]);
+                    visible = operationPriviledge.isGranted();
+                }
+                else
+                {
+                    visible = overallPrivilege; // coarse grained, inherited from parent
+                }
+
+                if(!visible)
+                {
+                    widget.setVisible(false);
+                    widget.getElement().addClassName("rbac-suppressed");
+
+                }
+                else
+                {
+                    visibleItems++;
+                }
+            }
+        }
+
+        return visibleItems;
     }
 }

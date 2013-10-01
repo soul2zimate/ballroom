@@ -28,6 +28,10 @@ import com.google.gwt.user.client.ui.Button;
  */
 public class ToolButton extends Button
 {
+
+    private String resource;
+    private String op;
+
     public ToolButton(String title) {
         super(title);
         //addStyleName("default-button");
@@ -39,6 +43,19 @@ public class ToolButton extends Button
         this(title);
         addClickHandler(handler);
         getElement().setTabIndex(0);
+    }
+
+    public void setOperationAddress(String resource, String op) {
+        this.resource = resource;
+        this.op = op;
+    }
+
+    public String[] getOperationAddress() {
+        return new String[] {resource, op};
+    }
+
+    public boolean hasOperationAddress() {
+        return resource!=null && op!=null;
     }
 }
 
