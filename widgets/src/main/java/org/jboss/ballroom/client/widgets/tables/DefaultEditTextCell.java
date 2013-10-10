@@ -20,7 +20,6 @@
 package org.jboss.ballroom.client.widgets.tables;
 
 import com.google.gwt.cell.client.EditTextCell;
-import com.google.gwt.dom.client.Element;
 
 /**
  * @author Heiko Braun
@@ -28,15 +27,4 @@ import com.google.gwt.dom.client.Element;
  */
 public class DefaultEditTextCell extends EditTextCell {
 
-    private boolean enabled = true;
-
-    @Override
-    protected void edit(Context context, Element parent, String value) {
-        if(this.enabled)
-            super.edit(context, parent, value);
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
 }

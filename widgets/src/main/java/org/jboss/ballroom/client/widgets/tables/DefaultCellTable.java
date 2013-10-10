@@ -95,21 +95,6 @@ public class DefaultCellTable<T> extends CellTable {
         super.setRowData(start, values);
     }
 
-    public void setEnabled(boolean b)
-    {
-        this.isEnabled = b;
-
-        for(int i=0; i<getColumnCount(); i++)
-        {
-            Cell cell = getColumn(i).getCell();
-            if(cell instanceof DefaultEditTextCell)
-            {
-                DefaultEditTextCell defaultCell = (DefaultEditTextCell)cell;
-                defaultCell.setEnabled(b);
-            }
-        }
-    }
-
     public boolean isEnabled() {
         return isEnabled;
     }
