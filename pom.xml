@@ -87,6 +87,7 @@
         <gwtp.version>1.0.1</gwtp.version>
         <junit.version>4.11</junit.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <gwt.compiler.skip>true</gwt.compiler.skip>
     </properties>
 
 
