@@ -20,7 +20,6 @@
 package org.jboss.ballroom.client.widgets.window;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -166,11 +165,13 @@ public class DefaultWindow extends ResizePanel {
     }
 
     public void setWidth(int width) {
-        this.width = width;
+        int adjusted = Double.valueOf(width * 1.2).intValue();
+        this.width = adjusted;
     }
 
     public void setHeight(int height) {
-        this.height = height;
+        int adjusted = Double.valueOf(height * 1.2).intValue();
+        this.height = adjusted;
     }
 
     @Override
