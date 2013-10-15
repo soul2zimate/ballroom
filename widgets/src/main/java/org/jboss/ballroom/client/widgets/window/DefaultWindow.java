@@ -120,7 +120,7 @@ public class DefaultWindow extends ResizePanel {
         super.setWidget(layout);
 
         // default width(height
-        int winWidth = (int)(Window.getClientWidth()*0.9);
+        int winWidth = (int)(Window.getClientWidth()*0.75);
         int winHeight = (int) ( winWidth / GOLDEN_RATIO );
 
         setWidth(winWidth);
