@@ -21,6 +21,7 @@ import org.jboss.ballroom.client.widgets.window.DialogueOptions;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -337,7 +338,7 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
     }
 
     public List<String> getFormItemNames() {
-        List<String> result = new ArrayList<String>();
+        List<String> result = new LinkedList<String>();
 
         for(Map<String, FormItem> groupItems : formItems.values())
         {
