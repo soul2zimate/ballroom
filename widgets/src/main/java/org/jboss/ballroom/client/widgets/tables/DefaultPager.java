@@ -21,6 +21,8 @@ package org.jboss.ballroom.client.widgets.tables;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.cellview.client.SimplePager;
+import com.google.gwt.view.client.HasRows;
+import com.google.gwt.view.client.Range;
 import org.jboss.ballroom.client.widgets.tables.pager.PagerResources;
 
 /**
@@ -34,5 +36,25 @@ public class DefaultPager extends SimplePager {
     public DefaultPager() {
         super(SimplePager.TextLocation.CENTER, pagerResources, false, 0, true);
         getElement().addClassName("default-pager");
+        setRangeLimited(true);
+    }
+
+    //
+    @Override
+    public void setPageStart(int index) {
+
+        HasRows display = getDisplay();
+
+        if (display != null) {
+            Range range = display.getVisibleRange();
+            int pageSize = range.getLength();
+            if (!isRangeLimited() && display.isRowCountExact()) {
+                index = Math.min(index, display.getRowCount() - pageSize);
+            }
+            index = Math.max(0, index);
+            if (index != range.getStart()) {
+                display.setVisibleRange(index, pageSize);
+            }
+        }
     }
 }
