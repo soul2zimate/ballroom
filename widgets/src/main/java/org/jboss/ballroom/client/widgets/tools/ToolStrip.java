@@ -24,20 +24,20 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import org.jboss.ballroom.client.rbac.AuthorisationDecision;
 import org.jboss.ballroom.client.rbac.SecurityContext;
+import org.jboss.ballroom.client.rbac.SecurityContextAware;
 import org.jboss.ballroom.client.rbac.SecurityService;
 import org.jboss.ballroom.client.spi.Framework;
 
 /**
  * @author Heiko Braun
- * @date 2/28/11
  */
-public class ToolStrip extends HorizontalPanel{
+public class ToolStrip extends HorizontalPanel implements SecurityContextAware {
+
+    static Framework FRAMEWORK = GWT.create(Framework.class);
+    static SecurityService SECURITY_SERVICE = FRAMEWORK.getSecurityService();
 
     private HorizontalPanel left;
     private HorizontalPanel right;
-
-    static Framework FRAMEWORK  = GWT.create(Framework.class);
-    static SecurityService SECURITY_SERVICE = FRAMEWORK.getSecurityService();
 
     public ToolStrip() {
         super();
@@ -55,13 +55,11 @@ public class ToolStrip extends HorizontalPanel{
         right.getElement().getParentElement().setAttribute("align", "right");
     }
 
-    public void addToolButton(ToolButton button)
-    {
+    public void addToolButton(ToolButton button) {
         left.add(button);
     }
 
-    public void addToolButtonRight(ToolButton button)
-    {
+    public void addToolButtonRight(ToolButton button) {
         button.getElement().setAttribute("style", "margin-right:5px;");
         button.addStyleName("toolstrip-button-secondary");
         right.add(button);
@@ -69,7 +67,7 @@ public class ToolStrip extends HorizontalPanel{
     }
 
     public boolean hasButtons() {
-        return left.getWidgetCount()>0 || right.getWidgetCount()>0;
+        return left.getWidgetCount() > 0 || right.getWidgetCount() > 0;
     }
 
     public void addToolWidget(Widget widget) {
@@ -77,66 +75,80 @@ public class ToolStrip extends HorizontalPanel{
     }
 
     public void addToolWidgetRight(Widget widget) {
-
         right.add(widget);
     }
 
+//    @Override
+//    protected void onAttach() {
+//        super.onAttach();
+//        applySecurity(SECURITY_SERVICE.getSecurityContext(), false);
+//    }
+
     @Override
-    protected void onAttach() {
-
-        super.onAttach();
-
-        // access control
-        SecurityContext securityContext = getSecurityContext();
-
-
-        // RBAC: operation privileges
-        int visibleItemsLeft = checkOperationPrivileges(left, securityContext);
-        int visibleItemsRight = checkOperationPrivileges(right, securityContext);
-
-        // nothing accessible within the toolbar, so we disable it completely
-        if(visibleItemsLeft+visibleItemsRight==0)
-        {
-            setVisible(false);
-            getElement().addClassName("rbac-suppressed");
-        }
-
+    public void reset(final SecurityContext securityContext) {
+        applySecurity(securityContext, false);
     }
 
-    protected SecurityContext getSecurityContext() {return SECURITY_SERVICE.getSecurityContext();}
+    @Override
+    public void update(final SecurityContext securityContext) {
+        applySecurity(securityContext, true);
+    }
 
-    private int checkOperationPrivileges(HorizontalPanel panel, SecurityContext securityContext) {
-        boolean overallPrivilege = securityContext.getWritePriviledge().isGranted();
+//    @Override
+//    public void onChanged(final SecurityContextChangedEvent event) {
+//        if (isAttached()) {
+//            SecurityContext securityContext = SECURITY_SERVICE.getSecurityContext();
+//            if (securityContext.hasChildContext(event.getResourceAddress())) {
+//                securityContext = securityContext.getChildContext(event.getResourceAddress());
+//            }
+//            applySecurity(securityContext, true);
+//        }
+//    }
+
+    private void applySecurity(final SecurityContext securityContext, boolean update) {
+        int visibleItemsLeft = checkOperationPrivileges(left, securityContext, update);
+        int visibleItemsRight = checkOperationPrivileges(right, securityContext, update);
+
+        // nothing accessible within the toolbar, so we disable it completely
+        if (visibleItemsLeft + visibleItemsRight == 0) {
+            setVisible(false);
+            getElement().addClassName("rbac-suppressed");
+        } else {
+            setVisible(true);
+            getElement().removeClassName("rbac-suppressed");
+        }
+    }
+
+    private int checkOperationPrivileges(HorizontalPanel panel, SecurityContext securityContext, boolean update) {
         int visibleItems = 0;
-        int visibleButtons = 0;
+        boolean overallPrivilege = securityContext.getWritePriviledge().isGranted();
+
         for (int i = 0; i < panel.getWidgetCount(); i++) {
             Widget widget = panel.getWidget(i);
             if (widget instanceof ToolButton) {
                 ToolButton btn = (ToolButton) widget;
-                boolean visible = true;
-                if (btn.hasOperationAddress()) // fine grained, doesn't usually apply but can help to overcome dge cases
-                {
+                boolean granted;
+                if (btn.hasOperationAddress()) {
+                    // fine grained, doesn't usually apply but can help to overcome dge cases
                     String[] operationAddress = btn.getOperationAddress();
                     AuthorisationDecision operationPriviledge = securityContext
                             .getOperationPriviledge(operationAddress[0], operationAddress[1]);
-                    visible = operationPriviledge.isGranted();
+                    granted = operationPriviledge.isGranted();
                 } else {
-                    visible = overallPrivilege; // coarse grained, inherited from parent
+                    granted = overallPrivilege; // coarse grained, inherited from parent
                 }
 
-                if (!visible) {
-                    widget.setVisible(false);
-                    widget.getElement().addClassName("rbac-suppressed");
-
+                if (update) {
+                    btn.setEnabled(granted);
+                    visibleItems++;
                 } else {
-                    visibleButtons++;
+                    btn.setVisible(granted);
+                    if (granted) {
+                        visibleItems++;
+                    }
                 }
-            } else {
-                visibleItems++;
             }
         }
-
-        // If there are no buttons, the visibility depends on the number of other widgets
-        return visibleButtons == 0 ? visibleItems : visibleItems + visibleButtons;
+        return visibleItems;
     }
 }
