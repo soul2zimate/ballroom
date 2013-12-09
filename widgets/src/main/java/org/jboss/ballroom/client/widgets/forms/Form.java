@@ -19,6 +19,13 @@
 
 package org.jboss.ballroom.client.widgets.forms;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import com.google.gwt.core.client.GWT;
 import com.google.web.bindery.autobean.shared.AutoBean;
 import com.google.web.bindery.autobean.shared.AutoBeanCodex;
@@ -29,13 +36,6 @@ import com.google.web.bindery.autobean.shared.Splittable;
 import org.jboss.ballroom.client.rbac.SecurityContext;
 import org.jboss.ballroom.client.rbac.SecurityService;
 import org.jboss.ballroom.client.spi.Framework;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Form data binding that works on {@link AutoBean} entities.
@@ -485,5 +485,4 @@ public class Form<T> extends AbstractForm<T> {
             throw new IllegalArgumentException("Not an auto bean: " + bean.getClass());
         return autoBean;
     }
-
 }

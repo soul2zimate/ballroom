@@ -18,10 +18,10 @@
  */
 package org.jboss.ballroom.client.widgets.forms;
 
-import com.google.gwt.user.cellview.client.CellTable;
-import com.google.gwt.user.client.ui.IsWidget;
 import java.util.List;
 import java.util.Map;
+
+import com.google.gwt.user.cellview.client.CellTable;
 
 /**
  * This adapter interface extracts the essential methods from Form so that other classes can wrap a Form
@@ -102,6 +102,4 @@ public interface FormAdapter<T> extends FormControl {
 
 
     void setToolsCallback(FormCallback callback);
-
-
 }

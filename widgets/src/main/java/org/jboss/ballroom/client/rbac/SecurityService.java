@@ -13,6 +13,7 @@ public interface SecurityService {
 
     /**
      * Get the security context associated with the current dialog
+     *
      * @return the current security context
      */
     SecurityContext getSecurityContext();
@@ -20,17 +21,20 @@ public interface SecurityService {
     /**
      * Get the read only attributes a a bean type
      *
-     * @param type an autobean interface
+     * @param type            an autobean interface
      * @param securityContext
+     *
      * @return
      */
     Set<String> getReadOnlyJavaNames(Class<?> type, SecurityContext securityContext);
 
     /**
      * Get the read only attributes a a bean type and target resource
+     *
      * @param type
      * @param resourceAddress
      * @param securityContext
+     *
      * @return
      */
     Set<String> getReadOnlyJavaNames(Class<?> type, String resourceAddress, SecurityContext securityContext);
@@ -39,13 +43,12 @@ public interface SecurityService {
      * Get the read only attributes a resource
      * (Used with MBUI based forms)
      *
-     *
      * @param resourceAddress
      * @param formItemNames
-     *@param securityContext  @return
+     * @param securityContext @return
      */
-    Set<String> getReadOnlyDMRNames(String resourceAddress, List<String> formItemNames, SecurityContext securityContext);
-
+    Set<String> getReadOnlyDMRNames(String resourceAddress, List<String> formItemNames,
+            SecurityContext securityContext);
 
 
 }

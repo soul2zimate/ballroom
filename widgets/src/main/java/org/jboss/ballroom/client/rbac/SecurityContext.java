@@ -26,5 +26,9 @@ public interface SecurityContext {
 
     AuthorisationDecision getOperationPriviledge(String resourceAddress, String operationName);
 
+    boolean hasChildContext(String resourceAddress);
+
+    SecurityContext getChildContext(String resourceAddress);
+
     void seal();
 }
