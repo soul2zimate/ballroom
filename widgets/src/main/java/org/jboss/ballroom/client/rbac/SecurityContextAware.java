@@ -18,14 +18,14 @@
  */
 package org.jboss.ballroom.client.rbac;
 
+import com.google.gwt.user.client.ui.HasVisibility;
+
 /**
  * Intended for widgets that need to take a security context into account.
  *
  * @author Harald Pehl
  */
-public interface SecurityContextAware {
+public interface SecurityContextAware extends HasVisibility {
 
-    void reset(SecurityContext securityContext);
-
-    void update(SecurityContext securityContext);
+    void updateSecurityContext(SecurityContext securityContext);
 }

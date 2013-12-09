@@ -18,6 +18,10 @@ public interface SecurityService {
      */
     SecurityContext getSecurityContext();
 
+    void registerWidget(String id, SecurityContextAware widget);
+
+    void unregisterWidget(String id);
+
     /**
      * Get the read only attributes a a bean type
      *
@@ -49,6 +53,4 @@ public interface SecurityService {
      */
     Set<String> getReadOnlyDMRNames(String resourceAddress, List<String> formItemNames,
             SecurityContext securityContext);
-
-
 }

@@ -20,6 +20,7 @@
 package org.jboss.ballroom.client.widgets.tools;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import org.jboss.ballroom.client.rbac.AuthorisationDecision;
@@ -38,9 +39,13 @@ public class ToolStrip extends HorizontalPanel implements SecurityContextAware {
 
     private HorizontalPanel left;
     private HorizontalPanel right;
+    private final String id;
 
     public ToolStrip() {
         super();
+        this.id = Document.get().createUniqueId();
+        getElement().setId(id);
+
         setStyleName("default-toolstrip");
         getElement().setAttribute("role", "toolbar");
 
@@ -53,6 +58,24 @@ public class ToolStrip extends HorizontalPanel implements SecurityContextAware {
         left.getElement().getParentElement().setAttribute("width", "50%");
         right.getElement().getParentElement().setAttribute("width", "50%");
         right.getElement().getParentElement().setAttribute("align", "right");
+    }
+
+    @Override
+    protected void onLoad() {
+        System.out.println("Load toolstrip " + id);
+        SECURITY_SERVICE.registerWidget(id, this);
+        applySecurity(SECURITY_SERVICE.getSecurityContext(), false);
+    }
+
+    @Override
+    protected void onUnload() {
+        System.out.println("Unload toolstrip " + id);
+        SECURITY_SERVICE.unregisterWidget(id);
+    }
+
+    @Override
+    public void updateSecurityContext(final SecurityContext securityContext) {
+        applySecurity(securityContext, true);
     }
 
     public void addToolButton(ToolButton button) {
@@ -77,33 +100,6 @@ public class ToolStrip extends HorizontalPanel implements SecurityContextAware {
     public void addToolWidgetRight(Widget widget) {
         right.add(widget);
     }
-
-//    @Override
-//    protected void onAttach() {
-//        super.onAttach();
-//        applySecurity(SECURITY_SERVICE.getSecurityContext(), false);
-//    }
-
-    @Override
-    public void reset(final SecurityContext securityContext) {
-        applySecurity(securityContext, false);
-    }
-
-    @Override
-    public void update(final SecurityContext securityContext) {
-        applySecurity(securityContext, true);
-    }
-
-//    @Override
-//    public void onChanged(final SecurityContextChangedEvent event) {
-//        if (isAttached()) {
-//            SecurityContext securityContext = SECURITY_SERVICE.getSecurityContext();
-//            if (securityContext.hasChildContext(event.getResourceAddress())) {
-//                securityContext = securityContext.getChildContext(event.getResourceAddress());
-//            }
-//            applySecurity(securityContext, true);
-//        }
-//    }
 
     private void applySecurity(final SecurityContext securityContext, boolean update) {
         int visibleItemsLeft = checkOperationPrivileges(left, securityContext, update);

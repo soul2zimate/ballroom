@@ -25,5 +25,5 @@ import com.google.gwt.event.shared.EventHandler;
 */
 public interface SecurityContextChangedHandler extends EventHandler {
 
-    void onChanged(SecurityContextChangedEvent event);
+    void onSecurityContextChanged(SecurityContextChangedEvent event);
 }

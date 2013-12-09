@@ -55,6 +55,6 @@ public class SecurityContextChangedEvent extends GwtEvent<SecurityContextChanged
 
     @Override
     protected void dispatch(SecurityContextChangedHandler handler) {
-        handler.onChanged(this);
+        handler.onSecurityContextChanged(this);
     }
 }
