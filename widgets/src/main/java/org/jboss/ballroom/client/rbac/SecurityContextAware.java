@@ -18,14 +18,23 @@
  */
 package org.jboss.ballroom.client.rbac;
 
-import com.google.gwt.user.client.ui.HasVisibility;
+import com.google.gwt.event.logical.shared.HasAttachHandlers;
 
 /**
  * Intended for widgets that need to take a security context into account.
  *
  * @author Harald Pehl
  */
-public interface SecurityContextAware extends HasVisibility {
+public interface SecurityContextAware extends HasAttachHandlers {
+
+    /**
+     * If set, acts as a filter when a {@link org.jboss.ballroom.client.rbac.SecurityContextChangedEvent} comes in.
+     * The {@link #updateSecurityContext(SecurityContext)} method is only called if the filter and the resource
+     * address in the event match.
+     */
+    void setFilter(String resourceAddress);
+
+    String getFilter();
 
     void updateSecurityContext(SecurityContext securityContext);
 }
