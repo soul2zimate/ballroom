@@ -1,7 +1,16 @@
 package org.jboss.ballroom.client.widgets.forms;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
@@ -13,18 +22,10 @@ import com.google.gwt.view.client.RowCountChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import org.jboss.ballroom.client.rbac.SecurityContext;
+import org.jboss.ballroom.client.rbac.SecurityContextAware;
 import org.jboss.ballroom.client.rbac.SecurityService;
 import org.jboss.ballroom.client.spi.Framework;
-import org.jboss.ballroom.client.widgets.common.DefaultButton;
 import org.jboss.ballroom.client.widgets.window.DialogueOptions;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * @author Heiko Braun
@@ -41,12 +42,13 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
     protected int maxTitleLength = 0;
     protected boolean isTransient;
 
-    private DeckPanel deck;
+    private FormDeckPanel deck;
     private List<PlainFormView> plainViews = new ArrayList<PlainFormView>();
     private boolean isEnabled =true;
 
     final static String DEFAULT_GROUP = "default";
     protected FormCallback toolsCallback = null; // if set, the tools will be provided externally
+    private HTML edit;
 
     public abstract void edit(T bean);
 
@@ -121,7 +123,7 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
 
     private Widget build() {
 
-        deck = new DeckPanel();
+        deck = new FormDeckPanel();
         deck.setStyleName("fill-layout-width");
 
         // RBAC
@@ -138,7 +140,7 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
         if(toolsCallback!=null)
         {
 
-            final HTML edit = new HTML("<i class='icon-edit'></i>&nbsp; Edit");
+            edit = new HTML("<i class='icon-edit'></i>&nbsp; Edit");
             edit.setStyleName("form-edit-button");
             ClickHandler editHandler = new ClickHandler() {
                 @Override
@@ -436,5 +438,44 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
     @Override
     public void setToolsCallback(FormCallback callback) {
         this.toolsCallback = callback;
+    }
+
+    class FormDeckPanel extends DeckPanel implements SecurityContextAware {
+
+        private final String id;
+        private boolean wasEnabled;
+
+        FormDeckPanel() {
+            super();
+            this.id = Document.get().createUniqueId();
+            getElement().setId(this.id);
+        }
+
+        @Override
+        protected void onLoad() {
+            SECURITY_SERVICE.registerWidget(id, this);
+        }
+
+        @Override
+        protected void onUnload() {
+            SECURITY_SERVICE.unregisterWidget(id);
+        }
+
+        @Override
+        public void updateSecurityContext(final SecurityContext securityContext) {
+            if (!securityContext.getWritePriviledge().isGranted()) {
+                wasEnabled = isEnabled;
+                if (isEnabled) {
+                    setEnabled(false);
+                }
+                edit.getElement().addClassName("rbac-suppressed");
+            } else {
+                // TODO update form fields based on new security context?
+                edit.getElement().removeClassName("rbac-suppressed");
+                if (wasEnabled) {
+                    setEnabled(true);
+                }
+            }
+        }
     }
 }

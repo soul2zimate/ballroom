@@ -207,7 +207,6 @@ public class Form<T> extends AbstractForm<T> {
 
     @Override
     public Set<String> getReadOnlyNames() {
-        Framework framework = com.google.gwt.core.shared.GWT.create(Framework.class);
         SecurityService securityFacilities = framework.getSecurityService();
         SecurityContext securityContext = securityFacilities.getSecurityContext();
 
