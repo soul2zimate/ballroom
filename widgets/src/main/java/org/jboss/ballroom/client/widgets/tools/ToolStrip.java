@@ -62,14 +62,12 @@ public class ToolStrip extends HorizontalPanel implements SecurityContextAware {
 
     @Override
     protected void onLoad() {
-        System.out.println("Load toolstrip " + id);
         SECURITY_SERVICE.registerWidget(id, this);
         applySecurity(SECURITY_SERVICE.getSecurityContext(), false);
     }
 
     @Override
     protected void onUnload() {
-        System.out.println("Unload toolstrip " + id);
         SECURITY_SERVICE.unregisterWidget(id);
     }
 
