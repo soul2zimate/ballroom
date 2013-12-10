@@ -435,6 +435,12 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
 
     }
 
+    public void setSecurityContextFilter(String resourceAddress) {
+        if (deck != null) {
+            deck.setFilter(resourceAddress);
+        }
+    }
+
     @Override
     public void setToolsCallback(FormCallback callback) {
         this.toolsCallback = callback;
@@ -443,6 +449,7 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
     class FormDeckPanel extends DeckPanel implements SecurityContextAware {
 
         private final String id;
+        private String filter;
         private boolean wasEnabled;
 
         FormDeckPanel() {
@@ -459,6 +466,16 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
         @Override
         protected void onUnload() {
             SECURITY_SERVICE.unregisterWidget(id);
+        }
+
+        @Override
+        public void setFilter(final String filter) {
+            this.filter = filter;
+        }
+
+        @Override
+        public String getFilter() {
+            return filter;
         }
 
         @Override

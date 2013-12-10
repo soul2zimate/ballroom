@@ -37,9 +37,10 @@ public class ToolStrip extends HorizontalPanel implements SecurityContextAware {
     static Framework FRAMEWORK = GWT.create(Framework.class);
     static SecurityService SECURITY_SERVICE = FRAMEWORK.getSecurityService();
 
+    private final String id;
+    private String filter;
     private HorizontalPanel left;
     private HorizontalPanel right;
-    private final String id;
 
     public ToolStrip() {
         super();
@@ -69,6 +70,16 @@ public class ToolStrip extends HorizontalPanel implements SecurityContextAware {
     @Override
     protected void onUnload() {
         SECURITY_SERVICE.unregisterWidget(id);
+    }
+
+    @Override
+    public void setFilter(final String filter) {
+        this.filter = filter;
+    }
+
+    @Override
+    public String getFilter() {
+        return filter;
     }
 
     @Override
@@ -133,6 +144,7 @@ public class ToolStrip extends HorizontalPanel implements SecurityContextAware {
                 }
 
                 if (update) {
+                    btn.setVisible(true);
                     btn.setEnabled(granted);
                     visibleItems++;
                 } else {

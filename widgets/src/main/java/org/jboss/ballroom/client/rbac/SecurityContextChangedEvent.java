@@ -30,8 +30,8 @@ public class SecurityContextChangedEvent extends GwtEvent<SecurityContextChanged
 
     public static final Type<SecurityContextChangedHandler> TYPE = new Type<SecurityContextChangedHandler>();
 
-    public static void fire(HasHandlers source, String resourceAddress) {
-        source.fireEvent(new SecurityContextChangedEvent(resourceAddress));
+    public static void fire(HasHandlers source, String resourceAddress, String... wildcards) {
+        source.fireEvent(new SecurityContextChangedEvent(resourceAddress, wildcards));
     }
 
     public static HandlerRegistration register(EventBus eventBus, SecurityContextChangedHandler handler) {
@@ -39,13 +39,19 @@ public class SecurityContextChangedEvent extends GwtEvent<SecurityContextChanged
     }
 
     private final String resourceAddress;
+    private final String[] wildcards;
 
-    public SecurityContextChangedEvent(String resourceAddress) {
+    public SecurityContextChangedEvent(String resourceAddress, String... wildcards) {
         this.resourceAddress = resourceAddress;
+        this.wildcards = wildcards == null ? new String[0] : wildcards;
     }
 
     public String getResourceAddress() {
         return resourceAddress;
+    }
+
+    public String[] getWildcards() {
+        return wildcards;
     }
 
     @Override
