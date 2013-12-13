@@ -104,40 +104,37 @@ public class ToolStrip extends HorizontalPanel{
     }
 
     private int checkOperationPrivileges(HorizontalPanel panel, SecurityContext securityContext) {
-
         boolean overallPrivilege = securityContext.getWritePriviledge().isGranted();
         int visibleItems = 0;
-        for(int i=0; i<panel.getWidgetCount(); i++)
-        {
+        int visibleButtons = 0;
+        for (int i = 0; i < panel.getWidgetCount(); i++) {
             Widget widget = panel.getWidget(i);
-            if(widget instanceof ToolButton)
-            {
-                ToolButton btn = (ToolButton)widget;
+            if (widget instanceof ToolButton) {
+                ToolButton btn = (ToolButton) widget;
                 boolean visible = true;
-                if(btn.hasOperationAddress()) // fine grained, doesn't usually apply but can help to overcome dge cases
+                if (btn.hasOperationAddress()) // fine grained, doesn't usually apply but can help to overcome dge cases
                 {
                     String[] operationAddress = btn.getOperationAddress();
-                    AuthorisationDecision operationPriviledge = securityContext.getOperationPriviledge(operationAddress[0], operationAddress[1]);
+                    AuthorisationDecision operationPriviledge = securityContext
+                            .getOperationPriviledge(operationAddress[0], operationAddress[1]);
                     visible = operationPriviledge.isGranted();
-                }
-                else
-                {
+                } else {
                     visible = overallPrivilege; // coarse grained, inherited from parent
                 }
 
-                if(!visible)
-                {
+                if (!visible) {
                     widget.setVisible(false);
                     widget.getElement().addClassName("rbac-suppressed");
 
+                } else {
+                    visibleButtons++;
                 }
-                else
-                {
-                    visibleItems++;
-                }
+            } else {
+                visibleItems++;
             }
         }
 
-        return visibleItems;
+        // If there are no buttons, the visibility depends on the number of other widgets
+        return visibleButtons == 0 ? visibleItems : visibleItems + visibleButtons;
     }
 }
