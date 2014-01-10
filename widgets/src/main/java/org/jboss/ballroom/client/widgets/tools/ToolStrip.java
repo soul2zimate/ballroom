@@ -87,7 +87,7 @@ public class ToolStrip extends HorizontalPanel{
         super.onAttach();
 
         // access control
-        SecurityContext securityContext = SECURITY_SERVICE.getSecurityContext();
+        SecurityContext securityContext = getSecurityContext();
 
 
         // RBAC: operation privileges
@@ -102,6 +102,8 @@ public class ToolStrip extends HorizontalPanel{
         }
 
     }
+
+    protected SecurityContext getSecurityContext() {return SECURITY_SERVICE.getSecurityContext();}
 
     private int checkOperationPrivileges(HorizontalPanel panel, SecurityContext securityContext) {
         boolean overallPrivilege = securityContext.getWritePriviledge().isGranted();
