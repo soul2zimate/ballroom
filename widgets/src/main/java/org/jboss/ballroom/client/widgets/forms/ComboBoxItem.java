@@ -19,13 +19,13 @@
 
 package org.jboss.ballroom.client.widgets.forms;
 
+import java.util.Collection;
+
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
-
-import java.util.Collection;
 
 /**
  * @author Heiko Braun
@@ -181,6 +181,12 @@ public class ComboBoxItem extends FormItem<String> {
         {
             return true;
         }
+    }
+
+    @Override
+    public void setErrMessage(final String errMessage) {
+        super.setErrMessage(errMessage);
+        wrapper.setErrMessage(errMessage);
     }
 
     @Override

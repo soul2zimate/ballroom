@@ -101,4 +101,7 @@ public class InputElementWrapper extends VerticalPanel {
         rbacConstraintIcon.setVisible(b);
     }
 
+    public void setErrMessage(String errMessage) {
+        errorText.setHTML(errMessage);
+    }
 }
