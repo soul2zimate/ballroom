@@ -138,6 +138,12 @@ public class TextBoxItem extends FormItem<String> {
     }
 
     @Override
+    public void setErrMessage(final String errMessage) {
+        super.setErrMessage(errMessage);
+        wrapper.setErrMessage(errMessage);
+    }
+
+    @Override
     public boolean validate(String value) {
 
         if(expressionValue!=null || isExpressionScheme(textBox.getValue()))
