@@ -485,10 +485,14 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
                 if (isEnabled) {
                     setEnabled(false);
                 }
-                edit.getElement().addClassName("rbac-suppressed");
+                if (edit != null) {
+                    edit.getElement().addClassName("rbac-suppressed");
+                }
             } else {
                 // TODO update form fields based on new security context?
-                edit.getElement().removeClassName("rbac-suppressed");
+                if (edit != null) {
+                    edit.getElement().removeClassName("rbac-suppressed");
+                }
                 if (wasEnabled) {
                     setEnabled(true);
                 }
