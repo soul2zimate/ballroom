@@ -93,6 +93,11 @@ public class TextAreaItem extends FormItem<String> {
     }
 
     @Override
+    public String asString() {
+        return textArea.getValue();
+    }
+
+    @Override
     public void resetMetaData() {
         super.resetMetaData();
         textArea.setValue(null);
