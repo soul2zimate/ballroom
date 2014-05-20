@@ -88,8 +88,9 @@
         <gwt.maven>2.6.1</gwt.maven>
         <gwt-log.version>3.3.0</gwt-log.version>
         <junit.version>4.11</junit.version>
-        <javax.enterprise.cdi>1.1</javax.enterprise.cdi>
-        <javax.inject>1</javax.inject>
+        <javax.enterprise.cdi.version>1.1</javax.enterprise.cdi.version>
+        <javax.inject.version>1</javax.inject.version>
+        <uberfire.version>0.5.0.hal</uberfire.version>
 
         <gwt.compiler.skip>true</gwt.compiler.skip>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -119,12 +120,21 @@
             <dependency>
                 <groupId>javax.inject</groupId>
                 <artifactId>javax.inject</artifactId>
-                <version>${javax.inject}</version>
+                <version>${javax.inject.version}</version>
             </dependency>
             <dependency>
                 <groupId>javax.enterprise</groupId>
                 <artifactId>cdi-api</artifactId>
-                <version>${javax.enterprise.cdi}</version>
+                <version>${javax.enterprise.cdi.version}</version>
+            </dependency>
+
+            <!-- UberFire -->
+            <dependency>
+                <groupId>org.uberfire</groupId>
+                <artifactId>uberfire-bom</artifactId>
+                <type>pom</type>
+                <version>${uberfire.version}</version>
+                <scope>import</scope>
             </dependency>
 
             <!-- GWT -->

@@ -23,8 +23,8 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import org.jboss.ballroom.resources.I18n;
 import org.jboss.ballroom.client.widgets.common.DefaultButton;
+import org.jboss.ballroom.resources.UIConstants;
 
 /**
  * @author Heiko Braun
@@ -36,7 +36,7 @@ public class DialogueOptions extends HorizontalPanel {
     private DefaultButton cancel;
 
     public DialogueOptions(ClickHandler submitHandler, ClickHandler cancelHandler) {
-        this(I18n.CONSTANTS.common_label_save(), submitHandler, I18n.CONSTANTS.common_label_cancel(), cancelHandler);
+        this(UIConstants.INSTANCE.common_label_save(), submitHandler, UIConstants.INSTANCE.common_label_cancel(), cancelHandler);
     }
 
     public DialogueOptions(

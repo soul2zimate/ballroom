@@ -22,8 +22,6 @@ package org.jboss.ballroom.client.layout;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
-import com.gwtplatform.mvp.client.PopupView;
-import com.gwtplatform.mvp.client.PresenterWidget;
 
 
 /**
@@ -31,7 +29,6 @@ import com.gwtplatform.mvp.client.PresenterWidget;
  * Used to highlight different content sections.
  *
  * @author Heiko Braun
- * @date 2/7/11
  */
 public class LHSHighlightEvent extends GwtEvent<LHSHighlightEvent.NavItemSelectionHandler> {
 

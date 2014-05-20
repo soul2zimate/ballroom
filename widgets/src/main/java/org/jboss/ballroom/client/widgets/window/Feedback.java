@@ -28,18 +28,18 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import org.jboss.ballroom.resources.I18n;
+import org.jboss.ballroom.resources.UIConstants;
 
 /**
  * Collection of feedback windows.
  * Info, Confirmation, Alert, etc.
+ *
  * @author Heiko Braun
  * @date 3/2/11
  */
 public class Feedback {
 
-    public static void confirm(String title, String message, final ConfirmationHandler handler)
-    {
+    public static void confirm(String title, String message, final ConfirmationHandler handler) {
         final DefaultWindow window = new DefaultWindow(title);
 
         int width = 320;
@@ -73,14 +73,14 @@ public class Feedback {
             }
         };
 
-        DialogueOptions options = new DialogueOptions(I18n.CONSTANTS.common_label_confirm(), confirmHandler, I18n.CONSTANTS.common_label_cancel(), cancelHandler);
+        DialogueOptions options = new DialogueOptions(UIConstants.INSTANCE.common_label_confirm(), confirmHandler,
+                UIConstants.INSTANCE.common_label_cancel(), cancelHandler);
         options.getSubmit().setAttribute("aria-describedby", "confirmation-message");
 
         Widget content = new WindowContentBuilder(panel, options).build();
 
 
-        TrappedFocusPanel trap = new TrappedFocusPanel(content)
-        {
+        TrappedFocusPanel trap = new TrappedFocusPanel(content) {
             @Override
             protected void onAttach() {
                 super.onAttach();
@@ -101,13 +101,11 @@ public class Feedback {
     }
 
     @Deprecated
-    public static void alert(String title, String message)
-    {
+    public static void alert(String title, String message) {
         alert(title, new SafeHtmlBuilder().appendEscaped(message).toSafeHtml());
     }
 
-    public static void alert(String title, SafeHtml message)
-    {
+    public static void alert(String title, SafeHtml message) {
         final DefaultWindow window = new DefaultWindow(title);
 
         int width = 320;
@@ -132,13 +130,13 @@ public class Feedback {
             }
         };
 
-        DialogueOptions options = new DialogueOptions(I18n.CONSTANTS.common_label_confirm(), confirmHandler, I18n.CONSTANTS.common_label_cancel(), confirmHandler);
+        DialogueOptions options = new DialogueOptions(UIConstants.INSTANCE.common_label_confirm(), confirmHandler,
+                UIConstants.INSTANCE.common_label_cancel(), confirmHandler);
         options.getSubmit().setAttribute("aria-describedby", "alert-message");
 
         Widget content = new WindowContentBuilder(panel, options.showCancel(false)).build();
 
-        TrappedFocusPanel trap = new TrappedFocusPanel(content)
-        {
+        TrappedFocusPanel trap = new TrappedFocusPanel(content) {
             @Override
             protected void onAttach() {
                 super.onAttach();
@@ -198,8 +196,7 @@ public class Feedback {
 
         Widget content = new WindowContentBuilder(panel, new HTML()).build();
 
-        TrappedFocusPanel trap = new TrappedFocusPanel(content)
-        {
+        TrappedFocusPanel trap = new TrappedFocusPanel(content) {
             @Override
             protected void onAttach() {
                 super.onAttach();
@@ -221,11 +218,13 @@ public class Feedback {
     }
 
     public interface LoadingCallback {
+
         void onCancel();
     }
 
-    public interface ConfirmationHandler
-    {
+
+    public interface ConfirmationHandler {
+
         void onConfirmation(boolean isConfirmed);
     }
 }

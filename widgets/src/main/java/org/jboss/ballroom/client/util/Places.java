@@ -19,10 +19,11 @@
 
 package org.jboss.ballroom.client.util;
 
-import com.gwtplatform.mvp.client.proxy.PlaceRequest;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.uberfire.mvp.PlaceRequest;
+import org.uberfire.mvp.impl.DefaultPlaceRequest;
 
 /**
  * @author Heiko Braun
@@ -65,12 +66,12 @@ public class Places {
 
                     // parameter
                     String[] parameter = tok.split("=");
-                    request = request.with(parameter[0], parameter[1]);
+                    request = request.addParameter(parameter[0], parameter[1]);
                 }
                 else
                 {
                     // address
-                    request = new PlaceRequest(tok);
+                    request = new DefaultPlaceRequest(tok);
 
                 }
             }
@@ -83,7 +84,7 @@ public class Places {
         }
         else
         {
-            places.add(new PlaceRequest(token));
+            places.add(new DefaultPlaceRequest(token));
         }
     }
 }

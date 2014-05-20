@@ -19,15 +19,14 @@
 
 package org.jboss.ballroom.client.layout;
 
+import java.util.List;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TreeItem;
 import org.jboss.ballroom.client.spi.Framework;
 import org.jboss.ballroom.client.util.Places;
+import org.uberfire.mvp.PlaceRequest;
 
 /**
  * An LHS navigation item that carries a reference to view.
@@ -80,9 +79,11 @@ public class LHSNavTreeItem extends TreeItem {
 
             public void execute() {
                 String token = LHSNavTreeItem.this.getElement().getAttribute("token");
-                framework.getPlaceManager().revealPlaceHierarchy(
-                        Places.fromString(token)
-                );
+                List<PlaceRequest> placeRequests = Places.fromString(token);
+                if (!placeRequests.isEmpty()) {
+                    // TODO Handle multiple place requests!?
+                    framework.getPlaceManager().goTo(placeRequests.get(0));
+                }
             }
         });
 

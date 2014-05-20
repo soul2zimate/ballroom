@@ -41,6 +41,10 @@
             <artifactId>gwt-log</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.uberfire</groupId>
+            <artifactId>uberfire-workbench-client</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-user</artifactId>
         </dependency>
