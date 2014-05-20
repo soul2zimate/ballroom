@@ -17,39 +17,33 @@
  * MA  02110-1301, USA.
  */
 
-package org.jboss.ballroom.client.widgets.stack;
+package org.jboss.ballroom.resources.icons;
 
-import com.google.gwt.user.client.ui.DisclosurePanel;
-import org.jboss.ballroom.resources.icons.Icons;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.ui.Tree;
 
 /**
+ * Allows us to override Tree default images.
+ * If we don't override one of the methods, the default will be used.
+ *
  * @author Heiko Braun
- * @date 4/4/11
+ * @date 3/3/11
+ *
  */
-public class DisclosureStackPanel {
+public interface DefaultTreeResources extends Tree.Resources {
 
-    private DisclosurePanel panel;
+    public static final DefaultTreeResources INSTANCE =  GWT.create(DefaultTreeResources.class);
 
-    public DisclosureStackPanel(String title, boolean first) {
+    /**
+     * An image indicating a closed branch.
+     */
+    @Source("tree-closed.png")
+    ImageResource treeClosed();
 
-        panel = new DisclosurePanel(Icons.INSTANCE.stack_opened(), Icons.INSTANCE.stack_closed(), title);
-        panel.setOpen(true);
-        panel.getElement().setAttribute("style", "width:100%;");
-        panel.getHeader().setStyleName("stack-section-header");
-        if(first) panel.getHeader().addStyleName("stack-section-first");
-        panel.setWidth("100%"); // IE 7
-
-    }
-
-    public DisclosureStackPanel(String title) {
-
-        this(title, false);
-
-    }
-
-    public DisclosurePanel asWidget() {
-        return panel;
-    }
-
-
+    /**
+     * An image indicating an open branch.
+     */
+    @Source("tree-open.png")
+    ImageResource treeOpen();
 }

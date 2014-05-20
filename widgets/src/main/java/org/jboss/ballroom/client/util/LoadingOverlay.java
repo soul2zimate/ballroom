@@ -22,6 +22,7 @@ package org.jboss.ballroom.client.util;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
+import org.jboss.ballroom.resources.icons.Icons;
 
 public class LoadingOverlay
 {
@@ -39,7 +40,7 @@ public class LoadingOverlay
 
             p = new PopupPanel();
             //p.setStylePrimaryName("bpm-loading-overlay");
-            p.setWidget(new Image("images/loading_lite.gif"));
+            p.setWidget(new Image(Icons.INSTANCE.loading()));
             p.setPopupPosition(left+(width/2)-15, top+(height/2)-15);
             p.show();
 

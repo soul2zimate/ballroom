@@ -21,12 +21,9 @@ package org.jboss.ballroom.client.widgets.window;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
-import org.jboss.ballroom.client.I18n;
-import org.jboss.ballroom.client.widgets.InlineLink;
+import org.jboss.ballroom.resources.I18n;
 import org.jboss.ballroom.client.widgets.common.DefaultButton;
 
 /**

@@ -28,7 +28,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import org.jboss.ballroom.client.I18n;
+import org.jboss.ballroom.resources.I18n;
 
 /**
  * Collection of feedback windows.

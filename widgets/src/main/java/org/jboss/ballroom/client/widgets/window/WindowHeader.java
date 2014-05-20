@@ -21,10 +21,9 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PopupPanel;
-import org.jboss.ballroom.client.widgets.icons.FontIcon;
-import org.jboss.ballroom.client.widgets.icons.Icons;
+import org.jboss.ballroom.resources.icons.FontIcon;
+import org.jboss.ballroom.resources.icons.Icons;
 
 public class WindowHeader extends Composite implements HasAllMouseHandlers {
 

@@ -41,7 +41,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
-import org.jboss.ballroom.client.widgets.icons.Icons;
+import org.jboss.ballroom.resources.icons.Icons;
 
 import java.util.ArrayList;
 import java.util.Collection;
