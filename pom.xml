@@ -90,7 +90,7 @@
         <junit.version>4.11</junit.version>
         <javax.enterprise.cdi.version>1.1</javax.enterprise.cdi.version>
         <javax.inject.version>1</javax.inject.version>
-        <uberfire.version>0.5.0.hal</uberfire.version>
+        <uberfire.version>0.5.0-hal</uberfire.version>
 
         <gwt.compiler.skip>true</gwt.compiler.skip>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
