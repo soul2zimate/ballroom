@@ -90,7 +90,7 @@ public class NumberBoxItem extends FormItem<Number> {
 
         String value = textBox.getValue().equals("") ? "0" : textBox.getValue();
         try {
-            return Integer.valueOf(value);
+            return Integer.valueOf(textBox.getValue());
         } catch (NumberFormatException e) {
             return -1;
         }
@@ -122,7 +122,7 @@ public class NumberBoxItem extends FormItem<Number> {
     public void setValue(Number number) {
         toggleExpressionInput(textBox, false);
 
-        if(number.longValue()>=0 || allowNegativeNumber)
+        if(number.intValue()>=0 || allowNegativeNumber)
         {
             textBox.setValue(String.valueOf(number));
         }
@@ -162,7 +162,7 @@ public class NumberBoxItem extends FormItem<Number> {
         else if(!isEmpty)
         {
             try {
-                long i = Long.parseLong(textBox.getValue());
+                Integer i = Integer.valueOf(textBox.getValue());
                 outcome = (i >= 0) || allowNegativeNumber;
             } catch (NumberFormatException e) {
                 outcome = false;
