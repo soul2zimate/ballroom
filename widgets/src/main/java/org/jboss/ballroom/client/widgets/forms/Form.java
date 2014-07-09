@@ -346,6 +346,12 @@ public class Form<T> extends AbstractForm<T> {
             int i=0;
             for(FormItem item : groupItems.values())
             {
+                // in some cases we did populate the autobean with empty values.
+                // skipping undefined values should prevent this
+                // TODO: maybe only do it for transient beans?
+                if(item.isUndefined())
+                    continue;
+
                 builder.append("\"");
                 builder.append(item.getName());
                 builder.append("\"");
