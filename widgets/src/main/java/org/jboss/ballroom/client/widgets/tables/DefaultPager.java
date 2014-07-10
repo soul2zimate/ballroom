@@ -57,4 +57,12 @@ public class DefaultPager extends SimplePager {
             }
         }
     }
+
+    protected String createText() {
+        if(getDisplay().getRowCount()==0){
+            return "";
+        }else{
+            return super.createText();
+        }
+    }
 }
