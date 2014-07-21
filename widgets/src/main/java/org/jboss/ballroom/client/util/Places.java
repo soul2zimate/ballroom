@@ -19,7 +19,7 @@
 
 package org.jboss.ballroom.client.util;
 
-import com.gwtplatform.mvp.client.proxy.PlaceRequest;
+import com.gwtplatform.mvp.shared.proxy.PlaceRequest;
 
 import java.util.ArrayList;
 import java.util.List;
