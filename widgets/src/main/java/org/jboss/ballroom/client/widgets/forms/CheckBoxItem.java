@@ -144,6 +144,8 @@ public class CheckBoxItem extends FormItem<Boolean> {
         setUndefined(false); // implicitly defined
         checkBox.setValue(false);
         textBox.setText("");
+
+        setModified(false); // important: needs to be done after calling checkbox.setValue()
     }
 
     @Override

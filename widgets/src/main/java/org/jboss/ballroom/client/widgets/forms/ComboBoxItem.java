@@ -89,7 +89,7 @@ public class ComboBoxItem extends FormItem<String> {
     public void resetMetaData() {
         super.resetMetaData();
         clearSelection();
-        //postInit = false;
+        setModified(false); // important: needs to be done after calling clearSelection()
     }
 
     @Override
