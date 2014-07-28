@@ -90,7 +90,7 @@ public class NumberBoxItem extends FormItem<Number> {
 
         String value = textBox.getValue().equals("") ? "0" : textBox.getValue();
         try {
-            return Integer.valueOf(textBox.getValue());
+            return Integer.valueOf(value);
         } catch (NumberFormatException e) {
             return -1;
         }
