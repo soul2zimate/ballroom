@@ -112,6 +112,8 @@ public class CheckBoxItem extends FormItem<Boolean> {
 
         wrapper.setVisible(false);
 
+        toogleBooleanInput();
+
     }
 
     @Override
