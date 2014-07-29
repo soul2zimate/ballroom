@@ -110,8 +110,7 @@ public class CheckBoxItem extends FormItem<Boolean> {
         panel.add(checkBox);
         panel.add(wrapper);
 
-        wrapper.setVisible(false);
-
+        // force boolean input at startup
         toogleBooleanInput();
 
     }
@@ -145,7 +144,7 @@ public class CheckBoxItem extends FormItem<Boolean> {
         checkBox.setValue(false);
         textBox.setText("");
 
-        setModified(false); // important: needs to be done after calling checkbox.setValue()
+        setModified(false); // important: needs to be done after calling textBox.setValue()
     }
 
     @Override
@@ -161,8 +160,12 @@ public class CheckBoxItem extends FormItem<Boolean> {
 
     @Override
     public void setExpressionValue(String expr) {
-        textBox.setText(expr);
-        toogleTextInput();
+
+        this.expressionValue = expr;
+        if(expr!=null) {
+            toogleTextInput();
+            textBox.setText(expr);
+        }
     }
 
     @Override
