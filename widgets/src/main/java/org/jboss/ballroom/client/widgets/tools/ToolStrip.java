@@ -111,8 +111,8 @@ public class ToolStrip extends HorizontalPanel implements SecurityContextAware {
     }
 
     private void applySecurity(final SecurityContext securityContext, boolean update) {
-        int visibleItemsLeft = checkOperationPrivileges(left, securityContext, update);
-        int visibleItemsRight = checkOperationPrivileges(right, securityContext, update);
+        int visibleItemsLeft = countVisibleWidgets(left, securityContext, update);
+        int visibleItemsRight = countVisibleWidgets(right, securityContext, update);
 
         // nothing accessible within the toolbar, so we disable it completely
         if (visibleItemsLeft + visibleItemsRight == 0) {
@@ -124,8 +124,9 @@ public class ToolStrip extends HorizontalPanel implements SecurityContextAware {
         }
     }
 
-    private int checkOperationPrivileges(HorizontalPanel panel, SecurityContext securityContext, boolean update) {
+    private int countVisibleWidgets(HorizontalPanel panel, SecurityContext securityContext, boolean update) {
         int visibleItems = 0;
+        int visibleButtons = 0;
         boolean overallPrivilege = securityContext.getWritePriviledge().isGranted();
 
         for (int i = 0; i < panel.getWidgetCount(); i++) {
@@ -146,15 +147,21 @@ public class ToolStrip extends HorizontalPanel implements SecurityContextAware {
                 if (update) {
                     btn.setVisible(true);
                     btn.setEnabled(granted);
-                    visibleItems++;
+                    visibleButtons++;
                 } else {
                     btn.setVisible(granted);
+                    if (!granted) {
+                        widget.getElement().addClassName("rbac-suppressed");
+                    }
                     if (granted) {
-                        visibleItems++;
+                        visibleButtons++;
                     }
                 }
+            } else {
+                visibleItems++;
             }
         }
-        return visibleItems;
+        // If there are no buttons, the visibility depends on the number of other widgets
+        return visibleButtons == 0 ? visibleItems : visibleItems + visibleButtons;
     }
 }
