@@ -31,21 +31,25 @@ import com.google.gwt.user.client.ui.Widget;
 public class TextAreaItem extends FormItem<String> {
     protected TextArea textArea;
     private InputElementWrapper wrapper;
-    ValueChangeHandler<String> valueChangeHandler;
-    private boolean allowWhiteSpace;
+    private ValueChangeHandler<String> valueChangeHandler;
 
     public TextAreaItem(String name, String title) {
         super(name, title);
-        setup();
+        setup(3);
+    }
+
+    public TextAreaItem(String name, String title, int numLines) {
+        super(name, title);
+        setup(numLines);
     }
 
     public TextAreaItem(String name, String title, boolean required) {
         super(name, title);
-        setup();
+        setup(3);
         setRequired(required);
     }
 
-    private void setup() {
+    private void setup(int numLines) {
         textArea = new TextArea();
         textArea.setName(name);
         textArea.setTitle(title);
@@ -60,7 +64,7 @@ public class TextAreaItem extends FormItem<String> {
         };
         textArea.addValueChangeHandler(valueChangeHandler);
 
-        textArea.setVisibleLines(3);
+        textArea.setVisibleLines(numLines);
 
         wrapper = new InputElementWrapper(textArea, this);
     }
@@ -138,7 +142,20 @@ public class TextAreaItem extends FormItem<String> {
 
     @Override
     public boolean validate(String value) {
-        return !(isRequired() && value.trim().equals(""));
+
+        if(expressionValue!=null || isExpressionScheme(value))
+        {
+            return true;
+        }
+        else if (isRequired() && value.equals(""))
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+
     }
 
     @Override
