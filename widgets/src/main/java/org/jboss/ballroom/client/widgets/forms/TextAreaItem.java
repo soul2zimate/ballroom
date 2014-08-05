@@ -31,7 +31,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class TextAreaItem extends FormItem<String> {
     protected TextArea textArea;
     private InputElementWrapper wrapper;
-    private ValueChangeHandler<String> valueChangeHandler;
+    ValueChangeHandler<String> valueChangeHandler;
 
     public TextAreaItem(String name, String title) {
         super(name, title);
