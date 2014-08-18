@@ -33,6 +33,7 @@ public class TextBoxItem extends FormItem<String> {
 
     protected TextBox textBox;
     private InputElementWrapper wrapper;
+    private boolean allowWhiteSpace;
 
     public TextBoxItem(String name, String title) {
         super(name, title);
@@ -69,6 +70,10 @@ public class TextBoxItem extends FormItem<String> {
             }
         });
         wrapper = new InputElementWrapper(textBox, this);
+    }
+
+    public void setAllowWhiteSpace(boolean allowWhiteSpace) {
+        this.allowWhiteSpace = allowWhiteSpace;
     }
 
     @Override
@@ -154,10 +159,14 @@ public class TextBoxItem extends FormItem<String> {
         {
             return false;
         }
-        else
+        else if(!allowWhiteSpace)
         {
             String updated = value.replace(" ", ""); // contains white space?
             return updated.equals(value);
+        }
+        else
+        {
+            return true;
         }
     }
 
