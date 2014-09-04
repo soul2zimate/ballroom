@@ -63,7 +63,11 @@ public class LHSNavTree extends Tree implements LHSHighlightEvent.NavItemSelecti
     private LHSNavTreeItem prevNavItem;
 
     public LHSNavTree(final String category) {
-        super(DefaultTreeResources.INSTANCE);
+        this(DefaultTreeResources.INSTANCE, category);
+    }
+
+    public LHSNavTree(Tree.Resources resources, final String category) {
+        super(resources);
 
         this.treeId = "lhs-nav-tree_"+HTMLPanel.createUniqueId();
         this.category = category;
