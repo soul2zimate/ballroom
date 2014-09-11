@@ -19,12 +19,8 @@
 
 package org.jboss.ballroom.client.widgets.tables;
 
-import com.google.gwt.cell.client.Cell;
 import com.google.gwt.dom.client.EventTarget;
-import com.google.gwt.dom.client.Node;
 import com.google.gwt.user.cellview.client.CellTable;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.view.client.ProvidesKey;
