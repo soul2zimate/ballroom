@@ -46,7 +46,7 @@ import org.jboss.ballroom.client.spi.Framework;
 public class Form<T> extends AbstractForm<T> {
 
     private final static Framework framework = GWT.create(Framework.class);
-    private String resourceAddress; // optional
+
 
     private AutoBeanFactory factory;
 
@@ -66,11 +66,11 @@ public class Form<T> extends AbstractForm<T> {
      * Allows for more fine grained authorisation checks.
      *
      * @param conversionType
-     * @param resourceMapping
+     * @param resourceAddress
      */
-    public Form(Class<?> conversionType, String resourceMapping) {
+    public Form(Class<?> conversionType, String resourceAddress) {
         this(conversionType);
-        this.resourceAddress = resourceMapping;
+        super.resourceAddress = resourceAddress;
     }
     
     public Class<?> getConversionType() {

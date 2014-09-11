@@ -61,6 +61,8 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
     static Framework FRAMEWORK  = GWT.create(Framework.class);
     static SecurityService SECURITY_SERVICE = FRAMEWORK.getSecurityService();
 
+    protected String resourceAddress; // RBAC, optional
+
     public FormValidation validate()
     {
 
@@ -123,12 +125,14 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
 
     private Widget build() {
 
-        deck = new FormDeckPanel();
+        deck = new FormDeckPanel(this.resourceAddress);
         deck.setStyleName("fill-layout-width");
 
         // RBAC
         SecurityContext securityContext = getSecurityContext();
-        boolean writePriviledges = securityContext.getWritePriviledge().isGranted();
+        boolean writePriviledges = this.resourceAddress !=null ?                      // TOOD: Typo in API method
+                securityContext.getWritePrivilege(this.resourceAddress).isGranted() :
+                securityContext.getWritePriviledge().isGranted();
 
         // ----------------------
         // view panel
@@ -449,11 +453,13 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
     class FormDeckPanel extends DeckPanel implements SecurityContextAware {
 
         private final String id;
+        private final String resourceAddress;
         private String filter;
         private boolean wasEnabled;
 
-        FormDeckPanel() {
+        FormDeckPanel(String resourceAddress) {
             super();
+            this.resourceAddress = resourceAddress;
             this.id = Document.get().createUniqueId();
             getElement().setId(this.id);
         }
@@ -480,7 +486,11 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
 
         @Override
         public void updateSecurityContext(final SecurityContext securityContext) {
-            if (!securityContext.getWritePriviledge().isGranted()) {
+            boolean writePrivilege = this.resourceAddress != null ?
+                    securityContext.getWritePrivilege(this.resourceAddress).isGranted() :
+                    securityContext.getWritePriviledge().isGranted();
+
+            if (!writePrivilege) {
                 wasEnabled = isEnabled;
                 if (isEnabled) {
                     setEnabled(false);

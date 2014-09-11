@@ -41,6 +41,7 @@ public class ToolStrip extends HorizontalPanel implements SecurityContextAware {
     private String filter;
     private HorizontalPanel left;
     private HorizontalPanel right;
+    private String resourceAddress = null;
 
     public ToolStrip() {
         super();
@@ -59,6 +60,11 @@ public class ToolStrip extends HorizontalPanel implements SecurityContextAware {
         left.getElement().getParentElement().setAttribute("width", "50%");
         right.getElement().getParentElement().setAttribute("width", "50%");
         right.getElement().getParentElement().setAttribute("align", "right");
+    }
+
+    public ToolStrip(String resourceAddress) {
+        this();
+        this.resourceAddress = resourceAddress;
     }
 
     @Override
@@ -126,7 +132,14 @@ public class ToolStrip extends HorizontalPanel implements SecurityContextAware {
 
     private int checkOperationPrivileges(HorizontalPanel panel, SecurityContext securityContext, boolean update) {
         int visibleItems = 0;
+<<<<<<< HEAD
         boolean overallPrivilege = securityContext.getWritePriviledge().isGranted();
+=======
+        int visibleButtons = 0;
+        boolean overallPrivilege = this.resourceAddress != null ?
+                securityContext.getWritePrivilege(this.resourceAddress).isGranted() :
+                securityContext.getWritePriviledge().isGranted();
+>>>>>>> 0cb26f4... BZ1140278
 
         for (int i = 0; i < panel.getWidgetCount(); i++) {
             Widget widget = panel.getWidget(i);
