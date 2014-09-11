@@ -75,6 +75,7 @@ public class DefaultCellTable<T> extends CellTable {
         setRowData(0, Collections.EMPTY_LIST);
 
         getElement().setAttribute("role", "grid");
+        getElement().setId("master_detail-master");
 
         setEmptyTableWidget(new HTML("<div class='empty-celltable'>No Items!</div>"));
     }

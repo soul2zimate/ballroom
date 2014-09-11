@@ -58,6 +58,19 @@ public class DefaultPager extends SimplePager {
         }
     }
 
+    @Override
+    public void setDisplay(HasRows display) {
+        super.setDisplay(display);
+
+        // debug util (selenium tests)
+        getElement().setId("pager");
+        if(display instanceof DefaultCellTable)
+        {
+            String tableId = ((DefaultCellTable) display).getElement().getId();
+            getElement().setAttribute("data-ref", tableId);
+        }
+    }
+
     protected String createText() {
         if(getDisplay().getRowCount()==0){
             return "";
