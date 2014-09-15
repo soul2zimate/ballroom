@@ -48,6 +48,7 @@ public class TextBoxItem extends FormItem<String> {
             public void onValueChange(ValueChangeEvent<String> event) {
                 setModified(true);
                 setUndefined(event.getValue().equals(""));
+                setExpressionValue(null);
             }
         });
         wrapper = new InputElementWrapper(textBox, this);
@@ -159,14 +160,17 @@ public class TextBoxItem extends FormItem<String> {
         {
             return false;
         }
-        else if(!allowWhiteSpace)
-        {
-            String updated = value.replace(" ", ""); // contains white space?
-            return updated.equals(value);
-        }
         else
         {
-            return true;
+            // whitespace
+            if(!allowWhiteSpace) {
+                String updated = value.replace(" ", ""); // contains white space?
+                boolean containsWhiteSpace = !updated.equals(value);
+                if (containsWhiteSpace)
+                    return false;
+            }
+
+           return true;
         }
     }
 
