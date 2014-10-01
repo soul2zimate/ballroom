@@ -102,4 +102,6 @@ public interface FormAdapter<T> extends FormControl {
 
 
     void setToolsCallback(FormCallback callback);
+
+    void addFormValidator(FormValidator formValidator);
 }
