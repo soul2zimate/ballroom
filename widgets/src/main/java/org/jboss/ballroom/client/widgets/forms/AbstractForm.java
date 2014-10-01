@@ -49,6 +49,7 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
     final static String DEFAULT_GROUP = "default";
     protected FormCallback toolsCallback = null; // if set, the tools will be provided externally
     private HTML edit;
+    private final List<FormValidator> formValidators = new LinkedList<>();
 
     public abstract void edit(T bean);
 
@@ -63,22 +64,23 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
 
     protected String resourceAddress; // RBAC, optional
 
-    public FormValidation validate()
-    {
+    @Override
+    public void addFormValidator(final FormValidator formValidator) {
+        formValidators.add(formValidator);
+    }
 
+    public FormValidation validate() {
+        List<FormItem> items = new ArrayList<>();
         FormValidation outcome = new FormValidation();
 
-        for(Map<String, FormItem> groupItems : formItems.values())
-        {
-            for(FormItem item : groupItems.values())
-            {
+        for (Map<String, FormItem> groupItems : formItems.values()) {
+            for (FormItem item : groupItems.values()) {
+                items.add(item);
                 // two cases: empty form (create entity) and updating an existing entity
                 // we basically force validation on newly created entities
-                boolean requiresValidation = getEditedEntity()!=null ?
-                        (item.isModified() || isTransient) : true;
+                boolean requiresValidation = getEditedEntity() != null ? (item.isModified() || isTransient) : true;
 
-                if(requiresValidation)
-                {
+                if (requiresValidation) {
                     Object value = item.getValue();
 
                     // ascii or empty string are ok. the later will be checked in each form item implementation.
@@ -86,26 +88,25 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
                     boolean ascii = stringValue.isEmpty() ||
                             stringValue.matches("^[\\u0020-\\u007e]+$");
 
-                    if(!ascii)
-                    {
+                    if (!ascii) {
                         outcome.addError(item.getName());
                         item.setErroneous(true);
-                    }
-                    else
-                    {
+                    } else {
                         boolean validValue = item.validate(value);
-                        if(validValue)
-                        {
+                        if (validValue) {
                             item.setErroneous(false);
-                        }
-                        else
-                        {
+                        } else {
                             outcome.addError(item.getName());
                             item.setErroneous(true);
                         }
                     }
                 }
             }
+        }
+
+        // apply additional validation checks
+        for (FormValidator formValidator : formValidators) {
+            formValidator.validate(items, outcome);
         }
 
         return outcome;
