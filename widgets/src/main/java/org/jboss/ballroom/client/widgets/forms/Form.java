@@ -349,8 +349,10 @@ public class Form<T> extends AbstractForm<T> {
             {
                 // in some cases we did populate the autobean with default values (aka transient beans).
                 // skipping undefined values should prevent this
-                if(isTransient && item.isUndefined())
+                if(isTransient && item.isUndefined()) {
+                    i++;
                     continue;
+                }
 
                 builder.append("\"");
                 builder.append(item.getName());
