@@ -49,7 +49,7 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
     final static String DEFAULT_GROUP = "default";
     protected FormCallback toolsCallback = null; // if set, the tools will be provided externally
     private HTML edit;
-    private final List<FormValidator> formValidators = new LinkedList<>();
+    private final List<FormValidator> formValidators = new LinkedList<FormValidator>();
 
     public abstract void edit(T bean);
 
@@ -70,7 +70,7 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
     }
 
     public FormValidation validate() {
-        List<FormItem> items = new ArrayList<>();
+        List<FormItem> items = new ArrayList<FormItem>();
         FormValidation outcome = new FormValidation();
 
         for (Map<String, FormItem> groupItems : formItems.values()) {
