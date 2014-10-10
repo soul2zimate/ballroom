@@ -177,12 +177,13 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
             editPanel.add(editDisabled);
         }
 
+        // RBAC
+        Set<String> readOnly = getReadOnlyNames();
+
         RenderMetaData metaData = new RenderMetaData();
         metaData.setNumColumns(numColumns);
         metaData.setTitleWidth(maxTitleLength);
-
-        // RBAC
-        Set<String> readOnly = getReadOnlyNames();
+        metaData.setReadOnlyFields(readOnly);
 
         for(String group : formItems.keySet())
         {

@@ -1,8 +1,5 @@
 package org.jboss.ballroom.client.widgets.forms;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.core.client.GWT;
@@ -15,6 +12,9 @@ import com.google.gwt.user.cellview.client.RowStyles;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Heiko Braun
@@ -42,7 +42,7 @@ public class PlainFormView {
         this.numColumns = numColumns;
     }
 
-    public Widget asWidget(RenderMetaData metaData) {
+    public Widget asWidget(final RenderMetaData metaData) {
 
         table = new CellTable<Row>(20, DEFAULT_CELL_TABLE_RESOURCES);
         table.setStyleName("form-item-table");
@@ -61,7 +61,8 @@ public class PlainFormView {
                 @Override
                 public String getValue(Row row) {
                     FormItem item = row.get(currentCol);
-                    return item!=null ? item.getTitle() : "";
+                    return item.getTitle();
+
                 }
             };
 
@@ -70,7 +71,7 @@ public class PlainFormView {
                 @Override
                 public String getValue(Row row) {
                     FormItem item = row.get(currentCol);
-                    return item!=null ? valueRepresentation(item) : "";
+                    return item!=null ? valueRepresentation(item, metaData) : "";
                 }
 
             };
@@ -81,8 +82,8 @@ public class PlainFormView {
                     FormItem item = row.get(currentCol);
                     if(item!=null)
                     {
-                        // TODO: this clutters the rad-only views ...
-                        return "";//return item.isFiltered() ? "icon-lock" : "";
+                        boolean isReadOnly = metaData.getReadOnlyFields().contains(item.getName());
+                        return isReadOnly ? "icon-lock" : "";
                     }
                     else
                     {
@@ -129,12 +130,17 @@ public class PlainFormView {
         return table;
     }
 
-    private String valueRepresentation(FormItem item) {
+    private String valueRepresentation(FormItem item, RenderMetaData metaData) {
 
         String representation = null;
         Object value = item.getValue();
+        boolean isReadOnly = metaData.getReadOnlyFields().contains(item.getName());
 
-        if(item.isUndefined())
+        if(isReadOnly)
+        {
+            representation = "The permissions for your role don't allow to access this data";
+        }
+        else if(item.isUndefined())
         {
             representation = EMPTY_STRING;
         }
@@ -239,7 +245,7 @@ public class PlainFormView {
         SafeHtml render(String id, String title);
     }
 
-    private static final Template TEMPLATE = GWT.create(Template.class);
+    //private static final Template TEMPLATE = GWT.create(Template.class);
     private static final ValueTemplate VALUE_TEMPLATE = GWT.create(ValueTemplate.class);
     private static final HyperlinkTemplate HYPERLINK_TEMPLATE = GWT.create(HyperlinkTemplate.class);
 
@@ -261,7 +267,7 @@ public class PlainFormView {
             boolean hasTitle = title!=null && !title.equals("");
             if (hasTitle)
             {
-                render = TEMPLATE.render(labelId, title);
+                render = new SafeHtmlBuilder().appendHtmlConstant(title).toSafeHtml();//TEMPLATE.render(labelId, title);
             }
             else
             {

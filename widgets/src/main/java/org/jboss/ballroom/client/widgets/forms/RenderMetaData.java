@@ -19,6 +19,8 @@
 
 package org.jboss.ballroom.client.widgets.forms;
 
+import java.util.Set;
+
 /**
  * @author Heiko Braun
  * @date 3/4/11
@@ -26,6 +28,7 @@ package org.jboss.ballroom.client.widgets.forms;
 public class RenderMetaData {
     int numColumns;
     int titleWidth;
+    private Set<String> readOnlyFields;
 
     public int getNumColumns() {
         return numColumns;
@@ -41,5 +44,13 @@ public class RenderMetaData {
 
     public void setTitleWidth(int titleWidth) {
         this.titleWidth = titleWidth;
+    }
+
+    public void setReadOnlyFields(Set<String> readOnlyFields) {
+        this.readOnlyFields = readOnlyFields;
+    }
+
+    public Set<String> getReadOnlyFields() {
+        return readOnlyFields;
     }
 }
