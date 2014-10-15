@@ -3,11 +3,13 @@ package org.jboss.ballroom.client.widgets.forms;
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.builder.shared.TableRowBuilder;
 import com.google.gwt.safehtml.client.SafeHtmlTemplates;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.DefaultCellTableBuilder;
 import com.google.gwt.user.cellview.client.RowStyles;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HTML;
@@ -28,7 +30,7 @@ public class PlainFormView {
     private final String id = "formview-"+ DOM.createUniqueId()+"_";
 
     private CellTable<Row> table;
-    private List<FormItem> items;
+    private final List<FormItem> items;
     private List<Row> rows;
     private int numColumns = 1;
     private boolean hasEntity = false;
@@ -73,7 +75,6 @@ public class PlainFormView {
                     FormItem item = row.get(currentCol);
                     return item!=null ? valueRepresentation(item, metaData) : "";
                 }
-
             };
 
             Column<Row, String> iconCol = new Column<Row, String>(new IconCell(currentCol)) {
@@ -120,10 +121,34 @@ public class PlainFormView {
 
         rows = groupItems();
 
+        // HAL-301: debug id's
+        table.setTableBuilder(new DefaultCellTableBuilder<Row>(table) {
+            int rowIdx = 0;
+
+            @Override
+            protected void addRowAttributes(TableRowBuilder row) {
+                super.addRowAttributes(row);
+
+                if(rowIdx<items.size()) {
+                    row.attribute("data-dmr-attr", items.get(rowIdx).getName());
+                    rowIdx++;
+                }
+                else if(rowIdx==items.size())
+                {
+                    // reset
+                    rowIdx = 0;
+                    row.attribute("data-dmr-attr", items.get(rowIdx).getName());
+                    rowIdx++;
+                }
+
+            }
+
+        });
+
         table.setRowStyles(new RowStyles<Row>() {
             @Override
             public String getStyleNames(Row row, int rowIndex) {
-                return rowIndex==0 ? "first-row" : "";
+                return rowIndex==0 ? "first-row form-attribute-row " : "form-attribute-row ";
             }
         });
 
@@ -236,7 +261,7 @@ public class PlainFormView {
     }
 
     interface ValueTemplate extends SafeHtmlTemplates {
-        @Template("<span aria-labelledBy='{0}'>{1}</span>")
+        @Template("<span class='form-item-value' aria-labelledBy='{0}'>{1}</span>")
         SafeHtml render(String id, String title);
     }
 

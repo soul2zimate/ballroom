@@ -210,14 +210,15 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
                 groupRenderer = renderer.get(group)!=null ? renderer.get(group) : new FieldsetRenderer();
 
             // edit view
-            Widget widget = groupRenderer.render(metaData, group, groupItems);
-            editPanel.add(widget);
+            Widget editWidget = groupRenderer.render(metaData, group, groupItems);
+            editPanel.add(editWidget);
 
             // plain view
             PlainFormView plainView = new PlainFormView(new ArrayList<FormItem>(groupItems.values()));
             plainView.setNumColumns(numColumns);
             plainViews.add(plainView);
-            viewPanel.add(groupRenderer.renderPlain(metaData, group, plainView));
+            Widget viewWidget = groupRenderer.renderPlain(metaData, group, plainView);
+            viewPanel.add(viewWidget);
         }
 
         // inline tools (if callback is provided)
