@@ -270,7 +270,7 @@ public class PlainFormView {
         SafeHtml render(String id, String title);
     }
 
-    //private static final Template TEMPLATE = GWT.create(Template.class);
+    private static final Template TEMPLATE = GWT.create(Template.class);
     private static final ValueTemplate VALUE_TEMPLATE = GWT.create(ValueTemplate.class);
     private static final HyperlinkTemplate HYPERLINK_TEMPLATE = GWT.create(HyperlinkTemplate.class);
 
@@ -292,7 +292,7 @@ public class PlainFormView {
             boolean hasTitle = title!=null && !title.equals("");
             if (hasTitle)
             {
-                render = new SafeHtmlBuilder().appendHtmlConstant(title).toSafeHtml();//TEMPLATE.render(labelId, title);
+                render = TEMPLATE.render(labelId, title);
             }
             else
             {

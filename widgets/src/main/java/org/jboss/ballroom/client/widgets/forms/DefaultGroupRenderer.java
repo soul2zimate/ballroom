@@ -64,8 +64,9 @@ public class DefaultGroupRenderer implements GroupRenderer
 
         //int colWidth = 100/(metaData.getNumColumns()*2);
 
-        builder.appendHtmlConstant("<colgroup class='cols_"+metaData.getNumColumns()+"'>");
-        for(int col=0; col<metaData.getNumColumns(); col++)
+        int numColumns = metaData.getNumColumns();
+        builder.appendHtmlConstant("<colgroup class='cols_"+ numColumns +"'>");
+        for(int col=0; col< numColumns; col++)
         {
             // it's two TD's per item (title & value)
             builder.appendHtmlConstant("<col class='form-item-title-col'/>");
@@ -77,10 +78,10 @@ public class DefaultGroupRenderer implements GroupRenderer
         int i=0;
         while(i<itemKeys.size())
         {
-            builder.appendHtmlConstant("<tr>");
+            builder.appendHtmlConstant("<tr class='form-attribute-row' data-dmr-attr='"+values.get(i).getName()+"'>");  // TODO only works with single column
 
             int col=0;
-            for(col=0; col<metaData.getNumColumns(); col++)
+            for(col=0; col< numColumns; col++)
             {
                 int next = i + col;
                 if(next<itemKeys.size())
@@ -139,7 +140,7 @@ public class DefaultGroupRenderer implements GroupRenderer
         builder.appendHtmlConstant("</label>");
         builder.appendHtmlConstant("</td>");
 
-        builder.appendHtmlConstant("<td class='form-item' id='"+insertId+"'>").appendHtmlConstant("</td>");
+        builder.appendHtmlConstant("<td class='form-item form-item-value' id='"+insertId+"'>").appendHtmlConstant("</td>");
         // contents added later
         builder.appendHtmlConstant("</td>");
     }
