@@ -83,8 +83,8 @@ public class PlainFormView {
                     FormItem item = row.get(currentCol);
                     if(item!=null)
                     {
-                        boolean isReadOnly = metaData.getReadOnlyFields().contains(item.getName());
-                        return isReadOnly ? "icon-lock" : "";
+                        boolean isFiltered = metaData.getFilteredFields().contains(item.getName());
+                        return isFiltered ? "icon-lock" : "";
                     }
                     else
                     {
@@ -159,9 +159,9 @@ public class PlainFormView {
 
         String representation = null;
         Object value = item.getValue();
-        boolean isReadOnly = metaData.getReadOnlyFields().contains(item.getName());
+        boolean isFiltered = metaData.getFilteredFields().contains(item.getName());
 
-        if(isReadOnly)
+        if(isFiltered)
         {
             representation = "The permissions for your role don't allow to access this data";
         }

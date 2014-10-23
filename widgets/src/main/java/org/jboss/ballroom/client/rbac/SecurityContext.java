@@ -18,11 +18,15 @@ public interface SecurityContext {
 
     AuthorisationDecision getAttributeWritePriviledge(final String attributeName);
 
+    AuthorisationDecision getAttributeReadPriviledge(final String attributeName);
+
+    AuthorisationDecision getAttributeWritePriviledge(String resourceAddress, String attributeName);
+
+    AuthorisationDecision getAttributeReadPriviledge(String resourceAddress, String attributeName);
+
     AuthorisationDecision getReadPrivilege(String resourceAddress);
 
     AuthorisationDecision getWritePrivilege(String resourceAddress);
-
-    AuthorisationDecision getAttributeWritePriviledge(String resourceAddress, String attributeName);
 
     AuthorisationDecision getOperationPriviledge(String resourceAddress, String operationName);
 

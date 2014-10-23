@@ -73,7 +73,7 @@ public class Form<T> extends AbstractForm<T> {
         this(conversionType);
         super.resourceAddress = resourceAddress;
     }
-    
+
     public Class<?> getConversionType() {
         return conversionType;
     }
@@ -81,7 +81,7 @@ public class Form<T> extends AbstractForm<T> {
     /**
      * This method passes the original entity back into the form, removing all changes.
      */
-    
+
     public void cancel() {
 
         if(editedEntity!=null)
@@ -115,13 +115,13 @@ public class Form<T> extends AbstractForm<T> {
 
             private boolean isComplex = false;
 
-            
+
             public boolean visitValueProperty(final String propertyName, final Object value, PropertyContext ctx) {
 
                 if(isComplex ) return true; // skip complex types
 
                 visitItem(propertyName, new FormItemVisitor() {
-                    
+
                     public void visit(FormItem item) {
 
                         item.resetMetaData();
@@ -154,24 +154,24 @@ public class Form<T> extends AbstractForm<T> {
                 return true;
             }
 
-            
+
             public void endVisitReferenceProperty(String propertyName, AutoBean<?> value, PropertyContext ctx) {
                 //System.out.println("end reference "+propertyName);
                 isComplex = false;
             }
 
-            
+
             public boolean visitReferenceProperty(String propertyName, AutoBean<?> value, PropertyContext ctx) {
                 isComplex = true;
                 //System.out.println("begin reference "+propertyName+ ": "+ctx.getType());
                 return true;
             }
 
-            
+
             public boolean visitCollectionProperty(String propertyName, final AutoBean<Collection<?>> value, CollectionPropertyContext ctx) {
 
                 visitItem(propertyName, new FormItemVisitor() {
-                    
+
                     public void visit(FormItem item) {
 
                         item.resetMetaData();
@@ -192,7 +192,7 @@ public class Form<T> extends AbstractForm<T> {
                 return true;
             }
 
-            
+
             public void endVisitCollectionProperty(String propertyName, AutoBean<Collection<?>> value, CollectionPropertyContext ctx) {
                 super.endVisitCollectionProperty(propertyName, value, ctx);
             }
@@ -218,6 +218,21 @@ public class Form<T> extends AbstractForm<T> {
         else
         {
             return securityFacilities.getReadOnlyJavaNames(getConversionType(), securityContext);
+        }
+    }
+
+    @Override
+    public Set<String> getFilteredNames() {
+        SecurityService securityFacilities = framework.getSecurityService();
+        SecurityContext securityContext = securityFacilities.getSecurityContext();
+
+        if(resourceAddress !=null)
+        {
+            return securityFacilities.getFilteredJavaNames(conversionType, resourceAddress, securityContext);
+        }
+        else
+        {
+            return securityFacilities.getFilteredJavaNames(getConversionType(), securityContext);
         }
     }
 
@@ -261,12 +276,12 @@ public class Form<T> extends AbstractForm<T> {
         }
     }
 
-    
+
     public void addEditListener(EditListener listener) {
         this.listeners.add(listener);
     }
 
-    
+
     public void removeEditListener(EditListener listener) {
         this.listeners.remove(listener);
     }
@@ -289,7 +304,7 @@ public class Form<T> extends AbstractForm<T> {
      * Get changed values since last {@link #edit(Object)} ()}
      * @return
      */
-    
+
     public Map<String, Object> getChangedValues() {
 
         final T editedEntity = getEditedEntity();
@@ -335,7 +350,7 @@ public class Form<T> extends AbstractForm<T> {
     /**
      * This is what the entity looks like with the user's changes on the form.
      */
-    
+
     public T getUpdatedEntity() {
 
         Map<String,String> exprMap = new HashMap<String,String>();

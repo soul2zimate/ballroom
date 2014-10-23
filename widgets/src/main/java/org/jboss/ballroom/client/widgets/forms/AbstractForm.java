@@ -119,6 +119,8 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
 
     public abstract Set<String> getReadOnlyNames();
 
+    public abstract Set<String> getFilteredNames();
+
     protected SecurityContext getSecurityContext()
     {
         return SECURITY_SERVICE.getSecurityContext();
@@ -178,12 +180,12 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
         }
 
         // RBAC
-        Set<String> readOnly = getReadOnlyNames();
+        Set<String> filteredItems = getFilteredNames();
 
         RenderMetaData metaData = new RenderMetaData();
         metaData.setNumColumns(numColumns);
         metaData.setTitleWidth(maxTitleLength);
-        metaData.setReadOnlyFields(readOnly);
+        metaData.setFilteredFields(filteredItems);
 
         for(String group : formItems.keySet())
         {
@@ -195,7 +197,7 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
                 FormItem formItem = groupItems.get(attr);
                 //formItem.setFiltered(false); // reset to default state
 
-                if(readOnly.contains(attr))
+                if(filteredItems.contains(attr))
                 {
                     formItem.setFiltered(true);
                 }

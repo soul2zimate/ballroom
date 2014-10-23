@@ -33,7 +33,7 @@ public interface SecurityService {
     Set<String> getReadOnlyJavaNames(Class<?> type, SecurityContext securityContext);
 
     /**
-     * Get the read only attributes a a bean type and target resource
+     * Get the read only attributes for a bean type and target resource
      *
      * @param type
      * @param resourceAddress
@@ -44,7 +44,29 @@ public interface SecurityService {
     Set<String> getReadOnlyJavaNames(Class<?> type, String resourceAddress, SecurityContext securityContext);
 
     /**
-     * Get the read only attributes a resource
+     * Get the filtered attributes for a bean type and target resource
+     *
+     * @param type
+     * @param resourceAddress
+     * @param securityContext
+     *
+     * @return
+     */
+    Set<String> getFilteredJavaNames(Class<?> type, String resourceAddress, SecurityContext securityContext);
+
+    /**
+     * Get the filtered attributes for a bean type and target resource
+     *
+     * @param type
+     * @param securityContext
+     *
+     * @return
+     */
+    Set<String> getFilteredJavaNames(Class<?> type, SecurityContext securityContext);
+
+
+    /**
+     * Get the read only attributes for resource
      * (Used with MBUI based forms)
      *
      * @param resourceAddress
@@ -52,5 +74,16 @@ public interface SecurityService {
      * @param securityContext @return
      */
     Set<String> getReadOnlyDMRNames(String resourceAddress, List<String> formItemNames,
-            SecurityContext securityContext);
+                                    SecurityContext securityContext);
+
+    /**
+     * Get the filtered attributes for resource
+     * (Used with MBUI based forms)
+     *
+     * @param resourceAddress
+     * @param formItemNames
+     * @param securityContext @return
+     */
+    Set<String> getFilteredDMRNames(String resourceAddress, List<String> formItemNames,
+                                    SecurityContext securityContext);
 }

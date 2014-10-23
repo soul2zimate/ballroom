@@ -28,7 +28,7 @@ import java.util.Set;
 public class RenderMetaData {
     int numColumns = 1; // enforce a single column
     int titleWidth;
-    private Set<String> readOnlyFields;
+    private Set<String> filteredFields;
 
     public int getNumColumns() {
         return numColumns;
@@ -46,11 +46,11 @@ public class RenderMetaData {
         this.titleWidth = titleWidth;
     }
 
-    public void setReadOnlyFields(Set<String> readOnlyFields) {
-        this.readOnlyFields = readOnlyFields;
+    public void setFilteredFields(Set<String> filteredFields) {
+        this.filteredFields = filteredFields;
     }
 
-    public Set<String> getReadOnlyFields() {
-        return readOnlyFields;
+    public Set<String> getFilteredFields() {
+        return filteredFields;
     }
 }
