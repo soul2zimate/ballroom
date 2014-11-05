@@ -35,13 +35,27 @@ public class NumberBoxItem extends FormItem<Number> {
     private TextBox textBox;
     private InputElementWrapper wrapper;
 
+    private int min = 0;
+    private int max = Integer.MAX_VALUE;
+
     public NumberBoxItem(String name, String title) {
         this(name, title, false);
+    }
+
+    public NumberBoxItem(String name, String title, int min, int max) {
+        this(name, title, min<0);
+        this.min = min;
+        this.max = max;
     }
     
     public NumberBoxItem(String name, String title, boolean allowNegativeNumber) {
         super(name, title);
         this.allowNegativeNumber = allowNegativeNumber;
+
+        if(allowNegativeNumber)
+            this.min = Integer.MIN_VALUE;
+        else
+            this.min = 0;
 
         textBox = new TextBox();
         textBox.setName(name);
@@ -60,6 +74,14 @@ public class NumberBoxItem extends FormItem<Number> {
 
         wrapper = new InputElementWrapper(textBox, this);
 
+    }
+
+    public void setMin(int min) {
+        this.min = min;
+    }
+
+    public void setMax(int max) {
+        this.max = max;
     }
 
     @Override
@@ -163,7 +185,7 @@ public class NumberBoxItem extends FormItem<Number> {
         {
             try {
                 Integer i = Integer.valueOf(textBox.getValue());
-                outcome = (i >= 0) || allowNegativeNumber;
+                outcome = (i >= min) &&  i<=max;
             } catch (NumberFormatException e) {
                 outcome = false;
             }
