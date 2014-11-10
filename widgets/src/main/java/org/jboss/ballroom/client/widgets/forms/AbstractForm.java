@@ -235,6 +235,7 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
 
                                     if(!validate().hasErrors())
                                     {
+                                        refreshPlainView();
                                         setEnabled(false);
                                         toggleViews();
                                         toolsCallback.onSave(getChangedValues());
