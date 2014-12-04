@@ -22,7 +22,7 @@
     <description>Common Red Hat GWT style</description>
     <groupId>org.jboss.ballroom</groupId>
     <artifactId>ballroom</artifactId>
-    <version>2.1.8-SNAPSHOT</version>
+    <version>2.1.8</version>
     <packaging>pom</packaging>
 
 
@@ -33,7 +33,7 @@
         <connection>scm:git@github.com:har/ballroom.git</connection>
         <developerConnection>scm:git:git@github.com:hal/ballroom.git</developerConnection>
         <url>git@github.com:hal/ballroom.git</url>
-      <tag>HEAD</tag>
+      <tag>2.1.8</tag>
   </scm>
 
 
