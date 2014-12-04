@@ -16,14 +16,13 @@
   ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
   ~ MA  02110-1301, USA.
   -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <name>Ballroom</name>
     <description>Common Red Hat GWT style</description>
     <groupId>org.jboss.ballroom</groupId>
     <artifactId>ballroom</artifactId>
-    <version>2.1.7-SNAPSHOT</version>
+    <version>2.1.7</version>
     <packaging>pom</packaging>
 
 
@@ -34,7 +33,8 @@
         <connection>scm:git@github.com:har/ballroom.git</connection>
         <developerConnection>scm:git:git@github.com:hal/ballroom.git</developerConnection>
         <url>git@github.com:hal/ballroom.git</url>
-    </scm>
+      <tag>ballroom-2.1.7</tag>
+  </scm>
 
 
     <organization>
