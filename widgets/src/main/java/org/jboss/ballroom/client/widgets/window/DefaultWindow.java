@@ -49,6 +49,7 @@ public class DefaultWindow extends ResizePanel {
 
     public final static double GOLDEN_RATIO = 1.618;
     private static final int ESCAPE = 27;
+    private final HorizontalPanel footer;
 
     LayoutPanel content;
 
@@ -102,15 +103,10 @@ public class DefaultWindow extends ResizePanel {
 
         layout.addNorth(header, 40);
 
-        HorizontalPanel footer = new HorizontalPanel();
+        footer = new HorizontalPanel();
         footer.setStyleName("default-window-footer");
 
-        HTML footerLabel = new HTML("&nbsp;");
-        footer.add(footerLabel);
-
-        footerLabel.getElement().getParentElement().setAttribute("width", "100%");
-
-        layout.addSouth(footer, 16);
+        layout.addSouth(footer, 20);
 
         content = new LayoutPanel();
         content.setStyleName("default-window-content");
@@ -126,6 +122,10 @@ public class DefaultWindow extends ResizePanel {
         setWidth(winWidth);
         setHeight(winHeight);
 
+    }
+
+    public HorizontalPanel getFooter() {
+        return footer;
     }
 
     @Override
