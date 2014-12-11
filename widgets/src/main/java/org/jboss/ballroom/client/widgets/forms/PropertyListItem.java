@@ -24,34 +24,34 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Heiko Braun
  * @date 5/12/11
  */
-public class ListItem extends FormItem<List<String>> {
+public class PropertyListItem extends FormItem<Map<String,String>> {
 
     private TextArea textArea;
-    private List<String> value = new ArrayList<String>();
+    private Map<String,String> value = new HashMap<>();
     private boolean displayOnly;
     private InputElementWrapper wrapper;
 
 
-    public ListItem(String name, String title) {
+    public PropertyListItem(String name, String title) {
         this(name, title, false);
     }
     
     /**
-     * Create a new ListItem.
+     * Create a new PropertyListItem.
      * 
      * @param name The item name.
      * @param title The displayed title for the item.
      * @param displayOnly If true, never allow editing.
      */
-    public ListItem(String name, String title, boolean displayOnly) {
+    public PropertyListItem(String name, String title, boolean displayOnly) {
         super(name, title);
         this.textArea = new TextArea();
         this.textArea.setTabIndex(0);
@@ -65,7 +65,7 @@ public class ListItem extends FormItem<List<String>> {
         });
         this.displayOnly = displayOnly;
         wrapper = new InputElementWrapper(textArea, this);
-        wrapper.setHelpText("One item per line");
+        wrapper.setHelpText("One tuple (key=value) per line");
     }
     
     @Override
@@ -79,36 +79,43 @@ public class ListItem extends FormItem<List<String>> {
     }
 
     @Override
-    public boolean validate(List value) {
+    public boolean validate(Map<String,String> map) {
         return true;
     }
 
     @Override
-    public List<String> getValue() {
+    public Map<String, String> getValue() {
 
-        String[] split = textArea.getText().split("\n");
+        String[] lines = textArea.getText().split("\n");
         value.clear();
 
-        for(String s : split)
-            if(!s.equals("")) value.add(s);
+        for(String line : lines) {
+            if (!line.equals("")
+                    && line.contains("="))
+            {
+                String[] tuple = line.split("=");
+                value.put(tuple[0], tuple[1]);
+            }
+        }
 
-        return new ArrayList<>(value);
+        return new HashMap<>(value);
     }
 
     @Override
-    public void setValue(List<String> list) {
+    public void setValue(Map<String,String> map) {
 
         this.value.clear();
 
-        this.value.addAll(list);
+        this.value.putAll(map);
 
         this.textArea.setText("");
-        if (list.size() > 0) {
-            this.textArea.setVisibleLines(list.size());
+        if (map.size() > 0) {
+            this.textArea.setVisibleLines(map.size());
         }
-        for(Object item : list)
+
+        for(String key : map.keySet())
         {
-            textArea.setText(textArea.getText()+item.toString()+"\n");
+            textArea.setText(textArea.getText()+ key +"="+map.get(key)+"\n");
         }
 
         setUndefined(false);
