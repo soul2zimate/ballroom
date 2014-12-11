@@ -38,6 +38,7 @@ public class InputElementWrapper extends VerticalPanel {
     private final HTML expr;
     private final Widget widget;
     private final HTML errorText;
+    private final HTML helpText;
     //private Image err = new Image(Icons.INSTANCE.exclamation());
 
     private final static Framework framework = GWT.create(Framework.class);
@@ -75,10 +76,24 @@ public class InputElementWrapper extends VerticalPanel {
         errorText = new HTML(input.getErrMessage());
         errorText.addStyleName("form-item-error-desc");
 
+        helpText = new HTML();
+        helpText.addStyleName("form-item-help-desc");
+        helpText.setVisible(false);
+
         add(panel);
+        add(helpText);
         add(errorText);
 
         errorText.setVisible(false);
+    }
+
+    /**
+     * An optional help text (below the item)
+     * @param text
+     */
+    public void setHelpText(String text) {
+        helpText.setText(text);
+        helpText.setVisible(true);
     }
 
     public void setErroneous(boolean hasErrors)
