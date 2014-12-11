@@ -32,6 +32,7 @@ public abstract class FormItem<T> implements InputElement<T>, Comparable<String>
 
     protected String name;
     protected String title;
+    protected Object metadata;
 
     protected boolean isRequired = true;
     protected String errMessage = "Invalid input";
@@ -194,5 +195,13 @@ public abstract class FormItem<T> implements InputElement<T>, Comparable<String>
      */
     public String asString() {
         return String.valueOf(getValue());
+    }
+
+    public Object getMetadata() {
+        return metadata;
+    }
+
+    public void setMetadata(Object metadata) {
+        this.metadata = metadata;
     }
 }
