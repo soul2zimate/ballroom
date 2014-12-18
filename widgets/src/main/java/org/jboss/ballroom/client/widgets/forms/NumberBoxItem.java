@@ -74,6 +74,8 @@ public class NumberBoxItem extends FormItem<Number> {
 
         wrapper = new InputElementWrapper(textBox, this);
 
+        this.errMessage = "Invalid numeric value";
+
     }
 
     public void setMin(int min) {
@@ -159,11 +161,6 @@ public class NumberBoxItem extends FormItem<Number> {
     public void setErroneous(boolean b) {
         super.setErroneous(b);
         wrapper.setErroneous(b);
-    }
-
-    @Override
-    public String getErrMessage() {
-        return "Invalid numeric value";
     }
 
     @Override

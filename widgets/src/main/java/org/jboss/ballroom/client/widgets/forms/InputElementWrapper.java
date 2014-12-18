@@ -42,10 +42,12 @@ public class InputElementWrapper extends VerticalPanel {
     //private Image err = new Image(Icons.INSTANCE.exclamation());
 
     private final static Framework framework = GWT.create(Framework.class);
+    private final InputElement parent;
 
     public InputElementWrapper(Widget widget, final InputElement input) {
         super();
         this.widget = widget;
+        this.parent = input;
 
         setStyleName("fill-layout-width");
 
@@ -73,7 +75,7 @@ public class InputElementWrapper extends VerticalPanel {
             }
         });
 
-        errorText = new HTML(input.getErrMessage());
+        errorText = new HTML();
         errorText.addStyleName("form-item-error-desc");
 
         helpText = new HTML();
@@ -103,6 +105,7 @@ public class InputElementWrapper extends VerticalPanel {
         else
             widget.removeStyleName("form-item-error");
 
+        errorText.setText(parent.getErrMessage());
         errorText.setVisible(hasErrors);
     }
 
@@ -116,7 +119,4 @@ public class InputElementWrapper extends VerticalPanel {
         rbacConstraintIcon.setVisible(b);
     }
 
-    public void setErrMessage(String errMessage) {
-        errorText.setHTML(errMessage);
-    }
 }

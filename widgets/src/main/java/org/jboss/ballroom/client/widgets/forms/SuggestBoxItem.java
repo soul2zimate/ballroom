@@ -36,6 +36,8 @@ public class SuggestBoxItem extends FormItem<String> {
             }
         });
 
+
+        this.errMessage = "No whitespace, no special chars allowed";
     }
 
     public SuggestBoxItem(String name, String title, boolean isRequired) {
@@ -55,7 +57,7 @@ public class SuggestBoxItem extends FormItem<String> {
             }
         });
 
-
+        this.errMessage = "No whitespace, no special chars allowed";
     }
 
     @Override
@@ -143,11 +145,6 @@ public class SuggestBoxItem extends FormItem<String> {
     public void setErroneous(boolean b) {
         super.setErroneous(b);
         wrapper.setErroneous(b);
-    }
-
-    @Override
-    public String getErrMessage() {
-        return super.getErrMessage()+": no whitespace, no special chars";
     }
 
     @Override

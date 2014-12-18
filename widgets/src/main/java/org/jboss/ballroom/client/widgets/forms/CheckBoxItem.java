@@ -113,6 +113,8 @@ public class CheckBoxItem extends FormItem<Boolean> {
         // force boolean input at startup
         toogleBooleanInput();
 
+        this.errMessage = "Invalid expression value";
+
     }
 
     @Override
@@ -178,11 +180,6 @@ public class CheckBoxItem extends FormItem<Boolean> {
     @Override
     public void setErroneous(boolean b) {
         wrapper.setErroneous(b);
-    }
-
-    @Override
-    public String getErrMessage() {
-        return "Invalid expression value";
     }
 
     @Override

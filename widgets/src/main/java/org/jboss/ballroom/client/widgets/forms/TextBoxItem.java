@@ -52,6 +52,8 @@ public class TextBoxItem extends FormItem<String> {
             }
         });
         wrapper = new InputElementWrapper(textBox, this);
+
+        this.errMessage = "No whitespace, no special chars allowed";
     }
 
     public TextBoxItem(String name, String title, boolean isRequired) {
@@ -71,6 +73,8 @@ public class TextBoxItem extends FormItem<String> {
             }
         });
         wrapper = new InputElementWrapper(textBox, this);
+
+        this.errMessage = "No whitespace, no special chars allowed";
     }
 
     public void setAllowWhiteSpace(boolean allowWhiteSpace) {
@@ -136,17 +140,6 @@ public class TextBoxItem extends FormItem<String> {
     public void setErroneous(boolean b) {
         super.setErroneous(b);
         wrapper.setErroneous(b);
-    }
-
-    @Override
-    public String getErrMessage() {
-        return super.getErrMessage()+": no whitespace, no special chars";
-    }
-
-    @Override
-    public void setErrMessage(final String errMessage) {
-        super.setErrMessage(errMessage);
-        wrapper.setErrMessage(errMessage);
     }
 
     @Override

@@ -130,11 +130,6 @@ public class UnitBoxItem<T> extends FormItem<T> implements ChoiceItem<String> {
     }
 
     @Override
-    public String getErrMessage() {
-        return "Invalid value";
-    }
-
-    @Override
     public boolean validate(T value) {
         if (valueClass.equals(Long.class))
             // Currently supported values are always >= 0. A -1 return value signals incorrect input.

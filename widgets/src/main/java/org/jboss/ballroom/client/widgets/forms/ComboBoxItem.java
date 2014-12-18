@@ -56,6 +56,8 @@ public class ComboBoxItem extends FormItem<String> {
         this.wrapper = new InputElementWrapper(listBox.asWidget(), this);
         wrapper.getElement().setAttribute("style", "width:100%");
 
+        this.errMessage = "Missing selection!";
+
     }
 
     @Override
@@ -165,10 +167,6 @@ public class ComboBoxItem extends FormItem<String> {
         listBox.setEnabled(b);
     }
 
-    @Override
-    public String getErrMessage() {
-        return "missing selection";
-    }
 
     @Override
     public boolean validate(String value) {
@@ -181,12 +179,6 @@ public class ComboBoxItem extends FormItem<String> {
         {
             return true;
         }
-    }
-
-    @Override
-    public void setErrMessage(final String errMessage) {
-        super.setErrMessage(errMessage);
-        wrapper.setErrMessage(errMessage);
     }
 
     @Override
