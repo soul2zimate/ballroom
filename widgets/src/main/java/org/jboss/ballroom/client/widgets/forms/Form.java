@@ -84,7 +84,7 @@ public class Form<T> extends AbstractForm<T> {
 
     public void cancel() {
 
-        if(editedEntity!=null)
+        if (editedEntity != null)
             edit(editedEntity);
     }
 
@@ -97,7 +97,7 @@ public class Form<T> extends AbstractForm<T> {
     public void edit(T bean) {
 
         // Needs to be declared (i.e. when creating new instances)
-        if(null==bean)
+        if (null == bean)
             throw new IllegalArgumentException("Invalid entity: null");
 
         // Has to be an AutoBean
@@ -118,7 +118,7 @@ public class Form<T> extends AbstractForm<T> {
 
             public boolean visitValueProperty(final String propertyName, final Object value, PropertyContext ctx) {
 
-                if(isComplex ) return true; // skip complex types
+                if (isComplex) return true; // skip complex types
 
                 visitItem(propertyName, new FormItemVisitor() {
 
@@ -130,21 +130,17 @@ public class Form<T> extends AbstractForm<T> {
                         // if(item.doesSupportExpressions())
                         //{
                         String exprValue = exprMap.get(propertyName);
-                        if(exprValue!=null)
-                        {
+                        if (exprValue != null) {
                             item.setUndefined(false);
                             item.setExpressionValue(exprValue);
                         }
                         //}
 
                         // values
-                        else if(value!=null)
-                        {
+                        else if (value != null) {
                             item.setUndefined(false);
                             item.setValue(value);
-                        }
-                        else
-                        {
+                        } else {
                             item.setUndefined(true);
                             item.setModified(true); // don't escape validation
                         }
@@ -176,13 +172,10 @@ public class Form<T> extends AbstractForm<T> {
 
                         item.resetMetaData();
 
-                        if(value!=null)
-                        {
+                        if (value != null) {
                             item.setUndefined(false);
                             item.setValue(value.as());
-                        }
-                        else
-                        {
+                        } else {
                             item.setUndefined(true);
                             item.setModified(true); // don't escape validation
                         }
@@ -211,12 +204,9 @@ public class Form<T> extends AbstractForm<T> {
         SecurityService securityFacilities = framework.getSecurityService();
         SecurityContext securityContext = securityFacilities.getSecurityContext();
 
-        if(resourceAddress !=null)
-        {
+        if (resourceAddress != null) {
             return securityFacilities.getReadOnlyJavaNames(conversionType, resourceAddress, securityContext);
-        }
-        else
-        {
+        } else {
             return securityFacilities.getReadOnlyJavaNames(getConversionType(), securityContext);
         }
     }
@@ -226,12 +216,9 @@ public class Form<T> extends AbstractForm<T> {
         SecurityService securityFacilities = framework.getSecurityService();
         SecurityContext securityContext = securityFacilities.getSecurityContext();
 
-        if(resourceAddress !=null)
-        {
+        if (resourceAddress != null) {
             return securityFacilities.getFilteredJavaNames(conversionType, resourceAddress, securityContext);
-        }
-        else
-        {
+        } else {
             return securityFacilities.getFilteredJavaNames(getConversionType(), securityContext);
         }
     }
@@ -288,12 +275,9 @@ public class Form<T> extends AbstractForm<T> {
 
     void visitItem(final String name, FormItemVisitor visitor) {
         String namePrefix = name + "_";
-        for(Map<String, FormItem> groupItems : formItems.values())
-        {
-            for(String key : groupItems.keySet())
-            {
-                if(key.equals(name) || key.startsWith(namePrefix))
-                {
+        for (Map<String, FormItem> groupItems : formItems.values()) {
+            for (String key : groupItems.keySet()) {
+                if (key.equals(name) || key.startsWith(namePrefix)) {
                     visitor.visit(groupItems.get(key));
                 }
             }
@@ -302,13 +286,14 @@ public class Form<T> extends AbstractForm<T> {
 
     /**
      * Get changed values since last {@link #edit(Object)} ()}
+     *
      * @return
      */
 
     public Map<String, Object> getChangedValues() {
 
         final T editedEntity = getEditedEntity();
-        if(null==editedEntity)
+        if (null == editedEntity)
             return new HashMap<String, Object>();
 
         final T updatedEntity = getUpdatedEntity();
@@ -318,25 +303,21 @@ public class Form<T> extends AbstractForm<T> {
                 AutoBeanUtils.getAutoBean(updatedEntity)
         );
 
-        Map<String, Object> finalDiff = new HashMap<String,Object>();
+        Map<String, Object> finalDiff = new HashMap<String, Object>();
 
         // map changes, but skip unmodified fields
-        for(Map<String, FormItem> groupItems : formItems.values())
-        {
-            for(FormItem item : groupItems.values())
-            {
+        for (Map<String, FormItem> groupItems : formItems.values()) {
+            for (FormItem item : groupItems.values()) {
                 Object val = diff.get(item.getName());
 
                 // expression have precedence over real values
-                if(item.isExpressionValue())
-                {
+                if (item.isExpressionValue()) {
                     finalDiff.put(item.getName(), item.asExpressionValue());
                 }
 
                 // regular values
-                else if(val!=null && item.isModified())
-                {
-                    if(item.isUndefined())
+                else if (val != null && item.isModified()) {
+                    if (item.isUndefined())
                         finalDiff.put(item.getName(), FormItem.VALUE_SEMANTICS.UNDEFINED);
                     else
                         finalDiff.put(item.getName(), val);
@@ -351,46 +332,42 @@ public class Form<T> extends AbstractForm<T> {
      * This is what the entity looks like with the user's changes on the form.
      */
 
+    @SuppressWarnings("unchecked")
     public T getUpdatedEntity() {
 
-        Map<String,String> exprMap = new HashMap<String,String>();
+        Map<String, String> exprMap = new HashMap<String, String>();
 
+        int g = 0;
         StringBuilder builder = new StringBuilder("{");
-        int g=0;
-        for(Map<String, FormItem> groupItems : formItems.values())
-        {
-            int i=0;
-            for(FormItem item : groupItems.values())
-            {
+        for (Map<String, FormItem> groupItems : formItems.values()) {
+            int i = 0;
+            for (FormItem item : groupItems.values()) {
                 // in some cases we did populate the autobean with default values (aka transient beans).
                 // skipping undefined values should prevent this
-                if(isTransient && item.isUndefined()) {
-                    i++;
+                if (isTransient && item.isUndefined()) {
                     continue;
+                }
+
+                if (i > 0) {
+                    builder.append(", ");
                 }
 
                 builder.append("\"");
                 builder.append(item.getName());
                 builder.append("\"");
-
                 builder.append(":");
-
                 builder.append(encodeValue(item.getValue()));
-
-                if(i<groupItems.size()-1)
-                    builder.append(", ");
 
                 i++;
 
-
                 // Expressions
-                if(item.isExpressionValue())
+                if (item.isExpressionValue())
                     exprMap.put(item.getName(), item.asExpressionValue());
             }
 
-            if(g<formItems.size()-1)
+            if (g < formItems.size() - 1) {
                 builder.append(", ");
-
+            }
             g++;
         }
         builder.append("}");
@@ -400,26 +377,22 @@ public class Form<T> extends AbstractForm<T> {
                 conversionType,
                 builder.toString()
         );
-
         decoded.setTag(EXPR_TAG, exprMap);
-
         return (T) decoded.as();
-
     }
 
     private String encodeValue(Object object) {
         StringBuilder sb = new StringBuilder();
 
-        if(object instanceof List)     // list objects
+        if (object instanceof List)     // list objects
         {
-            List listObject = (List)object;
+            List listObject = (List) object;
             sb.append("[");
             int c = 0;
-            for(Object item : listObject)
-            {
+            for (Object item : listObject) {
                 sb.append(encodeValue(item));
 
-                if(c<listObject.size()-1)
+                if (c < listObject.size() - 1)
                     sb.append(", ");
 
                 c++;
@@ -431,7 +404,7 @@ public class Form<T> extends AbstractForm<T> {
             sb.append(encodeValue(split));
             sb.append(" }");
         } else if (object instanceof Splittable) {
-            Splittable split = (Splittable)object;
+            Splittable split = (Splittable) object;
             if (split.isString()) return encodeValue(split.asString());
 
             int c = 0;
@@ -440,7 +413,7 @@ public class Form<T> extends AbstractForm<T> {
                 sb.append(encodeValue(key));
                 sb.append(" : ");
                 sb.append(encodeValue(split.get(key)));
-                if(c<keys.size()-1)
+                if (c < keys.size() - 1)
                     sb.append(", ");
                 c++;
             }
@@ -449,11 +422,11 @@ public class Form<T> extends AbstractForm<T> {
             boolean quoted = (object instanceof String);
 
             String escaped = JsonUtils.escapeValue(object.toString());
-            escaped = escaped.substring(1, escaped.length()-1); // JsonUtils adds extra quotes
+            escaped = escaped.substring(1, escaped.length() - 1); // JsonUtils adds extra quotes
 
-            if(quoted)sb.append("\"");
+            if (quoted) sb.append("\"");
             sb.append(escaped);
-            if(quoted)sb.append("\"");
+            if (quoted) sb.append("\"");
         }
 
         return sb.toString();
@@ -461,10 +434,8 @@ public class Form<T> extends AbstractForm<T> {
 
     public void clearValues() {
 
-        for(Map<String, FormItem> groupItems : formItems.values())
-        {
-            for(FormItem item : groupItems.values())
-            {
+        for (Map<String, FormItem> groupItems : formItems.values()) {
+            for (FormItem item : groupItems.values()) {
                 item.resetMetaData();
                 item.clearValue();
             }
@@ -489,14 +460,12 @@ public class Form<T> extends AbstractForm<T> {
         void visit(FormItem item);
     }
 
-    public static Map<String,String> getExpressions(Object bean)
-    {
+    public static Map<String, String> getExpressions(Object bean) {
         final AutoBean autoBean = asAutoBean(bean);
 
-        Map<String, String> exprMap = (Map<String,String>)autoBean.getTag(EXPR_TAG);
-        if(null==exprMap)
-        {
-            exprMap = new HashMap<String,String>();
+        Map<String, String> exprMap = (Map<String, String>) autoBean.getTag(EXPR_TAG);
+        if (null == exprMap) {
+            exprMap = new HashMap<String, String>();
             autoBean.setTag(EXPR_TAG, exprMap);
         }
 
@@ -505,7 +474,7 @@ public class Form<T> extends AbstractForm<T> {
 
     private static AutoBean asAutoBean(Object bean) {
         final AutoBean autoBean = AutoBeanUtils.getAutoBean(bean);
-        if(null==autoBean)
+        if (null == autoBean)
             throw new IllegalArgumentException("Not an auto bean: " + bean.getClass());
         return autoBean;
     }
