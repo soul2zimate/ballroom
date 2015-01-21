@@ -47,6 +47,7 @@ import org.jboss.ballroom.client.spi.Framework;
 public class Form<T> extends AbstractForm<T> {
 
     private final static Framework framework = GWT.create(Framework.class);
+    private final String token;
 
 
     private AutoBeanFactory factory;
@@ -60,6 +61,7 @@ public class Form<T> extends AbstractForm<T> {
     public Form(Class<?> conversionType) {
         this.conversionType = conversionType;
         this.factory = framework.getBeanFactory();
+        this.token = framework.getSecurityService().resolveToken();
     }
 
     /**
@@ -202,7 +204,7 @@ public class Form<T> extends AbstractForm<T> {
     @Override
     public Set<String> getReadOnlyNames() {
         SecurityService securityFacilities = framework.getSecurityService();
-        SecurityContext securityContext = securityFacilities.getSecurityContext();
+        SecurityContext securityContext = securityFacilities.getSecurityContext(token);
 
         if (resourceAddress != null) {
             return securityFacilities.getReadOnlyJavaNames(conversionType, resourceAddress, securityContext);
@@ -214,7 +216,7 @@ public class Form<T> extends AbstractForm<T> {
     @Override
     public Set<String> getFilteredNames() {
         SecurityService securityFacilities = framework.getSecurityService();
-        SecurityContext securityContext = securityFacilities.getSecurityContext();
+        SecurityContext securityContext = securityFacilities.getSecurityContext(token);
 
         if (resourceAddress != null) {
             return securityFacilities.getFilteredJavaNames(conversionType, resourceAddress, securityContext);

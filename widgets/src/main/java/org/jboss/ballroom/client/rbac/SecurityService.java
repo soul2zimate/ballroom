@@ -12,11 +12,13 @@ import java.util.Set;
 public interface SecurityService {
 
     /**
-     * Get the security context associated with the current dialog
+     * Get the security context for a place.
      *
      * @return the current security context
      */
-    SecurityContext getSecurityContext();
+    SecurityContext getSecurityContext(String token);
+
+    String resolveToken();
 
     void registerWidget(String id, SecurityContextAware widget);
 
