@@ -43,6 +43,7 @@ public class ToolStrip extends HorizontalPanel implements SecurityContextAware {
     private HorizontalPanel left;
     private HorizontalPanel right;
     private String resourceAddress = null;
+    private final String token;
 
     public ToolStrip() {
         super();
@@ -61,6 +62,8 @@ public class ToolStrip extends HorizontalPanel implements SecurityContextAware {
         left.getElement().getParentElement().setAttribute("width", "50%");
         right.getElement().getParentElement().setAttribute("width", "50%");
         right.getElement().getParentElement().setAttribute("align", "right");
+
+        token = SECURITY_SERVICE.resolveToken();
     }
 
     public ToolStrip(String resourceAddress) {
@@ -69,9 +72,14 @@ public class ToolStrip extends HorizontalPanel implements SecurityContextAware {
     }
 
     @Override
+    public String getToken() {
+        return token;
+    }
+
+    @Override
     protected void onLoad() {
         SECURITY_SERVICE.registerWidget(id, this);
-        applySecurity(SECURITY_SERVICE.getSecurityContext(), false);
+        applySecurity(SECURITY_SERVICE.getSecurityContext(token), false);
     }
 
     @Override

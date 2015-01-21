@@ -37,4 +37,10 @@ public interface SecurityContextAware extends HasAttachHandlers {
     String getFilter();
 
     void updateSecurityContext(SecurityContext securityContext);
+
+    /**
+     * The token for which the widget's context was registered  (upon creation time of the widget)
+     * @return
+     */
+    String getToken();
 }

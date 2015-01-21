@@ -22,6 +22,7 @@ import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.HandlerRegistration;
+import com.gwtplatform.mvp.client.Presenter;
 
 /**
  * @author Harald Pehl
@@ -30,11 +31,11 @@ public class SecurityContextChangedEvent extends GwtEvent<SecurityContextChanged
 
     public static final Type<SecurityContextChangedHandler> TYPE = new Type<SecurityContextChangedHandler>();
 
-    public static void fire(HasHandlers source, String resourceAddress, String... wildcards) {
+    public static void fire(Presenter source, String resourceAddress, String... wildcards) {
         source.fireEvent(new SecurityContextChangedEvent(resourceAddress, wildcards));
     }
 
-    public static void fire(HasHandlers source, SecurityContext securityContext) {
+    public static void fire(Presenter source, SecurityContext securityContext) {
         source.fireEvent(new SecurityContextChangedEvent(securityContext));
     }
 
@@ -46,13 +47,13 @@ public class SecurityContextChangedEvent extends GwtEvent<SecurityContextChanged
     private final String[] wildcards;
     private final SecurityContext securityContext;
 
-    public SecurityContextChangedEvent(final SecurityContext securityContext) {
+    private SecurityContextChangedEvent(final SecurityContext securityContext) {
         this.resourceAddress = null;
         this.wildcards = null;
         this.securityContext = securityContext;
     }
 
-    public SecurityContextChangedEvent(String resourceAddress, String... wildcards) {
+    private SecurityContextChangedEvent(String resourceAddress, String... wildcards) {
         this.securityContext = null;
         this.resourceAddress = resourceAddress;
         this.wildcards = wildcards == null ? new String[0] : wildcards;

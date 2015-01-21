@@ -123,7 +123,7 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
 
     protected SecurityContext getSecurityContext()
     {
-        return SECURITY_SERVICE.getSecurityContext();
+        return SECURITY_SERVICE.getSecurityContext(SECURITY_SERVICE.resolveToken());
     }
 
     private Widget build() {
@@ -462,12 +462,19 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
         private final String resourceAddress;
         private String filter;
         private boolean wasEnabled;
+        private final String token;
 
         FormDeckPanel(String resourceAddress) {
             super();
             this.resourceAddress = resourceAddress;
             this.id = Document.get().createUniqueId();
             getElement().setId(this.id);
+            token = SECURITY_SERVICE.resolveToken();
+        }
+
+        @Override
+        public String getToken() {
+            return token;
         }
 
         @Override
