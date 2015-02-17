@@ -23,15 +23,17 @@ package org.jboss.ballroom.client.widgets.common;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.event.dom.client.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.safehtml.client.SafeHtmlTemplates;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.FocusListener;
+import com.google.gwt.user.client.ui.HasEnabled;
+import com.google.gwt.user.client.ui.HasFocus;
+import com.google.gwt.user.client.ui.KeyboardListener;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 
@@ -40,7 +42,9 @@ import com.google.gwt.user.client.ui.PopupPanel;
  *
  * @author Harald Pehl
  */
-public class ButtonDropdown extends Composite implements HasClickHandlers {
+public class ButtonDropdown extends Composite implements HasClickHandlers, HasDoubleClickHandlers, HasFocus, HasEnabled,
+        HasAllDragAndDropHandlers, HasAllFocusHandlers, HasAllGestureHandlers,
+        HasAllKeyHandlers, HasAllMouseHandlers, HasAllTouchHandlers {
 
     public static final String STYLE_NAME = "ballroom-ButtonDropdown";
     public static final String CARET_STYLE_NAME = STYLE_NAME + "-Caret";
@@ -52,6 +56,7 @@ public class ButtonDropdown extends Composite implements HasClickHandlers {
     private final Button button;
     private final FlowPanel menu;
     private PopupPanel popup;
+    private Button caret;
 
     public ButtonDropdown(final String text) {
         this(text, null);
@@ -59,16 +64,16 @@ public class ButtonDropdown extends Composite implements HasClickHandlers {
 
     public ButtonDropdown(final String text, ClickHandler handler) {
         button = new Button(text);
+        caret = new Button(TEMPLATES.caret());
         menu = new FlowPanel();
         popup = new PopupPanel(true);
         popup.setStyleName(POPUP_STYLE_NAME);
         popup.add(menu);
 
         final FlowPanel root = new FlowPanel();
-        final Button caret = new Button(TEMPLATES.caret());
-        caret.addStyleName(CARET_STYLE_NAME);
         root.add(button);
         root.add(caret);
+        caret.addStyleName(CARET_STYLE_NAME);
         caret.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
@@ -84,11 +89,6 @@ public class ButtonDropdown extends Composite implements HasClickHandlers {
         }
     }
 
-    @Override
-    public HandlerRegistration addClickHandler(ClickHandler handler) {
-        return button.addClickHandler(handler);
-    }
-
     public void addItem(final String text, final Scheduler.ScheduledCommand command) {
         Label label = new Label(text);
         label.setStyleName(POPUP_ITEM_STYLE_NAME);
@@ -101,6 +101,226 @@ public class ButtonDropdown extends Composite implements HasClickHandlers {
             }
         });
     }
+
+
+    // ------------------------------------------------------ button delegates
+
+    public void click() {
+        button.click();
+    }
+
+    public String getHTML() {
+        return button.getHTML();
+    }
+
+    public String getText() {
+        return button.getText();
+    }
+
+    public void setHTML(SafeHtml html) {
+        button.setHTML(html);
+    }
+
+    public void setHTML(String html) {
+        button.setHTML(html);
+    }
+
+    public void setText(String text) {
+        button.setText(text);
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return button.isEnabled();
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        button.setEnabled(enabled);
+        caret.setEnabled(enabled);
+    }
+
+    @Override
+    public int getTabIndex() {
+        return button.getTabIndex();
+    }
+
+    @Override
+    public void setAccessKey(char key) {
+        button.setAccessKey(key);
+    }
+
+    @Override
+    public void setFocus(boolean focused) {
+        button.setFocus(focused);
+    }
+
+    @Override
+    public void setTabIndex(int index) {
+        button.setTabIndex(index);
+    }
+
+    @Override
+    public HandlerRegistration addBlurHandler(BlurHandler handler) {
+        return button.addBlurHandler(handler);
+    }
+
+    @Override
+    public HandlerRegistration addClickHandler(ClickHandler handler) {
+        return button.addClickHandler(handler);
+    }
+
+    @Override
+    public HandlerRegistration addDoubleClickHandler(DoubleClickHandler handler) {
+        return button.addDoubleClickHandler(handler);
+    }
+
+    @Override
+    public HandlerRegistration addDragEndHandler(DragEndHandler handler) {
+        return button.addDragEndHandler(handler);
+    }
+
+    @Override
+    public HandlerRegistration addDragEnterHandler(DragEnterHandler handler) {
+        return button.addDragEnterHandler(handler);
+    }
+
+    @Override
+    public HandlerRegistration addDragHandler(DragHandler handler) {
+        return button.addDragHandler(handler);
+    }
+
+    @Override
+    public HandlerRegistration addDragLeaveHandler(DragLeaveHandler handler) {
+        return button.addDragLeaveHandler(handler);
+    }
+
+    @Override
+    public HandlerRegistration addDragOverHandler(DragOverHandler handler) {
+        return button.addDragOverHandler(handler);
+    }
+
+    @Override
+    public HandlerRegistration addDragStartHandler(DragStartHandler handler) {
+        return button.addDragStartHandler(handler);
+    }
+
+    @Override
+    public HandlerRegistration addDropHandler(DropHandler handler) {
+        return button.addDropHandler(handler);
+    }
+
+    @Override
+    public HandlerRegistration addFocusHandler(FocusHandler handler) {
+        return button.addFocusHandler(handler);
+    }
+
+    @Override
+    public HandlerRegistration addGestureChangeHandler(GestureChangeHandler handler) {
+        return button.addGestureChangeHandler(handler);
+    }
+
+    @Override
+    public HandlerRegistration addGestureEndHandler(GestureEndHandler handler) {
+        return button.addGestureEndHandler(handler);
+    }
+
+    @Override
+    public HandlerRegistration addGestureStartHandler(GestureStartHandler handler) {
+        return button.addGestureStartHandler(handler);
+    }
+
+    @Override
+    public HandlerRegistration addKeyDownHandler(KeyDownHandler handler) {
+        return button.addKeyDownHandler(handler);
+    }
+
+    @Override
+    public HandlerRegistration addKeyPressHandler(KeyPressHandler handler) {
+        return button.addKeyPressHandler(handler);
+    }
+
+    @Override
+    public HandlerRegistration addKeyUpHandler(KeyUpHandler handler) {
+        return button.addKeyUpHandler(handler);
+    }
+
+    @Override
+    public HandlerRegistration addMouseDownHandler(MouseDownHandler handler) {
+        return button.addMouseDownHandler(handler);
+    }
+
+    @Override
+    public HandlerRegistration addMouseMoveHandler(MouseMoveHandler handler) {
+        return button.addMouseMoveHandler(handler);
+    }
+
+    @Override
+    public HandlerRegistration addMouseOutHandler(MouseOutHandler handler) {
+        return button.addMouseOutHandler(handler);
+    }
+
+    @Override
+    public HandlerRegistration addMouseOverHandler(MouseOverHandler handler) {
+        return button.addMouseOverHandler(handler);
+    }
+
+    @Override
+    public HandlerRegistration addMouseUpHandler(MouseUpHandler handler) {
+        return button.addMouseUpHandler(handler);
+    }
+
+    @Override
+    public HandlerRegistration addMouseWheelHandler(MouseWheelHandler handler) {
+        return button.addMouseWheelHandler(handler);
+    }
+
+    @Override
+    public HandlerRegistration addTouchCancelHandler(TouchCancelHandler handler) {
+        return button.addTouchCancelHandler(handler);
+    }
+
+    @Override
+    public HandlerRegistration addTouchEndHandler(TouchEndHandler handler) {
+        return button.addTouchEndHandler(handler);
+    }
+
+    @Override
+    public HandlerRegistration addTouchMoveHandler(TouchMoveHandler handler) {
+        return button.addTouchMoveHandler(handler);
+    }
+
+    @Override
+    public HandlerRegistration addTouchStartHandler(TouchStartHandler handler) {
+        return button.addTouchStartHandler(handler);
+    }
+
+    @Override
+    @Deprecated
+    public void addFocusListener(FocusListener listener) {
+        button.addFocusListener(listener);
+    }
+
+    @Override
+    @Deprecated
+    public void addKeyboardListener(KeyboardListener listener) {
+        button.addKeyboardListener(listener);
+    }
+
+    @Override
+    @Deprecated
+    public void removeFocusListener(FocusListener listener) {
+        button.removeFocusListener(listener);
+    }
+
+    @Override
+    @Deprecated
+    public void removeKeyboardListener(KeyboardListener listener) {
+        button.removeKeyboardListener(listener);
+    }
+
+
+    // ------------------------------------------------------ safe html template
 
     interface Templates extends SafeHtmlTemplates {
         @Template("<i class=\"icon-caret-down\"></i> ")
