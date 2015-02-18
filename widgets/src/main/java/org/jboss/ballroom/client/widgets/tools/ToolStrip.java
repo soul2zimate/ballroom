@@ -24,6 +24,7 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import org.jboss.ballroom.client.rbac.AuthorisationDecision;
+import org.jboss.ballroom.client.rbac.OperationAddressAware;
 import org.jboss.ballroom.client.rbac.SecurityContext;
 import org.jboss.ballroom.client.rbac.SecurityContextAware;
 import org.jboss.ballroom.client.rbac.SecurityService;
@@ -139,8 +140,8 @@ public class ToolStrip extends HorizontalPanel implements SecurityContextAware {
 
         for (int i = 0; i < panel.getWidgetCount(); i++) {
             Widget widget = panel.getWidget(i);
-            if (widget instanceof ToolButton) {
-                ToolButton btn = (ToolButton) widget;
+            if (widget instanceof OperationAddressAware) {
+                OperationAddressAware btn = (OperationAddressAware) widget;
                 boolean granted;
                 if (btn.hasOperationAddress()) {
                     // fine grained, doesn't usually apply but can help to overcome dge cases

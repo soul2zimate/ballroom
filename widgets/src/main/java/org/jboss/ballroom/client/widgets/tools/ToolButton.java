@@ -21,13 +21,13 @@ package org.jboss.ballroom.client.widgets.tools;
 
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
+import org.jboss.ballroom.client.rbac.OperationAddressAware;
 
 /**
  * @author Heiko Braun
  * @date 2/28/11
  */
-public class ToolButton extends Button
-{
+public class ToolButton extends Button implements OperationAddressAware {
 
     private String resource;
     private String op;
@@ -45,15 +45,18 @@ public class ToolButton extends Button
         getElement().setTabIndex(0);
     }
 
+    @Override
     public void setOperationAddress(String resource, String op) {
         this.resource = resource;
         this.op = op;
     }
 
+    @Override
     public String[] getOperationAddress() {
         return new String[] {resource, op};
     }
 
+    @Override
     public boolean hasOperationAddress() {
         return resource!=null && op!=null;
     }
