@@ -71,13 +71,13 @@ public class WindowHeader extends Composite implements HasAllMouseHandlers {
                     width = Window.getClientWidth() - 50;
                     height = Window.getClientHeight() - 50;
 
-                    callback.hide();
+                    //callback.hide();
 
                     callback.setPopupPosition(25, 25);
                     callback.setWidth(width+"px");
                     callback.setHeight(height+"px");
 
-                    callback.show();
+                    //callback.show();
                 }
                 else
                 {
@@ -85,7 +85,7 @@ public class WindowHeader extends Composite implements HasAllMouseHandlers {
                     // reset to previous size & position
                     // see above ...
 
-                    callback.hide();
+                    //callback.hide();
 
                     callback.setWidth(width+"px");
                     callback.setHeight(height+"px");
