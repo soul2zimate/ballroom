@@ -186,6 +186,10 @@ public class DefaultWindow extends ResizePanel {
 
     @Override
     public void show() {
+
+        super.setWidth(width+"px");
+        super.setHeight(height+"px");
+
         super.show();
 
         if(isIE)
