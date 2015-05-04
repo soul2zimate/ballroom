@@ -43,7 +43,7 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
     protected boolean isTransient;
 
     private FormDeckPanel deck;
-    private List<PlainFormView> plainViews = new ArrayList<PlainFormView>();
+    protected List<PlainFormView> plainViews = new ArrayList<PlainFormView>();
     private boolean isEnabled =true;
 
     final static String DEFAULT_GROUP = "default";
