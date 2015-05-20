@@ -19,13 +19,6 @@
 
 package org.jboss.ballroom.client.widgets.forms;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsonUtils;
 import com.google.web.bindery.autobean.shared.AutoBean;
@@ -37,6 +30,12 @@ import com.google.web.bindery.autobean.shared.Splittable;
 import org.jboss.ballroom.client.rbac.SecurityContext;
 import org.jboss.ballroom.client.rbac.SecurityService;
 import org.jboss.ballroom.client.spi.Framework;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Form data binding that works on {@link AutoBean} entities.
@@ -54,9 +53,6 @@ public class Form<T> extends AbstractForm<T> {
 
     private T editedEntity = null;
     private final Class<?> conversionType;
-
-    private List<EditListener> listeners = new ArrayList<EditListener>();
-
 
     public Form(Class<?> conversionType) {
         this.conversionType = conversionType;
@@ -194,9 +190,6 @@ public class Form<T> extends AbstractForm<T> {
         });
 
 
-        notifyListeners(bean);
-
-
         // plain views
         refreshPlainView();
     }
@@ -259,21 +252,6 @@ public class Form<T> extends AbstractForm<T> {
     }  */
 
 
-    private void notifyListeners(T bean) {
-        for (EditListener listener : listeners) {
-            listener.editingBean(bean);
-        }
-    }
-
-
-    public void addEditListener(EditListener listener) {
-        this.listeners.add(listener);
-    }
-
-
-    public void removeEditListener(EditListener listener) {
-        this.listeners.remove(listener);
-    }
 
     void visitItem(final String name, FormItemVisitor visitor) {
         String namePrefix = name + "_";

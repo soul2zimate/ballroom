@@ -86,21 +86,6 @@ public interface FormAdapter<T> extends FormControl {
     @Deprecated
     Class<?> getConversionType();
 
-    /**
-     * Add a listener that is notified when a bean starts to be edited.
-     * @param listener The listener.
-     */
-    @Deprecated
-    void addEditListener(EditListener listener);
-
-    /**
-     * Remove a listener so it will no longer be notified when a bean starts to be edited.
-     * @param listener The listener.
-     */
-    @Deprecated
-    void removeEditListener(EditListener listener);
-
-
     void setToolsCallback(FormCallback callback);
 
     void addFormValidator(FormValidator formValidator);
