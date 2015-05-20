@@ -19,15 +19,12 @@
 package org.jboss.ballroom.testsuites;
 
 import com.google.gwt.junit.tools.GWTTestSuite;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
-
 import org.jboss.ballroom.client.widgets.forms.DefaultGroupRendererTest;
 import org.jboss.ballroom.client.widgets.forms.FormTest;
 import org.jboss.ballroom.client.widgets.forms.ListBoxItemTest;
 import org.jboss.ballroom.client.widgets.forms.TextAreaItemTest;
-import org.jboss.ballroom.client.widgets.forms.UnitBoxItemTest;
 
 /**
  * The test suites exist in a separate package to avoid errors coming from GWT when running them
@@ -44,7 +41,8 @@ public class BallRoomTestSuite extends GWTTestSuite {
         suite.addTestSuite(FormTest.class);
         suite.addTestSuite(ListBoxItemTest.class);
         suite.addTestSuite(TextAreaItemTest.class);
-        suite.addTestSuite(UnitBoxItemTest.class);
+
+
         return suite;
     }
 }
