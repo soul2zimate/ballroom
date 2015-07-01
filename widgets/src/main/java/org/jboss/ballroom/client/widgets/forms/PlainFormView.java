@@ -184,8 +184,8 @@ public class PlainFormView {
         }
         else if(hasEntity && (value instanceof Boolean))
         {
-            String booleanFallback = hasEntity ? "false" : EMPTY_STRING;
-            representation = (Boolean)value ? "true" : booleanFallback;
+            String booleanFallback = hasEntity ? "<i class=\"icon-check-empty\"></i>" : EMPTY_STRING;
+            representation = (Boolean)value ? "<i class=\"icon-check\"></i> " : booleanFallback;
         }
         else if(hasEntity && (item instanceof ListItem))
         {
