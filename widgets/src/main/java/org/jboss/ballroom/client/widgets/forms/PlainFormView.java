@@ -184,8 +184,8 @@ public class PlainFormView {
         }
         else if(hasEntity && (value instanceof Boolean))
         {
-            String booleanFallback = hasEntity ? "<i class=\"icon-check-empty\"></i>" : EMPTY_STRING;
-            representation = (Boolean)value ? "<i class=\"icon-check\"></i> " : booleanFallback;
+            String booleanFallback = hasEntity ? "false" : EMPTY_STRING;
+            representation = (Boolean)value ? "true" : booleanFallback;
         }
         else if(hasEntity && (item instanceof ListItem))
         {
@@ -270,9 +270,16 @@ public class PlainFormView {
         SafeHtml render(String id, String title);
     }
 
+    interface IconTemplate extends SafeHtmlTemplates {
+          @Template("<i class=\"{0}\"></i>")
+          SafeHtml render(String iconClass);
+      }
+
+
     private static final Template TEMPLATE = GWT.create(Template.class);
     private static final ValueTemplate VALUE_TEMPLATE = GWT.create(ValueTemplate.class);
     private static final HyperlinkTemplate HYPERLINK_TEMPLATE = GWT.create(HyperlinkTemplate.class);
+    private static final IconTemplate ICON_TEMPLATE = GWT.create(IconTemplate.class);
 
     private class TitleCell extends AbstractCell<String> {
 
@@ -324,6 +331,10 @@ public class PlainFormView {
                 if (value.startsWith("http://") || value.startsWith("https://"))
                 {
                     render = HYPERLINK_TEMPLATE.render(labelId, value);
+                }
+                else if (value.startsWith("[icon]"))
+                {
+                    render = ICON_TEMPLATE.render(value.substring(6, value.length()));
                 }
                 else
                 {
