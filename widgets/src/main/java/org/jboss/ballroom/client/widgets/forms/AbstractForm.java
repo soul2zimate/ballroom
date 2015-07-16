@@ -11,6 +11,7 @@ import java.util.Set;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
@@ -51,7 +52,15 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
     private HTML edit;
     private final List<FormValidator> formValidators = new LinkedList<>();
 
+    /**
+     * Must delegate to {@link #setOperational()}
+     * @param bean The bean to be edited.
+     */
     public abstract void edit(T bean);
+
+    protected void setOperational() {
+        edit.getElement().getStyle().setDisplay(Style.Display.INLINE);
+    }
 
     public abstract void cancel();
 
@@ -161,6 +170,9 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
 
             if(!writePriviledges)
                 edit.getElement().addClassName("rbac-suppressed");
+
+            // without any data the form is disabled
+            edit.getElement().getStyle().setDisplay(Style.Display.NONE);
         }
 
         deck.add(viewPanel.asWidget());
