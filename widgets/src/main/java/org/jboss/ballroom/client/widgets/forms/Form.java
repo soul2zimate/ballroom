@@ -19,6 +19,13 @@
 
 package org.jboss.ballroom.client.widgets.forms;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsonUtils;
 import com.google.web.bindery.autobean.shared.AutoBean;
@@ -30,12 +37,6 @@ import com.google.web.bindery.autobean.shared.Splittable;
 import org.jboss.ballroom.client.rbac.SecurityContext;
 import org.jboss.ballroom.client.rbac.SecurityService;
 import org.jboss.ballroom.client.spi.Framework;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Form data binding that works on {@link AutoBean} entities.
@@ -158,9 +159,27 @@ public class Form<T> extends AbstractForm<T> {
             }
 
 
+            @SuppressWarnings("unchecked")
             public boolean visitReferenceProperty(String propertyName, AutoBean<?> value, PropertyContext ctx) {
-                isComplex = true;
-                //System.out.println("begin reference "+propertyName+ ": "+ctx.getType());
+                if (Map.class.getName().equals(ctx.getType().getName())) {
+                    // Only Map<String, String> is supported!
+                    final AutoBean<Map<String, String>> mapValue = (AutoBean<Map<String, String>>) value;
+                    visitItem(propertyName, new FormItemVisitor() {
+                        public void visit(FormItem item) {
+                            item.resetMetaData();
+                            if (mapValue != null) {
+                                item.setUndefined(false);
+                                item.setValue(mapValue.as());
+                            } else {
+                                item.setUndefined(true);
+                                item.setModified(true); // don't escape validation
+                            }
+                        }
+                    });
+                } else {
+                    isComplex = true;
+                    //System.out.println("begin reference "+propertyName+ ": "+ctx.getType());
+                }
                 return true;
             }
 
@@ -364,6 +383,7 @@ public class Form<T> extends AbstractForm<T> {
         return (T) decoded.as();
     }
 
+    @SuppressWarnings("unchecked")
     private String encodeValue(Object object) {
         StringBuilder sb = new StringBuilder();
 
@@ -381,6 +401,17 @@ public class Form<T> extends AbstractForm<T> {
                 c++;
             }
             sb.append("]");
+        } else if (object instanceof Map) {
+            Map<String, String> map = (Map<String, String>) object;
+            sb.append("{");
+            for (Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator(); iterator.hasNext(); ) {
+                Map.Entry<String, String> entry = iterator.next();
+                sb.append(encodeValue(entry.getKey())).append(":").append(encodeValue(entry.getValue()));
+                if (iterator.hasNext()) {
+                    sb.append(",");
+                }
+            }
+            sb.append("}");
         } else if (AutoBeanUtils.getAutoBean(object) != null) {
             Splittable split = AutoBeanCodex.encode(AutoBeanUtils.getAutoBean(object));
             sb.append("{ ");
