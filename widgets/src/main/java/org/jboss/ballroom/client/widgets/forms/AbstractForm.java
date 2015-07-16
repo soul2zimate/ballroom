@@ -49,17 +49,25 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
 
     final static String DEFAULT_GROUP = "default";
     protected FormCallback toolsCallback = null; // if set, the tools will be provided externally
+
     private HTML edit;
     private final List<FormValidator> formValidators = new LinkedList<>();
 
     /**
-     * Must delegate to {@link #setOperational()}
+     * Must delegate to {@link #setOperational(boolean)}
      * @param bean The bean to be edited.
      */
     public abstract void edit(T bean);
 
-    protected void setOperational() {
-        edit.getElement().getStyle().setDisplay(Style.Display.INLINE);
+    protected void setOperational(boolean isOperational) {
+
+        if (edit != null) {
+            if(isOperational)
+                edit.getElement().getStyle().setDisplay(Style.Display.INLINE);
+            else
+                edit.getElement().getStyle().setDisplay(Style.Display.NONE);
+        }
+
     }
 
     public abstract void cancel();

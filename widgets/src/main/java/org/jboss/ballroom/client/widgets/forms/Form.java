@@ -99,7 +99,7 @@ public class Form<T> extends AbstractForm<T> {
             throw new IllegalArgumentException("Invalid entity: null");
 
         // the edit buttons becomes visible
-        setOperational();
+        setOperational(true);
 
         // Has to be an AutoBean
         final AutoBean<T> autoBean = asAutoBean(bean);
@@ -425,7 +425,8 @@ public class Form<T> extends AbstractForm<T> {
         }
 
         editedEntity = null;
-
+        setOperational(false);
+        setEnabled(false);
         refreshPlainView();
     }
 
