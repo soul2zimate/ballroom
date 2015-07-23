@@ -180,7 +180,7 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
                 edit.getElement().addClassName("rbac-suppressed");
 
             // without any data the form is disabled
-            edit.getElement().getStyle().setDisplay(Style.Display.NONE);
+            setOperational(false);
         }
 
         deck.add(viewPanel.asWidget());

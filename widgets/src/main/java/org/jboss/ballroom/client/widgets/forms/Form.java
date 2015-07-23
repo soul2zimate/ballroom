@@ -457,7 +457,8 @@ public class Form<T> extends AbstractForm<T> {
 
         editedEntity = null;
         setOperational(false);
-        setEnabled(false);
+        if(toolsCallback !=null)
+            setEnabled(false);
         refreshPlainView();
     }
 
