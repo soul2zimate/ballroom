@@ -62,6 +62,7 @@ public class CheckBoxItem extends FormItem<Boolean> {
     public CheckBoxItem(String name, String title) {
         super(name, title);
         checkBox = new CheckBox();
+        checkBox.setName(name);
         checkBox.setTitle("Shift click for expression input");
         checkBox.setTabIndex(0);
         checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
