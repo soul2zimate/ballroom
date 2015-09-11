@@ -26,6 +26,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -35,7 +36,7 @@ import java.util.Map;
 public class PropertyListItem extends FormItem<Map<String,String>> {
 
     private TextArea textArea;
-    private Map<String,String> value = new HashMap<>();
+    private Map<String,String> value = new LinkedHashMap<>();
     private boolean displayOnly;
     private InputElementWrapper wrapper;
 
@@ -93,12 +94,14 @@ public class PropertyListItem extends FormItem<Map<String,String>> {
             if (!line.equals("")
                     && line.contains("="))
             {
-                String[] tuple = line.split("=");
-                value.put(tuple[0], tuple[1]);
+                int delim = line.indexOf("=");
+                String key = line.substring(0, delim);
+                String val = line.substring(delim+1, line.length());
+                value.put(key, val);
             }
         }
 
-        return new HashMap<>(value);
+        return new LinkedHashMap<>(value);
     }
 
     @Override

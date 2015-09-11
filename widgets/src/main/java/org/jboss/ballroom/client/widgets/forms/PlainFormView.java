@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Heiko Braun
@@ -195,6 +196,15 @@ public class PlainFormView {
                 sb.append(s).append("  ");
             representation = sb.toString();
         }
+        else if(hasEntity && (item instanceof PropertyListItem))
+        {
+            PropertyListItem map = (PropertyListItem)item;
+            Map<String, String> values = map.getValue();
+            StringBuffer sb = new StringBuffer();
+            for(String key : values.keySet())
+                sb.append(key).append(" = ").append(values.get(key)).append("<br/>");
+            representation = sb.toString();
+        }
         else
         {
             representation = hasEntity ? item.asString() : EMPTY_STRING;
@@ -262,7 +272,7 @@ public class PlainFormView {
 
     interface ValueTemplate extends SafeHtmlTemplates {
         @Template("<span class='form-item-value' aria-labelledBy='{0}'>{1}</span>")
-        SafeHtml render(String id, String title);
+        SafeHtml render(String id, SafeHtml val);
     }
 
     interface HyperlinkTemplate extends SafeHtmlTemplates {
@@ -338,7 +348,9 @@ public class PlainFormView {
                 }
                 else
                 {
-                    render = VALUE_TEMPLATE.render(labelId, value);
+                    SafeHtmlBuilder html = new SafeHtmlBuilder();
+                    html.appendHtmlConstant(value);
+                    render = VALUE_TEMPLATE.render(labelId, html.toSafeHtml());
                 }
             }
             else
