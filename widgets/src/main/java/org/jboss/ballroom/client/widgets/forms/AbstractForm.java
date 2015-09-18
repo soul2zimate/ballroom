@@ -35,6 +35,7 @@ import org.jboss.ballroom.client.widgets.window.DialogueOptions;
 public abstract class AbstractForm<T> implements FormAdapter<T> {
 
     public static final String EXPR_TAG = "EXPRESSIONS";
+    private static final String RBAC_SUPPRESSED = "rbac-suppressed";
 
     protected final Map<String, Map<String, FormItem>> formItems = new LinkedHashMap<String, Map<String, FormItem>>();
     protected final Map<String,GroupRenderer> renderer = new HashMap<String, GroupRenderer>();
@@ -59,9 +60,13 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
      */
     public abstract void edit(T bean);
 
+    /**
+     * Set's the form operational is not suppressed by RBAC
+     * @param isOperational
+     */
     protected void setOperational(boolean isOperational) {
 
-        if (edit != null) {
+        if (edit != null && !edit.getElement().hasClassName(RBAC_SUPPRESSED)) {
             if(isOperational)
                 edit.getElement().getStyle().setDisplay(Style.Display.INLINE);
             else
@@ -177,7 +182,7 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
             viewPanel.add(edit);
 
             if(!writePriviledges)
-                edit.getElement().addClassName("rbac-suppressed");
+                edit.getElement().addClassName(RBAC_SUPPRESSED);
 
             // without any data the form is disabled
             setOperational(false);
@@ -529,12 +534,12 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
                     setEnabled(false);
                 }
                 if (edit != null) {
-                    edit.getElement().addClassName("rbac-suppressed");
+                    edit.getElement().addClassName(RBAC_SUPPRESSED);
                 }
             } else {
                 // TODO update form fields based on new security context?
                 if (edit != null) {
-                    edit.getElement().removeClassName("rbac-suppressed");
+                    edit.getElement().removeClassName(RBAC_SUPPRESSED);
                 }
                 if (wasEnabled) {
                     setEnabled(true);
