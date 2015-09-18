@@ -19,7 +19,6 @@
 package org.jboss.ballroom.client.rbac;
 
 import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HasHandlers;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 import com.gwtplatform.mvp.client.Presenter;
@@ -35,26 +34,14 @@ public class SecurityContextChangedEvent extends GwtEvent<SecurityContextChanged
         source.fireEvent(new SecurityContextChangedEvent(resourceAddress, wildcards));
     }
 
-    public static void fire(Presenter source, SecurityContext securityContext) {
-        source.fireEvent(new SecurityContextChangedEvent(securityContext));
-    }
-
     public static HandlerRegistration register(EventBus eventBus, SecurityContextChangedHandler handler) {
         return eventBus.addHandler(TYPE, handler);
     }
 
     private final String resourceAddress;
     private final String[] wildcards;
-    private final SecurityContext securityContext;
-
-    private SecurityContextChangedEvent(final SecurityContext securityContext) {
-        this.resourceAddress = null;
-        this.wildcards = null;
-        this.securityContext = securityContext;
-    }
 
     private SecurityContextChangedEvent(String resourceAddress, String... wildcards) {
-        this.securityContext = null;
         this.resourceAddress = resourceAddress;
         this.wildcards = wildcards == null ? new String[0] : wildcards;
     }
@@ -65,10 +52,6 @@ public class SecurityContextChangedEvent extends GwtEvent<SecurityContextChanged
 
     public String[] getWildcards() {
         return wildcards;
-    }
-
-    public SecurityContext getSecurityContext() {
-        return securityContext;
     }
 
     @Override

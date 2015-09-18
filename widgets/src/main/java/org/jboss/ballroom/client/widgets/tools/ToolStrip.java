@@ -98,7 +98,8 @@ public class ToolStrip extends HorizontalPanel implements SecurityContextAware {
     }
 
     @Override
-    public void updateSecurityContext(final SecurityContext securityContext) {
+    public void onSecurityContextChanged() {
+        SecurityContext securityContext = SECURITY_SERVICE.getSecurityContext(token);
         applySecurity(securityContext, true);
     }
 

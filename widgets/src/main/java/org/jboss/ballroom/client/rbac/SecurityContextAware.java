@@ -29,14 +29,17 @@ public interface SecurityContextAware extends HasAttachHandlers {
 
     /**
      * If set, acts as a filter when a {@link org.jboss.ballroom.client.rbac.SecurityContextChangedEvent} comes in.
-     * The {@link #updateSecurityContext(SecurityContext)} method is only called if the filter and the resource
+     * The {@link #onSecurityContextChanged() } method is only called if the filter and the resource
      * address in the event match.
      */
     void setFilter(String resourceAddress);
 
     String getFilter();
 
-    void updateSecurityContext(SecurityContext securityContext);
+    /**
+     * Instruct the target to recompute the security context
+     */
+    void onSecurityContextChanged();
 
     /**
      * The token for which the widget's context was registered  (upon creation time of the widget)
