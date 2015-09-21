@@ -24,6 +24,10 @@ import com.google.web.bindery.event.shared.HandlerRegistration;
 import com.gwtplatform.mvp.client.Presenter;
 
 /**
+ * Instructs the security framework to recompute the context for a given key.
+ * This results in a selection of a child context and force the {@link SecurityContextAware} widgets to evaluate the selected context.
+ * A common scenario is the selection of a resource that belongs to a scoped role (i.e. server group, server or host).
+ *
  * @author Harald Pehl
  */
 public class SecurityContextChangedEvent extends GwtEvent<SecurityContextChangedHandler> {
