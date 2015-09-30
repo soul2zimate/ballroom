@@ -2,7 +2,7 @@ package org.jboss.ballroom.client.rbac;
 
 /**
  * The security context has access to the authorisation meta data and provides policies to reason over it.
- * Each security context is associated with a specific {@link com.gwtplatform.mvp.client.proxy.PlaceRequest}.
+ * Each security context is associated with a specific {@link com.gwtplatform.mvp.shared.proxy.PlaceRequest}.
  *
  * @see SecurityService
  * @see com.gwtplatform.mvp.client.proxy.PlaceManager
@@ -30,9 +30,10 @@ public interface SecurityContext {
 
     AuthorisationDecision getOperationPriviledge(String resourceAddress, String operationName);
 
-    boolean hasChildContext(String resourceAddress);
+    boolean hasChildContext(Object resourceAddress, String resolvedKey);
 
-    SecurityContext getChildContext(String resourceAddress);
+    void activateChildContext(Object resourceAddress, String resolvedKey);
 
     void seal();
+
 }

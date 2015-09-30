@@ -19,6 +19,7 @@
 package org.jboss.ballroom.client.rbac;
 
 import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.user.client.Command;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 import com.gwtplatform.mvp.client.Presenter;
@@ -29,33 +30,75 @@ import com.gwtplatform.mvp.client.Presenter;
  * A common scenario is the selection of a resource that belongs to a scoped role (i.e. server group, server or host).
  *
  * @author Harald Pehl
+ * @author Heiko Braun
  */
 public class SecurityContextChangedEvent extends GwtEvent<SecurityContextChangedHandler> {
 
     public static final Type<SecurityContextChangedHandler> TYPE = new Type<SecurityContextChangedHandler>();
 
-    public static void fire(Presenter source, String resourceAddress, String... wildcards) {
-        source.fireEvent(new SecurityContextChangedEvent(resourceAddress, wildcards));
+    @FunctionalInterface
+    public interface AddressResolver<T> {
+        String resolve(T template);
+    }
+
+    /**
+     * Change the security context and invoke the {@link SecurityContextChangedEvent#getPostContruct()} afterwards.
+     *
+     * @param source
+     * @param postConstruct
+     */
+    public static void fire(Presenter source, Command postConstruct, AddressResolver resolver) {
+        source.fireEvent(new SecurityContextChangedEvent(postConstruct, resolver));
+    }
+
+    public static void fire(Presenter source, AddressResolver resolver) {
+        source.fireEvent(new SecurityContextChangedEvent(resolver));
+    }
+
+    /**
+     * Reset previous child context selections. See usage of {@link SecurityContextChangedEvent#isReset()}
+     * @param source
+     */
+    public static void fire(Presenter source) {
+        source.fireEvent(new SecurityContextChangedEvent());
     }
 
     public static HandlerRegistration register(EventBus eventBus, SecurityContextChangedHandler handler) {
         return eventBus.addHandler(TYPE, handler);
     }
 
-    private final String resourceAddress;
-    private final String[] wildcards;
+    private final Command postContruct;
+    private final boolean isReset;
+    private final AddressResolver resolver;
 
-    private SecurityContextChangedEvent(String resourceAddress, String... wildcards) {
-        this.resourceAddress = resourceAddress;
-        this.wildcards = wildcards == null ? new String[0] : wildcards;
+    public SecurityContextChangedEvent() {
+        this.postContruct = null;
+        this.isReset=true;
+        this.resolver = null;
     }
 
-    public String getResourceAddress() {
-        return resourceAddress;
+    private SecurityContextChangedEvent(Command postContruct, AddressResolver resolver) {
+        this.postContruct = postContruct;
+        this.resolver = resolver;
+        this.isReset = false;
     }
 
-    public String[] getWildcards() {
-        return wildcards;
+    private SecurityContextChangedEvent(AddressResolver resolver) {
+        this.postContruct = null;
+        this.resolver = resolver;
+        this.isReset = false;
+    }
+
+    public AddressResolver getResolver() {
+        return resolver;
+    }
+
+    public Command getPostContruct() {
+        return postContruct;
+    }
+
+    public boolean isReset() {
+        return isReset;
     }
 
     @Override
