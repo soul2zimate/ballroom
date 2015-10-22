@@ -527,7 +527,7 @@ public abstract class AbstractForm<T> implements FormAdapter<T> {
 
             SecurityContext securityContext = SECURITY_SERVICE.getSecurityContext(token);
 
-            System.out.println("<< Process SecurityContext on form "+id+": "+securityContext+">>");
+            //System.out.println("<< Process SecurityContext on form "+id+": "+securityContext+">>");
 
             boolean writePrivilege = this.resourceAddress != null ?
                     securityContext.getWritePrivilege(this.resourceAddress).isGranted() :
