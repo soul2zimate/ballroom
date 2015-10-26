@@ -69,6 +69,7 @@ public class CheckBoxItem extends FormItem<Boolean> {
             @Override
             public void onValueChange(ValueChangeEvent<Boolean> booleanValueChangeEvent) {
                 setModified(true);
+                setUndefined(false);
             }
         });
         setUndefined(false);
