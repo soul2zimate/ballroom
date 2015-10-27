@@ -115,7 +115,7 @@ public class DefaultWindow extends ResizePanel {
 
         super.setWidget(layout);
 
-        // default width(height
+        // default width & height
         int winWidth = (int)(Window.getClientWidth()*0.75);
         int winHeight = (int) ( winWidth / GOLDEN_RATIO );
 
@@ -154,33 +154,38 @@ public class DefaultWindow extends ResizePanel {
 
     @Override
     public void center() {
-        setPopupPosition(
-                (Window.getClientWidth()/2)-(width/2),
-                (Window.getClientHeight()/2)-(height/2)
-        );
-        show();
 
-        super.setWidth(width+"px");
-        super.setHeight(height+"px");
+        setPopupPosition(
+                (Window.getClientWidth() / 2) - (width / 2),
+                (Window.getClientHeight() / 2) - (height / 2)
+        );
+
+
+        super.setWidth(width + "px");
+        super.setHeight(height + "px");
+
+        super.show();
     }
 
     public void setWidth(int width) {
-        int adjusted = Double.valueOf(width * 1.2).intValue();
-        this.width = adjusted;
+        this.width = width;
     }
 
     public void setHeight(int height) {
-        int adjusted = Double.valueOf(height * 1.2).intValue();
-        this.height = adjusted;
+        this.height = height;
     }
 
     @Override
     public void setWidth(String width) {
+        if(width.contains("px"))
+            this.width = Integer.valueOf(width.substring(0, width.indexOf("px")));
         super.setWidth(width);
     }
 
     @Override
     public void setHeight(String height) {
+        if(height.contains("px"))
+            this.height = Integer.valueOf(height.substring(0, height.indexOf("px")));
         super.setHeight(height);
     }
 
