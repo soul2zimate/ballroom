@@ -23,11 +23,14 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
+import org.jboss.ballroom.client.util.StringTokenizer;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Heiko Braun
@@ -39,15 +42,16 @@ public class PropertyListItem extends FormItem<Map<String,String>> {
     private Map<String,String> value = new LinkedHashMap<>();
     private boolean displayOnly;
     private InputElementWrapper wrapper;
+    private String transientError=null;
 
 
     public PropertyListItem(String name, String title) {
         this(name, title, false);
     }
-    
+
     /**
      * Create a new PropertyListItem.
-     * 
+     *
      * @param name The item name.
      * @param title The displayed title for the item.
      * @param displayOnly If true, never allow editing.
@@ -67,8 +71,9 @@ public class PropertyListItem extends FormItem<Map<String,String>> {
         this.displayOnly = displayOnly;
         wrapper = new InputElementWrapper(textArea, this);
         wrapper.setHelpText("One tuple (key=value) per line");
+        unsetErrorState();
     }
-    
+
     @Override
     public Widget asWidget() {
         return wrapper;
@@ -81,32 +86,59 @@ public class PropertyListItem extends FormItem<Map<String,String>> {
 
     @Override
     public boolean validate(Map<String,String> map) {
-        return true;
+
+        boolean validInput = false;
+        if(transientError!=null)
+        {
+            setErroneous(true);
+            setErrMessage(transientError);
+            validInput=false;
+        }
+        else
+        {
+            validInput=true;
+        }
+
+        return validInput;
+
     }
 
     @Override
     public Map<String, String> getValue() {
 
+        unsetErrorState();
+
         String[] lines = textArea.getText().split("\n");
         value.clear();
 
-        for(String line : lines) {
+        StringTokenizer tok = new StringTokenizer(textArea.getText(), "\n");
+
+        while(tok.hasMoreTokens()) {
+            String line = tok.nextToken();
             if (!line.equals("")
-                    && line.contains("="))
-            {
+                    && line.contains("=")) {
                 int delim = line.indexOf("=");
                 String key = line.substring(0, delim);
-                String val = line.substring(delim+1, line.length());
+                String val = line.substring(delim + 1, line.length());
                 value.put(key, val);
+            } else {
+                transientError = "Invalid syntax";
             }
         }
 
         return new LinkedHashMap<>(value);
     }
 
+    private void unsetErrorState() {
+        this.transientError = null;
+        setErrMessage(null);
+        this.setErroneous(false);
+    }
+
     @Override
     public void setValue(Map<String,String> map) {
 
+        unsetErrorState();
         this.value.clear();
 
         this.value.putAll(map);
@@ -116,16 +148,19 @@ public class PropertyListItem extends FormItem<Map<String,String>> {
             this.textArea.setVisibleLines(map.size());
         }
 
+        StringBuffer sb = new StringBuffer();
         for(String key : map.keySet())
         {
-            textArea.setText(textArea.getText()+ key +"="+map.get(key)+"\n");
+            sb.append(key +"="+map.get(key)+"\n");
         }
 
+        textArea.setText(sb.toString());
         setUndefined(false);
     }
 
     @Override
     public void clearValue() {
+        unsetErrorState();
         this.textArea.setText("");
 
     }
