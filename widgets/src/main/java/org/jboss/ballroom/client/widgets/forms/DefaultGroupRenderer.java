@@ -100,6 +100,7 @@ public class DefaultGroupRenderer implements GroupRenderer
         }
 
         builder.appendHtmlConstant(tableSuffix);
+        builder.appendHtmlConstant("<p style='color:#999999;padding-left:8px'> Required fields are marked with an asterisk (<abbr class='req' title='required'>*</abbr>).</p>");
 
         HTMLPanel panel = new HTMLPanel(builder.toSafeHtml());
 
@@ -134,9 +135,15 @@ public class DefaultGroupRenderer implements GroupRenderer
         final String insertId = id + key+"_i";
 
         builder.appendHtmlConstant("<td class='form-item-title'>"); // style='width:"+metaData.getTitleWidth()*5+"pt'
-        String text = !item.getTitle().isEmpty() ? item.getTitle() + ":" : "";
-        builder.appendHtmlConstant("<label for='"+widgetId+"' id='"+labelId+"'>");
+        String text = !item.getTitle().isEmpty() ? item.getTitle() : "";
+        builder.appendHtmlConstant("<label for='" + widgetId + "' id='" + labelId + "'>");
         builder.appendEscaped(text);
+        if(item.isRequired()) {
+            builder.appendHtmlConstant("<abbr class=\"req\" title=\"required\">*</abbr>");
+        }
+
+        if(!item.getTitle().isEmpty())
+            builder.appendHtmlConstant(":");
         builder.appendHtmlConstant("</label>");
         builder.appendHtmlConstant("</td>");
 
