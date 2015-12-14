@@ -57,7 +57,8 @@ public class CheckBoxItem extends FormItem<Boolean> {
     private CheckBox checkBox;
     private final TextBox textBox;
     private final HorizontalPanel panel;
-    private final InputElementWrapper wrapper;
+    private final InputElementWrapper textBoxWrapper;
+    private final InputElementWrapper checkBoxWrapper;
 
     public CheckBoxItem(String name, String title) {
         super(name, title);
@@ -105,12 +106,14 @@ public class CheckBoxItem extends FormItem<Boolean> {
             }
         });
 
-        wrapper = new InputElementWrapper(textBox, this);
-        wrapper.setExpression(true);
+        textBoxWrapper = new InputElementWrapper(textBox, this);
+        textBoxWrapper.setExpression(true);
+
+        checkBoxWrapper = new InputElementWrapper(checkBox, this);
 
         panel = new HorizontalPanel();
-        panel.add(checkBox);
-        panel.add(wrapper);
+        panel.add(checkBoxWrapper);
+        panel.add(textBoxWrapper);
 
         // force boolean input at startup
         toogleBooleanInput();
@@ -124,17 +127,17 @@ public class CheckBoxItem extends FormItem<Boolean> {
         super.setFiltered(filtered);
         super.toggleAccessConstraint(checkBox, filtered);
         checkBox.setEnabled(!filtered);
-        wrapper.setConstraintsApply(filtered);
+        textBoxWrapper.setConstraintsApply(filtered);
     }
 
     private void toogleTextInput() {
-        wrapper.setVisible(true);
-        checkBox.setVisible(false);
+        textBoxWrapper.setVisible(true);
+        checkBoxWrapper.setVisible(false);
     }
 
     private void toogleBooleanInput() {
-        wrapper.setVisible(false);
-        checkBox.setVisible(true);
+        textBoxWrapper.setVisible(false);
+        checkBoxWrapper.setVisible(true);
     }
 
     public Element getInputElement() {
@@ -153,7 +156,7 @@ public class CheckBoxItem extends FormItem<Boolean> {
 
     @Override
     public String asExpressionValue() {
-        String expr = wrapper.isVisible() ? textBox.getValue() : null;
+        String expr = textBoxWrapper.isVisible() ? textBox.getValue() : null;
         return expr;
     }
 
@@ -181,7 +184,8 @@ public class CheckBoxItem extends FormItem<Boolean> {
 
     @Override
     public void setErroneous(boolean b) {
-        wrapper.setErroneous(b);
+        checkBoxWrapper.setErroneous(b);
+        textBoxWrapper.setErroneous(b);
     }
 
     @Override
@@ -199,7 +203,7 @@ public class CheckBoxItem extends FormItem<Boolean> {
     public boolean validate(Boolean value) {
         boolean isValid = true;
 
-        if(wrapper.isVisible())
+        if(textBoxWrapper.isVisible())
         {
             // expression mode
             String text = textBox.getText();
